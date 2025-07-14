@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard - HMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            background-color: #f4f7f6; /* Light gray background */
+        }
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #ffffff; /* White sidebar */
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: #555;
+            font-size: 1rem;
+            padding: 12px 20px;
+            margin: 5px 15px;
+            border-radius: 8px;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background-color: #e9f5ff;
+            color: #0d6efd;
+        }
+        .sidebar .nav-link .bi {
+            margin-right: 15px;
+        }
+        .sidebar .profile {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .sidebar .profile img {
+            width: 80px;
+            height: 80px;
+        }
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+        }
+        .stat-card {
+            border: none;
+            border-radius: 12px;
+            padding: 25px;
+            color: white;
+        }
+        .card-icon {
+            font-size: 3rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="profile">
+        <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Patient Avatar" class="rounded-circle mb-2">
+        <h5 class="mb-0">Sunil Perera</h5>
+        <small class="text-muted">Patient ID: P7890</small>
+    </div>
+
+    <nav class="nav flex-column">
+        <a class="nav-link active" href="user-dashboard.html">
+            <i class="bi bi-grid-1x2-fill"></i>Dashboard
+        </a>
+        <a class="nav-link" href="#">
+            <i class="bi bi-calendar2-check-fill"></i>My Appointments
+        </a>
+        <a class="nav-link" href="#">
+            <i class="bi bi-journal-medical"></i>Medical Records
+        </a>
+        <a class="nav-link" href="#">
+            <i class="bi bi-person-fill"></i>My Profile
+        </a>
+        <a class="nav-link" href="#">
+            <i class="bi bi-wallet-fill"></i>Billing History
+        </a>
+        <hr class="mx-3">
+        <a class="nav-link" href="../indexPublicHome.html">
+            <i class="bi bi-box-arrow-left"></i>Logout
+        </a>
+    </nav>
+</div>
+
+<div class="main-content">
+    <header class="mb-4">
+        <h2>Welcome Back, Sunil!</h2>
+        <p class="text-muted">Here is a summary of your health dashboard. Current Date: July 13, 2025</p>
+    </header>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="stat-card bg-primary">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0">Upcoming Appointment</h5>
+                        <p class="mb-0 mt-2">Dr. Anura Silva</p>
+                        <p class="mb-0"><small>July 20, 2025 - 10:00 AM</small></p>
+                    </div>
+                    <i class="bi bi-calendar-check card-icon"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="stat-card bg-success">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0">Quick Actions</h5>
+                        <p class="mb-0 mt-2">Need to book a new appointment?</p>
+                        <a href="#" class="btn btn-sm btn-light mt-2">Book Now</a>
+                    </div>
+                    <i class="bi bi-plus-circle-dotted card-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-5">
+        <div class="card-header">
+            <h4>Recent Activity</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Doctor</th>
+                        <th>Department</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>June 05, 2025</td>
+                        <td>Dr. Nimala Fernando</td>
+                        <td>Cardiology</td>
+                        <td><span class="badge bg-success">Completed</span></td>
+                        <td><a href="#" class="btn btn-sm btn-outline-primary">View Prescription</a></td>
+                    </tr>
+                    <tr>
+                        <td>May 12, 2025</td>
+                        <td>Dr. Kasun Rajapaksha</td>
+                        <td>General Medicine</td>
+                        <td><span class="badge bg-success">Completed</span></td>
+                        <td><a href="#" class="btn btn-sm btn-outline-primary">View Lab Report</a></td>
+                    </tr>
+                    <tr>
+                        <td>April 28, 2025</td>
+                        <td>Dr. Anura Silva</td>
+                        <td>Dermatology</td>
+                        <td><span class="badge bg-success">Completed</span></td>
+                        <td><a href="#" class="btn btn-sm btn-outline-primary">View Prescription</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
