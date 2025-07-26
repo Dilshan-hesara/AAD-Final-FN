@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>HMS Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
 <div class="container">
@@ -39,34 +40,29 @@
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const errorDiv = document.getElementById('login-error');
-    errorDiv.classList.add('d-none'); // Hide previous errors
+    errorDiv.classList.add('d-none');
 
     fetch('http://localhost:8080/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: username, password: password })
     })
-            .then(response => {
-              // This checks if the request was successful (e.g., status 200)
-              // and pairs the status with the JSON data for the next step.
-              return response.json().then(data => ({ ok: response.ok, data }));
-            })
+            .then(response => response.json().then(data => ({ ok: response.ok, data })))
             .then(({ ok, data }) => {
-              // This is the ONLY block that runs after the response is parsed.
               if (ok) {
-                // SUCCESS
-                console.log('Login successful:', data);
-                // The error was happening here because 'data' was undefined in your second block.
-                // Now it correctly reads data.token and data.role
-                localStorage.setItem('authToken', data.token);
+                // ✅ Store the actual token under the correct key
+                localStorage.setItem('authToken', data.redirectUrl);
+                localStorage.setItem('userRole', data.role);
+
+                console.log("ROLE RECEIVED FROM BACKEND:", data.role);
 
                 let redirectUrl = '';
                 switch (data.role) {
                   case 'SUPER_ADMIN':
                     redirectUrl = 'super-admin/dashboard.html';
                     break;
-                  case 'BRANCH_ADMIN':
-                    redirectUrl = 'dashboard.html';
+                  case 'ROLE_BRANCH_ADMIN':
+                    redirectUrl = 'branch-admin/dashboard.html';
                     break;
                   case 'RECEPTIONIST':
                     redirectUrl = 'receptionist/dashboard.html';
@@ -75,19 +71,17 @@
                     redirectUrl = 'my-appointments.html';
                     break;
                   default:
+                    console.log("Role did not match any case. Redirecting to index.html");
                     redirectUrl = 'index.html';
                 }
 
-                // Redirect to the correct page
                 window.location.href = redirectUrl;
 
               } else {
-                // If not successful, throw an error to be caught by the .catch block
                 throw new Error(data.message);
               }
             })
             .catch(error => {
-              // This block catches any network errors or errors thrown from the .then() block
               errorDiv.textContent = error.message;
               errorDiv.classList.remove('d-none');
             });
