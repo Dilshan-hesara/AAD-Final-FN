@@ -75,6 +75,18 @@
                     redirectUrl = 'index.html';
                 }
 
+
+                // In login.html script
+                switch (data.role) {
+                        // ... other cases
+                  case 'ROLE_ONLINEUSER':
+                    redirectUrl = 'my-appointments.html'; // Redirect to the user's main page
+                    break;
+                  default:
+                    redirectUrl = 'index.html';
+                }
+                window.location.href = redirectUrl;
+
                 window.location.href = redirectUrl;
 
               } else {
