@@ -67,8 +67,8 @@
                   case 'RECEPTIONIST':
                     redirectUrl = 'receptionist/dashboard.html';
                     break;
-                  case 'ONLINEUSER':
-                    redirectUrl = 'my-appointments.html';
+                    case 'ROLE_ONLINEUSER':
+                    redirectUrl = 'onlineUsers/my-appointments.html';
                     break;
                   default:
                     console.log("Role did not match any case. Redirecting to index.html");
@@ -76,16 +76,6 @@
                 }
 
 
-                // In login.html script
-                switch (data.role) {
-                        // ... other cases
-                  case 'ROLE_ONLINEUSER':
-                    redirectUrl = 'my-appointments.html'; // Redirect to the user's main page
-                    break;
-                  default:
-                    redirectUrl = 'index.html';
-                }
-                window.location.href = redirectUrl;
 
                 window.location.href = redirectUrl;
 
