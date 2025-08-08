@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Payment</title>
+    <style> /* Your beautiful CSS goes here */ </style
+    >
+</head>
+<body>
+<div class="payment-container">
+    <div class="order-summary">
+    </div>
+    <div class="payment-form">
+        <h2>Secure Payment</h2>
+        <form id="paymentForm">
+            <button type="submit" class="pay-button">Pay Now</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const token = localStorage.getItem('authToken');
+    // Get the appointment ID from the URL
+    const appointmentId = new URLSearchParams(window.location.search).get('id');
+
+    // TODO: Add a fetch call to an endpoint like GET /api/appointments/{id}
+    // to load the real appointment details into the "Order Summary" section.
+
+    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // We are only simulating the payment.
+        // In a real app, you would process payment here.
+
+        fetch('http://localhost:8080/api/user/confirm-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({ appointmentId: appointmentId })
+        })
+            .then(response => {
+                if (response.ok) {
+                    // If payment is "successful", redirect to the confirmation page
+                    window.location.href = `payment-confirmation.html?id=${appointmentId}`;
+                } else {
+                    alert('Payment confirmation failed.');
+                }
+            });
+    });
+</script>
+</body>
+</html>
