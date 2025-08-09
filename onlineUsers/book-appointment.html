@@ -47,23 +47,23 @@
 <script>
   $(document).ready(function() {
     const token = localStorage.getItem('authToken');
+    loadBranches();
+    function loadBranches() {
+      $.ajax({
+        url: "http://localhost:8080/api/branches",
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("authToken") // << මෙක තමයි main point
+        },
+        success: function (data) {
+          console.log("Branches:", data);
+        },
+        error: function (xhr) {
+          console.error("Error loading branches:", xhr);
+        }
+      });
+    }
 
-    // Step 1: When the page loads, fetch all branches
-    $.ajax({
-      url: 'http://localhost:8080/api/branches',
-      type: 'GET',
-      headers: { 'Authorization': 'Bearer ' + token },
-      success: function(branches) {
-        const branchSelect = $('#branch-select');
-        branchSelect.empty().append('<option value="">-- Select a Branch --</option>');
-        branches.forEach(b => {
-          branchSelect.append(`<option value="${b.id}">${b.name}</option>`);
-        });
-      },
-      error: function(err) {
-        console.error("Error loading branches:", err);
-      }
-    });
 
     // Step 2: When a branch is selected, fetch the doctors
     $('#branch-select').on('change', function() {
