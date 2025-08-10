@@ -28,23 +28,25 @@
                     <label class="form-label">Appointment Date & Time</label>
                     <input type="datetime-local" id="appointmentDate" class="form-control" required>
                 </div>
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Reason for Visit (Optional)</label>
+                    <textarea id="reason" class="form-control" rows="3"></textarea>
+                </div>
                 <button type="submit" class="btn btn-success">Book Appointment</button>
             </form>
         </div>
     </div>
 </div>
 
-<!-- SCRIPT LIBRARIES (Load these only once) -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="../js/layout-loader.js"></script>
 
-<!-- YOUR CUSTOM SCRIPT (Only one block) -->
 <script>
     $(document).ready(function() {
         const token = localStorage.getItem('authToken');
 
-        // Initialize Select2 for Patients with AJAX search
+        // Initialize Select2 for Patients
         $('#patient-select').select2({
             placeholder: 'Type to search for a patient...',
             ajax: {
@@ -52,21 +54,14 @@
                 dataType: 'json',
                 delay: 250,
                 headers: { 'Authorization': 'Bearer ' + token },
-                data: function (params) {
-                    return { name: params.term, page: params.page || 0, size: 10 };
-                },
-                processResults: function (data, params) {
-                    params.page = params.page || 0;
-                    return {
-                        results: data.content.map(p => ({ id: p.id, text: p.fullName })),
-                        pagination: { more: !data.last }
-                    };
-                },
-                cache: true
+                data: function (params) { return { name: params.term, page: params.page || 0, size: 10 }; },
+                processResults: function (data) {
+                    return { results: data.content.map(p => ({ id: p.id, text: p.fullName })) };
+                }
             }
         });
 
-        // Initialize Select2 for Doctors with AJAX search
+        // Initialize Select2 for Doctors
         $('#doctor-select').select2({
             placeholder: 'Type to search for a doctor...',
             ajax: {
@@ -74,28 +69,21 @@
                 dataType: 'json',
                 delay: 250,
                 headers: { 'Authorization': 'Bearer ' + token },
-                data: function (params) {
-                    return { name: params.term, page: params.page || 0, size: 10 };
-                },
-                processResults: function (data, params) {
-                    params.page = params.page || 0;
-                    return {
-                        results: data.content.map(d => ({ id: d.id, text: `${d.fullName} (${d.specialization})` })),
-                        pagination: { more: !data.last }
-                    };
-                },
-                cache: true
+                data: function (params) { return { name: params.term, page: params.page || 0, size: 10 }; },
+                processResults: function (data) {
+                    return { results: data.content.map(d => ({ id: d.id, text: `${d.fullName} (${d.specialization})` })) };
+                }
             }
         });
 
-        // Handle the form submission when the button is clicked
+        // Handle form submission
         $('#book-appointment-form').on('submit', function(e) {
             e.preventDefault();
-
             const appointmentData = {
                 patientId: $('#patient-select').val(),
                 doctorId: $('#doctor-select').val(),
-                appointmentDate: $('#appointmentDate').val()
+                appointmentDate: $('#appointmentDate').val(),
+                reason: $('#reason').val() // Include the reason
             };
 
             if (!appointmentData.patientId || !appointmentData.doctorId || !appointmentData.appointmentDate) {
@@ -104,7 +92,7 @@
             }
 
             $.ajax({
-                url: 'http://localhost:8080/api/appointments',
+                url: 'http://localhost:8080/api/appointments/by-staff', // Use the correct endpoint for staff
                 type: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
