@@ -20,18 +20,20 @@
   </div>
   <hr>
 
+  <h4 class="mt-4">Active Doctors</h4>
   <table class="table table-hover">
     <thead class="table-light">
-    <tr>
-      <th>Name</th>
-      <th>Specialization</th>
-      <th>Contact Number</th>
-      <th>Email</th>
-      <th>Status</th>
-    </tr>
+    <tr><th>Name</th><th>Specialization</th><th>Status</th><th>Actions</th></tr>
     </thead>
-    <tbody id="doctor-table-body">
-    </tbody>
+    <tbody id="active-doctor-table-body"></tbody>
+  </table>
+
+  <h4 class="mt-5">Deactivated Doctors</h4>
+  <table class="table table-hover table-sm">
+    <thead class="table-light">
+    <tr><th>Name</th><th>Specialization</th><th>Status</th><th>Actions</th></tr>
+    </thead>
+    <tbody id="inactive-doctor-table-body"></tbody>
   </table>
 </div>
 
@@ -63,37 +65,63 @@
 <script>
   const token = localStorage.getItem('authToken');
 
-  // Function to fetch and display doctors
-  function loadDoctors() {
+  function loadActiveDoctors() {
     fetch('http://localhost:8080/api/doctors', { headers: { 'Authorization': 'Bearer ' + token } })
             .then(response => response.json())
             .then(doctors => {
-              const tableBody = document.getElementById('doctor-table-body');
-              tableBody.innerHTML = ''; // Clear existing rows
+              const tableBody = document.getElementById('active-doctor-table-body');
+              tableBody.innerHTML = '';
               doctors.forEach(doctor => {
                 tableBody.innerHTML += `
                         <tr>
                             <td>${doctor.fullName}</td>
                             <td>${doctor.specialization}</td>
-                            <td>${doctor.contactNumber}</td>
-                            <td>${doctor.email}</td>
-                            <td><span class="badge bg-success">${doctor.status}</span></td>
-                        </tr>
-                    `;
+                            <td><span class="badge bg-success">ACTIVE</span></td>
+                            <td><button class="btn btn-danger btn-sm" onclick="updateDoctorStatus(${doctor.id}, 'deactivate')">Deactivate</button></td>
+                        </tr>`;
               });
             });
   }
 
-  // Function to handle form submission for adding a new doctor
+  function loadInactiveDoctors() {
+    fetch('http://localhost:8080/api/doctors/inactive', { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(response => response.json())
+            .then(doctors => {
+              const tableBody = document.getElementById('inactive-doctor-table-body');
+              tableBody.innerHTML = '';
+              doctors.forEach(doctor => {
+                tableBody.innerHTML += `
+                        <tr>
+                            <td>${doctor.fullName}</td>
+                            <td>${doctor.specialization}</td>
+                            <td><span class="badge bg-secondary">INACTIVE</span></td>
+                            <td><button class="btn btn-success btn-sm" onclick="updateDoctorStatus(${doctor.id}, 'activate')">Activate</button></td>
+                        </tr>`;
+              });
+            });
+  }
+
+  function updateDoctorStatus(id, action) {
+    const url = `http://localhost:8080/api/doctors/${id}/${action}`;
+    if (!confirm(`Are you sure you want to ${action} this doctor?`)) return;
+
+    fetch(url, {
+      method: 'PATCH',
+      headers: { 'Authorization': 'Bearer ' + token },
+    }).then(response => {
+      if (response.ok) {
+        alert(`Doctor status updated successfully!`);
+        loadActiveDoctors();
+        loadInactiveDoctors();
+      } else {
+        alert('Error updating status.');
+      }
+    });
+  }
+
   document.getElementById('add-doctor-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    const doctorData = {
-      fullName: document.getElementById('fullName').value,
-      specialization: document.getElementById('specialization').value,
-      contactNumber: document.getElementById('contactNumber').value,
-      email: document.getElementById('email').value
-    };
-
+    const doctorData = { /* ... get form data ... */ };
     fetch('http://localhost:8080/api/doctors', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
@@ -101,15 +129,15 @@
     }).then(response => {
       if (response.ok) {
         alert('Doctor added successfully!');
-        location.reload(); // Reload page to see the new doctor
-      } else {
-        alert('Error adding doctor.');
-      }
+        location.reload();
+      } else { alert('Error adding doctor.'); }
     });
   });
 
-  // Load doctors when the page is ready
-  document.addEventListener('DOMContentLoaded', loadDoctors);
+  document.addEventListener('DOMContentLoaded', function() {
+    loadActiveDoctors();
+    loadInactiveDoctors();
+  });
 </script>
 </body>
 </html>
