@@ -58,3 +58,23 @@ body { display: flex; background-color: #f8f9fa; }
 .sidebar a { padding: 15px 25px; text-decoration: none; font-size: 18px; color: #ecf0f1; display: block; border-left: 4px solid transparent; transition: background-color 0.2s, border-left 0.2s; }
 .sidebar a:hover, .sidebar a.active { background-color: #34495e; border-left: 4px solid #3498db; }
 .content { margin-left: 280px; padding: 30px; width: 100%; }
+
+/*\\PRIEND DASH*/
+
+/* css/print.css */
+@media print {
+    body {
+        background-color: white;
+    }
+    .sidebar, .btn, .card-header, .filter-card {
+        display: none !important;
+    }
+    .content {
+        margin-left: 0;
+        padding: 0;
+    }
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+}
