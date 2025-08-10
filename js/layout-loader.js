@@ -30,15 +30,13 @@ function fetchProfileData() {
         .catch(error => console.error('Error loading profile data:', error));
 }
 
-function attachLogoutEvent() {
-    document.body.addEventListener('click', function(e) {
-        if (e.target && e.target.id === 'logout-button') {
-            e.preventDefault();
-            localStorage.removeItem('authToken');
-            window.location.href = '../login.html';
-        }
-    });
-}
+
+
+
+
+
+                                                            // ... (your attachLogoutEvent and setActiveLink functions)
+
 
                                                             document.addEventListener('DOMContentLoaded', function() {
                                                                 const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
@@ -57,8 +55,53 @@ function attachLogoutEvent() {
 
 
 
+
+
+                                                            document.addEventListener('DOMContentLoaded', function() {
+                                                                // Find the placeholder div in the main HTML page
+                                                                const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
+                                                                if (sidebarPlaceholder) {
+                                                                    // Fetch the reusable sidebar HTML component
+                                                                    fetch('../components/sidebar.html')
+                                                                        .then(response => {
+                                                                            if (!response.ok) throw new Error('Could not find sidebar.html. Check the file path.');
+                                                                            return response.text();
+                                                                        })
+                                                                        .then(sidebarHtml => {
+                                                                            // Inject the sidebar HTML into the placeholder
+                                                                            sidebarPlaceholder.innerHTML = sidebarHtml;
+
+                                                                            // After the sidebar is loaded, call the functions to fetch data
+                                                                            fetchProfileAndDashboardData();
+                                                                            attachLogoutEvent();
+                                                                            setActiveLink();
+                                                                        })
+                                                                        .catch(error => console.error("Error loading sidebar component:", error));
+                                                                }
+                                                            });
+
+                                                            /**
+                                                             * Fetches the logged-in admin's profile to get their branch ID,
+                                                             * then fetches the dashboard statistics for that branch.
+                                                             */
+
+                                                            /**
+                                                             * Attaches a click event listener to the logout button.
+                                                             */
+                                                            function attachLogoutEvent() {
+                                                                document.body.addEventListener('click', function(e) {
+                                                                    if (e.target && e.target.id === 'logout-button') {
+                                                                        e.preventDefault();
+                                                                        localStorage.removeItem('authToken');
+                                                                        window.location.href = '../login.html';
+                                                                    }
+                                                                });
+                                                            }
+
+                                                            /**
+                                                             * Highlights the current page's link in the sidebar.
+                                                             */
                                                             function setActiveLink() {
-                                                                // Highlights the current page's link in the sidebar
                                                                 document.querySelectorAll('.sidebar a').forEach(link => {
                                                                     if (link.href === window.location.href) {
                                                                         link.classList.add('active');
@@ -67,47 +110,39 @@ function attachLogoutEvent() {
                                                             }
 
 
-                                                            // This file is js/layout-loader.js
 
-                                                            document.addEventListener('DOMContentLoaded', function() {
-                                                                // ... (your existing code to load the sidebar)
-                                                            });
+
+
 
                                                             function fetchProfileAndDashboardData() {
                                                                 const token = localStorage.getItem('authToken');
                                                                 if (!token) return;
 
-                                                                console.log("Step 1: Fetching user profile...");
+                                                                // First, get the admin's profile
                                                                 fetch('http://localhost:8080/api/staff/my-profile', { headers: { 'Authorization': 'Bearer ' + token }})
                                                                     .then(res => res.json())
                                                                     .then(profile => {
-                                                                        console.log("Step 2: Profile data received:", profile);
                                                                         document.getElementById('sidebar-branch-name').textContent = profile.branchName;
                                                                         document.getElementById('sidebar-admin-name').textContent = `Welcome, ${profile.fullName}`;
 
                                                                         const branchId = profile.branchId;
-                                                                        if (!branchId) {
-                                                                            console.error("Branch ID not found in profile data.");
-                                                                            return;
-                                                                        }
+                                                                        if (!branchId) return;
 
-                                                                        console.log(`Step 3: Fetching dashboard stats for branch ID: ${branchId}`);
+                                                                        // Then, get the dashboard statistics
                                                                         return fetch(`http://localhost:8080/api/branch/${branchId}/dashboard-details`, { headers: { 'Authorization': 'Bearer ' + token }});
                                                                     })
                                                                     .then(res => res.json())
                                                                     .then(dashboardData => {
-                                                                        console.log("Step 4: Dashboard data received:", dashboardData);
-
-                                                                        // Update the main content with the stats
-                                                                        document.getElementById('receptionist-count').textContent = dashboardData.receptionistCount;
-                                                                        document.getElementById('doctor-count').textContent = dashboardData.doctorCount;
-                                                                        document.getElementById('appointments-today').textContent = dashboardData.appointmentsToday;
-
-                                                                        console.log("Step 5: Dashboard updated successfully!");
+                                                                        // Call the function in dashboard.html to load the stats and render the chart
+                                                                        if (typeof loadDashboardData === 'function') {
+                                                                            loadDashboardData(dashboardData);
+                                                                        }
+                                                                        // Also call the function to load the "Doctors on Duty" list
+                                                                        if (typeof loadDoctorsOnDuty === 'function') {
+                                                                            loadDoctorsOnDuty();
+                                                                        }
                                                                     })
-                                                                    .catch(error => {
-                                                                        console.error('FINAL ERROR: An error occurred during the process.', error);
-                                                                    });
+                                                                    .catch(error => console.error('Error loading page data:', error));
                                                             }
 
-                                                            // ... (your attachLogoutEvent and setActiveLink functions)
+                                                            // ... your existing attachLogoutEvent and setActiveLink functions
