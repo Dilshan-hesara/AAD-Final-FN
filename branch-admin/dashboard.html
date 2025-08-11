@@ -229,10 +229,33 @@
   }
 
   // This function is called from layout-loader.js to populate the doctors list
+  // function loadDoctorsOnDuty() {
+  //   const token = localStorage.getItem('authToken');
+  //   fetch('http://localhost:8080/api/doctors', { headers: { 'Authorization': 'Bearer ' + token } })
+  //           .then(res => res.json())
+  //           .then(doctors => {
+  //             const list = document.getElementById('doctors-on-duty-list');
+  //             list.innerHTML = '';
+  //             if(doctors.length > 0) {
+  //               doctors.forEach(doc => {
+  //                 list.innerHTML += `<li class="list-group-item">${doc.fullName} (${doc.specialization})</li>`;
+  //               });
+  //             } else {
+  //               list.innerHTML = '<li class="list-group-item">No active doctors found.</li>';
+  //             }
+  //           });
+  // }
+
+
   function loadDoctorsOnDuty() {
     const token = localStorage.getItem('authToken');
-    fetch('http://localhost:8080/api/doctors', { headers: { 'Authorization': 'Bearer ' + token } })
-            .then(res => res.json())
+
+    // --- CORRECTED: Call the new, simpler API endpoint ---
+    fetch('http://localhost:8080/api/doctors/active-list', { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => {
+              if (!res.ok) { throw new Error("Failed to load doctors list"); }
+              return res.json();
+            })
             .then(doctors => {
               const list = document.getElementById('doctors-on-duty-list');
               list.innerHTML = '';
@@ -243,6 +266,11 @@
               } else {
                 list.innerHTML = '<li class="list-group-item">No active doctors found.</li>';
               }
+            })
+            .catch(error => {
+              console.error("Error loading doctors on duty:", error);
+              const list = document.getElementById('doctors-on-duty-list');
+              list.innerHTML = '<li class="list-group-item text-danger">Could not load doctor list.</li>';
             });
   }
 
