@@ -10,7 +10,6 @@
 </head>
 <body>
 <div id="sidebar-placeholder"></div>
-
 <div class="content">
   <div class="d-flex justify-content-between align-items-center">
     <h1>Manage Receptionists</h1>
@@ -19,17 +18,11 @@
     </button>
   </div>
   <hr>
-
   <table class="table table-hover">
     <thead class="table-light">
-    <tr>
-      <th>Name</th>
-      <th>Username</th>
-      <th>Role</th>
-    </tr>
+    <tr><th>Name</th><th>Username</th><th>Status</th><th>Actions</th></tr>
     </thead>
-    <tbody id="receptionist-table-body">
-    </tbody>
+    <tbody id="receptionist-table-body"></tbody>
   </table>
 </div>
 
@@ -63,7 +56,6 @@
 <script>
   const token = localStorage.getItem('authToken');
 
-  // Function to load the list of receptionists
   function loadReceptionists() {
     fetch('http://localhost:8080/api/receptionists', { headers: { 'Authorization': 'Bearer ' + token } })
             .then(response => response.json())
@@ -71,18 +63,28 @@
               const tableBody = document.getElementById('receptionist-table-body');
               tableBody.innerHTML = '';
               receptionists.forEach(rec => {
-                tableBody.innerHTML += `
-                        <tr>
-                            <td>${rec.fullName}</td>
-                            <td>${rec.username}</td>
-                            <td><span class="badge bg-info">${rec.role}</span></td>
-                        </tr>
-                    `;
+                const isActive = rec.active;
+                const statusBadge = isActive ? '<span class="badge bg-success">ACTIVE</span>' : '<span class="badge bg-danger">INACTIVE</span>';
+                const actionButton = isActive
+                        ? `<button class="btn btn-danger btn-sm" onclick="updateStatus(${rec.userId}, 'deactivate')">Deactivate</button>`
+                        : `<button class="btn btn-success btn-sm" onclick="updateStatus(${rec.userId}, 'activate')">Activate</button>`;
+                tableBody.innerHTML += `<tr><td>${rec.fullName}</td><td>${rec.username}</td><td>${statusBadge}</td><td>${actionButton}</td></tr>`;
               });
             });
   }
 
-  // Handle the form submission for adding a new receptionist
+  function updateStatus(id, action) {
+    const url = `http://localhost:8080/api/receptionists/${id}/${action}`;
+    if (!confirm(`Are you sure you want to ${action} this user?`)) return;
+    fetch(url, {
+      method: 'PATCH',
+      headers: { 'Authorization': 'Bearer ' + token },
+    }).then(response => {
+      if (response.ok) { loadReceptionists(); }
+      else { alert('Error updating status.'); }
+    });
+  }
+
   document.getElementById('add-receptionist-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const receptionistData = {
@@ -92,22 +94,16 @@
       username: document.getElementById('username').value,
       password: document.getElementById('password').value,
     };
-
     fetch('http://localhost:8080/api/receptionists', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
       body: JSON.stringify(receptionistData)
     }).then(response => {
-      if (response.ok) {
-        alert('Receptionist added successfully!');
-        location.reload();
-      } else {
-        alert('Error adding receptionist.');
-      }
+      if (response.ok) { location.reload(); }
+      else { alert('Error adding receptionist.'); }
     });
   });
 
-  // Load the list when the page is ready
   document.addEventListener('DOMContentLoaded', loadReceptionists);
 </script>
 </body>
