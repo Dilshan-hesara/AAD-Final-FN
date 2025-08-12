@@ -3,29 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <title>Manage Receptionists</title>
+  <!-- Bootstrap CSS & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <!-- Your Custom CSS -->
   <link rel="stylesheet" href="../css/styles.css">
+  <!-- Page Protection Script -->
   <script src="../js/auth.js" defer></script>
 </head>
 <body>
+<!-- Sidebar is loaded here -->
 <div id="sidebar-placeholder"></div>
+
+<!-- Main Content -->
 <div class="content">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1>Manage Receptionists</h1>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addReceptionistModal">
-      <i class="bi bi-person-plus-fill"></i> Add New Receptionist
+  <h1>Manage Receptionists</h1>
+  <hr>
+
+  <!-- Filter/Search Card -->
+  <div class="card bg-light mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-10">
+          <label for="nameFilter" class="form-label">Search by Name</label>
+          <input type="text" id="nameFilter" class="form-control" placeholder="Enter receptionist name...">
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+          <button id="filter-btn" class="btn btn-primary w-100">Search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons & Summary -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <span id="result-summary"></span>
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addReceptionistModal">
+      <i class="bi bi-plus-circle"></i> Add New Receptionist
     </button>
   </div>
-  <hr>
-  <table class="table table-hover">
-    <thead class="table-light">
-    <tr><th>Name</th><th>Username</th><th>Status</th><th>Actions</th></tr>
-    </thead>
-    <tbody id="receptionist-table-body"></tbody>
-  </table>
+
+  <!-- Receptionists Table -->
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="table-light">
+        <tr>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="receptionist-table-body">
+        <!-- Data is loaded here by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <nav class="mt-4">
+    <ul id="pagination" class="pagination justify-content-center"></ul>
+  </nav>
 </div>
 
+<!-- Add Receptionist Modal -->
 <div class="modal fade" id="addReceptionistModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -35,12 +78,12 @@
       </div>
       <div class="modal-body">
         <form id="add-receptionist-form">
-          <div class="mb-3"><label class="form-label">Full Name</label><input type="text" id="fullName" class="form-control" required></div>
-          <div class="mb-3"><label class="form-label">Email</label><input type="email" id="email" class="form-control"></div>
-          <div class="mb-3"><label class="form-label">Contact Number</label><input type="text" id="contactNumber" class="form-control"></div>
+          <div class="mb-3"><label class="form-label">Full Name</label><input type="text" id="addFullName" class="form-control" required></div>
+          <div class="mb-3"><label class="form-label">Email</label><input type="email" id="addEmail" class="form-control"></div>
+          <div class="mb-3"><label class="form-label">Contact Number</label><input type="text" id="addContactNumber" class="form-control"></div>
           <hr>
-          <div class="mb-3"><label class="form-label">Username</label><input type="text" id="username" class="form-control" required></div>
-          <div class="mb-3"><label class="form-label">Password</label><input type="password" id="password" class="form-control" required></div>
+          <div class="mb-3"><label class="form-label">Username</label><input type="text" id="addUsername" class="form-control" required></div>
+          <div class="mb-3"><label class="form-label">Password</label><input type="password" id="addPassword" class="form-control" required></div>
         </form>
       </div>
       <div class="modal-footer">
@@ -51,60 +94,126 @@
   </div>
 </div>
 
+<!-- Edit Receptionist Modal -->
+<div class="modal fade" id="editReceptionistModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Receptionist</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="edit-receptionist-form">
+          <input type="hidden" id="editUserId">
+          <div class="mb-3"><label class="form-label">Full Name</label><input type="text" id="editFullName" class="form-control" required></div>
+          <div class="mb-3"><label class="form-label">Email</label><input type="email" id="editEmail" class="form-control"></div>
+          <div class="mb-3"><label class="form-label">Contact Number</label><input type="text" id="editContactNumber" class="form-control"></div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" form="edit-receptionist-form" class="btn btn-primary">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT LIBRARIES -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../js/layout-loader.js"></script>
+
+<!-- PAGE-SPECIFIC SCRIPT -->
 <script>
   const token = localStorage.getItem('authToken');
+  let currentPage = 0;
+  const editModal = new bootstrap.Modal(document.getElementById('editReceptionistModal'));
+  const addModal = new bootstrap.Modal(document.getElementById('addReceptionistModal'));
 
-  function loadReceptionists() {
-    fetch('http://localhost:8080/api/receptionists', { headers: { 'Authorization': 'Bearer ' + token } })
-            .then(response => response.json())
-            .then(receptionists => {
-              const tableBody = document.getElementById('receptionist-table-body');
-              tableBody.innerHTML = '';
-              receptionists.forEach(rec => {
-                const isActive = rec.active;
-                const statusBadge = isActive ? '<span class="badge bg-success">ACTIVE</span>' : '<span class="badge bg-danger">INACTIVE</span>';
-                const actionButton = isActive
-                        ? `<button class="btn btn-danger btn-sm" onclick="updateStatus(${rec.userId}, 'deactivate')">Deactivate</button>`
-                        : `<button class="btn btn-success btn-sm" onclick="updateStatus(${rec.userId}, 'activate')">Activate</button>`;
-                tableBody.innerHTML += `<tr><td>${rec.fullName}</td><td>${rec.username}</td><td>${statusBadge}</td><td>${actionButton}</td></tr>`;
-              });
+  function loadReceptionists(page = 0) {
+    currentPage = page;
+    const name = document.getElementById('nameFilter').value;
+    let url = `http://localhost:8080/api/receptionists?page=${page}&size=5&sort=fullName,asc`;
+    if (name) url += `&name=${name}`;
+
+    fetch(url, { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => res.json())
+            .then(pageData => {
+              renderTable(pageData.content);
+              renderPagination(pageData);
+              document.getElementById('result-summary').textContent = `Showing ${pageData.numberOfElements} of ${pageData.totalElements} results.`;
             });
   }
 
-  function updateStatus(id, action) {
-    const url = `http://localhost:8080/api/receptionists/${id}/${action}`;
-    if (!confirm(`Are you sure you want to ${action} this user?`)) return;
-    fetch(url, {
-      method: 'PATCH',
-      headers: { 'Authorization': 'Bearer ' + token },
-    }).then(response => {
-      if (response.ok) { loadReceptionists(); }
-      else { alert('Error updating status.'); }
+  function renderTable(receptionists) {
+    const tableBody = document.getElementById('receptionist-table-body');
+    tableBody.innerHTML = '';
+    receptionists.forEach(rec => {
+      const actionButton = rec.active ? `<button class="btn btn-danger btn-sm action-btn" data-action="deactivate" data-id="${rec.userId}">Deactivate</button>` : `<button class="btn btn-success btn-sm action-btn" data-action="activate" data-id="${rec.userId}">Activate</button>`;
+      tableBody.innerHTML += `
+                    <tr>
+                        <td>${rec.fullName}</td>
+                        <td>${rec.username}</td>
+                        <td><span class="badge bg-${rec.active ? 'success' : 'secondary'}">${rec.active ? 'ACTIVE' : 'INACTIVE'}</span></td>
+                        <td>
+                            <button class="btn btn-primary btn-sm edit-btn" data-id="${rec.userId}" data-name="${rec.fullName}" data-email="${rec.email || ''}" data-contact="${rec.contactNumber || ''}">Edit</button>
+                            ${actionButton}
+                        </td>
+                    </tr>`;
     });
+    attachRowEventListeners();
+  }
+
+  function attachRowEventListeners() {
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.getElementById('editUserId').value = this.dataset.id;
+        document.getElementById('editFullName').value = this.dataset.name;
+        document.getElementById('editEmail').value = this.dataset.email;
+        document.getElementById('editContactNumber').value = this.dataset.contact;
+        editModal.show();
+      });
+    });
+    document.querySelectorAll('.action-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        updateStatus(this.dataset.id, this.dataset.action);
+      });
+    });
+  }
+
+  function updateStatus(id, action) {
+    if (!confirm(`Are you sure you want to ${action} this user?`)) return;
+    fetch(`http://localhost:8080/api/receptionists/${id}/${action}`, {
+      method: 'PATCH', headers: { 'Authorization': 'Bearer ' + token }
+    }).then(res => { if (res.ok) loadReceptionists(currentPage); else alert('Error updating status.'); });
+  }
+
+  function renderPagination(pageData) {
+    const paginationUl = document.getElementById('pagination');
+    paginationUl.innerHTML = '';
+    if (pageData.totalPages <= 1) return;
+    if (!pageData.first) { paginationUl.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="event.preventDefault(); loadReceptionists(${currentPage - 1})">Previous</a></li>`; }
+    if (!pageData.last) { paginationUl.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="event.preventDefault(); loadReceptionists(${currentPage + 1})">Next</a></li>`; }
   }
 
   document.getElementById('add-receptionist-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    const receptionistData = {
-      fullName: document.getElementById('fullName').value,
-      email: document.getElementById('email').value,
-      contactNumber: document.getElementById('contactNumber').value,
-      username: document.getElementById('username').value,
-      password: document.getElementById('password').value,
-    };
+    const data = { fullName: document.getElementById('addFullName').value, email: document.getElementById('addEmail').value, contactNumber: document.getElementById('addContactNumber').value, username: document.getElementById('addUsername').value, password: document.getElementById('addPassword').value };
     fetch('http://localhost:8080/api/receptionists', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-      body: JSON.stringify(receptionistData)
-    }).then(response => {
-      if (response.ok) { location.reload(); }
-      else { alert('Error adding receptionist.'); }
-    });
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(data)
+    }).then(res => { if (res.ok) { addModal.hide(); loadReceptionists(0); } else { alert('Error adding receptionist.'); } });
   });
 
-  document.addEventListener('DOMContentLoaded', loadReceptionists);
+  document.getElementById('edit-receptionist-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const id = document.getElementById('editUserId').value;
+    const data = { fullName: document.getElementById('editFullName').value, email: document.getElementById('editEmail').value, contactNumber: document.getElementById('editContactNumber').value };
+    fetch(`http://localhost:8080/api/receptionists/${id}`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(data)
+    }).then(res => { if (res.ok) { editModal.hide(); loadReceptionists(currentPage); } else { alert('Error updating receptionist.'); } });
+  });
+
+  document.getElementById('filter-btn').addEventListener('click', () => loadReceptionists(0));
+  document.addEventListener('DOMContentLoaded', () => loadReceptionists(0));
 </script>
 </body>
 </html>
