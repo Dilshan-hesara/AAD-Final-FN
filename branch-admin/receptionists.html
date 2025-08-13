@@ -28,6 +28,7 @@
   <nav class="mt-4"><ul id="pagination" class="pagination justify-content-center"></ul></nav>
 </div>
 
+<!-- Add Receptionist Modal -->
 <div class="modal fade" id="addReceptionistModal" tabindex="-1">
   <div class="modal-dialog"><div class="modal-content">
     <div class="modal-header"><h5 class="modal-title">Add New Receptionist</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
@@ -47,6 +48,7 @@
   </div></div>
 </div>
 
+<!-- Edit Receptionist Modal -->
 <div class="modal fade" id="editReceptionistModal" tabindex="-1">
   <div class="modal-dialog"><div class="modal-content">
     <div class="modal-header"><h5 class="modal-title">Edit Receptionist</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
@@ -76,18 +78,42 @@
   function loadReceptionists(page = 0) {
     currentPage = page;
     const name = document.getElementById('nameFilter').value;
-    let url = `http://localhost:8080/api/receptionists?page=${page}&size=5&sort=fullName,asc`;
-    if (name) url += `&name=${name}`;
-    fetch(url, { headers: { 'Authorization': 'Bearer ' + token } }).then(res => res.json()).then(pageData => {
-      renderTable(pageData.content);
-      renderPagination(pageData);
-      document.getElementById('result-summary').textContent = `Showing ${pageData.numberOfElements} of ${pageData.totalElements} results.`;
-    });
+
+    // ✅✅✅ THE FIX IS HERE ✅✅✅
+    // We changed 'sort=fullName,asc' to 'sort=staffProfile.fullName,asc'
+    let url = `http://localhost:8080/api/receptionists?page=${page}&size=5&sort=staffProfile.fullName,asc`;
+
+    if (name) {
+      url += `&name=${encodeURIComponent(name)}`;
+    }
+
+    fetch(url, { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(response => {
+              if (!response.ok) {
+                // If the server response is not OK, throw an error to be caught by .catch()
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json(); // This will no longer fail
+            })
+            .then(pageData => {
+              renderTable(pageData.content);
+              renderPagination(pageData);
+              document.getElementById('result-summary').textContent = `Showing ${pageData.numberOfElements} of ${pageData.totalElements} results.`;
+            })
+            .catch(error => {
+              console.error("Error fetching receptionists:", error);
+              // Optionally display an error message to the user on the page
+              document.getElementById('receptionist-table-body').innerHTML = `<tr><td colspan="4" class="text-center text-danger">Failed to load data. Please try again later.</td></tr>`;
+            });
   }
 
   function renderTable(receptionists) {
     const tableBody = document.getElementById('receptionist-table-body');
     tableBody.innerHTML = '';
+    if (!receptionists || receptionists.length === 0) {
+      tableBody.innerHTML = `<tr><td colspan="4" class="text-center">No receptionists found.</td></tr>`;
+      return;
+    }
     receptionists.forEach(rec => {
       const actionButton = rec.active ? `<button class="btn btn-danger btn-sm action-btn" data-action="deactivate" data-id="${rec.userId}">Deactivate</button>` : `<button class="btn btn-success btn-sm action-btn" data-action="activate" data-id="${rec.userId}">Activate</button>`;
       tableBody.innerHTML += `<tr><td>${rec.fullName}</td><td>${rec.username}</td><td><span class="badge bg-${rec.active ? 'success' : 'secondary'}">${rec.active ? 'ACTIVE' : 'INACTIVE'}</span></td><td><button class="btn btn-primary btn-sm edit-btn" data-id="${rec.userId}" data-name="${rec.fullName}" data-email="${rec.email || ''}" data-contact="${rec.contactNumber || ''}">Edit</button> ${actionButton}</td></tr>`;
@@ -113,18 +139,39 @@
   }
 
   function updateStatus(id, action) {
-    if (!confirm(`Are you sure?`)) return;
+    if (!confirm(`Are you sure you want to ${action} this user?`)) return;
     fetch(`http://localhost:8080/api/receptionists/${id}/${action}`, {
       method: 'PATCH', headers: { 'Authorization': 'Bearer ' + token }
-    }).then(res => { if (res.ok) loadReceptionists(currentPage); else alert('Error'); });
+    }).then(res => { if (res.ok) loadReceptionists(currentPage); else alert('Error updating status.'); });
   }
 
   function renderPagination(pageData) {
     const paginationUl = document.getElementById('pagination');
     paginationUl.innerHTML = '';
     if (pageData.totalPages <= 1) return;
-    if (!pageData.first) { paginationUl.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="event.preventDefault(); loadReceptionists(${currentPage - 1})">Previous</a></li>`; }
-    if (!pageData.last) { paginationUl.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="event.preventDefault(); loadReceptionists(${currentPage + 1})">Next</a></li>`; }
+
+    const createPageItem = (pageNumber, text, isDisabled = false, isActive = false) => {
+      const li = document.createElement('li');
+      li.className = `page-item ${isDisabled ? 'disabled' : ''} ${isActive ? 'active' : ''}`;
+      const a = document.createElement('a');
+      a.className = 'page-link';
+      a.href = '#';
+      a.textContent = text;
+      if (!isDisabled) {
+        a.onclick = (e) => {
+          e.preventDefault();
+          loadReceptionists(pageNumber);
+        };
+      }
+      li.appendChild(a);
+      return li;
+    };
+
+    paginationUl.appendChild(createPageItem(currentPage - 1, 'Previous', pageData.first));
+    for (let i = 0; i < pageData.totalPages; i++) {
+      paginationUl.appendChild(createPageItem(i, i + 1, false, i === currentPage));
+    }
+    paginationUl.appendChild(createPageItem(currentPage + 1, 'Next', pageData.last));
   }
 
   document.getElementById('add-receptionist-form').addEventListener('submit', function(e) {
@@ -132,7 +179,7 @@
     const data = { fullName: document.getElementById('addFullName').value, email: document.getElementById('addEmail').value, contactNumber: document.getElementById('addContactNumber').value, username: document.getElementById('addUsername').value, password: document.getElementById('addPassword').value };
     fetch('http://localhost:8080/api/receptionists', {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(data)
-    }).then(res => { if (res.ok) { addModal.hide(); this.reset(); loadReceptionists(0); } else { alert('Error'); } });
+    }).then(res => { if (res.ok) { addModal.hide(); this.reset(); loadReceptionists(0); } else { alert('Error adding receptionist.'); } });
   });
 
   document.getElementById('edit-receptionist-form').addEventListener('submit', function(e) {
@@ -141,7 +188,7 @@
     const data = { fullName: document.getElementById('editFullName').value, email: document.getElementById('editEmail').value, contactNumber: document.getElementById('editContactNumber').value };
     fetch(`http://localhost:8080/api/receptionists/${id}`, {
       method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(data)
-    }).then(res => { if (res.ok) { editModal.hide(); loadReceptionists(currentPage); } else { alert('Error'); } });
+    }).then(res => { if (res.ok) { editModal.hide(); loadReceptionists(currentPage); } else { alert('Error updating receptionist.'); } });
   });
 
   document.getElementById('filter-btn').addEventListener('click', () => loadReceptionists(0));
