@@ -10,75 +10,157 @@
 </head>
 <body>
 <div id="sidebar-placeholder"></div>
-
 <div class="content">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1>Manage Patients</h1>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPatientModal">
-      <i class="bi bi-person-plus-fill"></i> Add New Patient
-    </button>
+  <h1>Manage Patients</h1><hr>
+  <div class="card bg-light mb-4">
+    <div class="card-body"><div class="row g-3">
+      <div class="col-md-10"><label>Search by Name or Contact Number</label><input type="text" id="keywordFilter" class="form-control" placeholder="Enter keyword..."></div>
+      <div class="col-md-2 d-flex align-items-end"><button id="filter-btn" class="btn btn-primary w-100">Search</button></div>
+    </div></div>
   </div>
-  <hr>
-  <p>Patient list will be displayed here.</p>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <span id="result-summary"></span>
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPatientModal"><i class="bi bi-person-plus-fill"></i> Add New Patient</button>
+  </div>
+  <div class="card"><div class="table-responsive">
+    <table class="table table-hover">
+      <thead class="table-light"><tr><th>Name</th><th>Contact</th><th>Email</th><th>Gender</th><th>Actions</th></tr></thead>
+      <tbody id="patient-table-body"></tbody>
+    </table>
+  </div></div>
+  <nav class="mt-4"><ul id="pagination" class="pagination justify-content-center"></ul></nav>
 </div>
 
+<!-- Add Patient Modal -->
 <div class="modal fade" id="addPatientModal" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Add New Patient Record</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <form id="add-patient-form">
-          <div class="row">
-            <div class="col-md-6 mb-3"><label class="form-label">Full Name</label><input type="text" id="fullName" class="form-control" required></div>
-            <div class="col-md-6 mb-3"><label class="form-label">Contact Number</label><input type="text" id="contactNumber" class="form-control" required></div>
-            <div class="col-md-6 mb-3"><label class="form-label">Email</label><input type="email" id="email" class="form-control"></div>
-            <div class="col-md-6 mb-3"><label class="form-label">Date of Birth</label><input type="date" id="dateOfBirth" class="form-control"></div>
-            <div class="col-md-6 mb-3"><label class="form-label">Gender</label><select id="gender" class="form-select"><option>Male</option><option>Female</option><option>Other</option></select></div>
-            <div class="col-md-12 mb-3"><label class="form-label">Address</label><textarea id="address" class="form-control"></textarea></div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" form="add-patient-form" class="btn btn-primary">Save Patient</button>
-      </div>
+  <div class="modal-dialog modal-lg"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">Add New Patient</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <form id="add-patient-form">
+        <div class="row">
+          <div class="col-md-6 mb-3"><label>Full Name</label><input type="text" id="addFullName" class="form-control" required></div>
+          <div class="col-md-6 mb-3"><label>Contact Number</label><input type="text" id="addContactNumber" class="form-control" required></div>
+          <div class="col-md-6 mb-3"><label>Email</label><input type="email" id="addEmail" class="form-control"></div>
+          <div class="col-md-6 mb-3"><label>Date of Birth</label><input type="date" id="addDateOfBirth" class="form-control"></div>
+          <div class="col-md-6 mb-3"><label>Gender</label><select id="addGender" class="form-select"><option>Male</option><option>Female</option><option>Other</option></select></div>
+          <div class="col-md-12 mb-3"><label>Address</label><textarea id="addAddress" class="form-control"></textarea></div>
+        </div>
+      </form>
     </div>
-  </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="submit" form="add-patient-form" class="btn btn-primary">Save Patient</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- Edit Patient Modal -->
+<div class="modal fade" id="editPatientModal" tabindex="-1">
+  <div class="modal-dialog modal-lg"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">Edit Patient</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <form id="edit-patient-form">
+        <input type="hidden" id="editPatientId">
+        <div class="row">
+          <div class="col-md-6 mb-3"><label>Full Name</label><input type="text" id="editFullName" class="form-control" required></div>
+          <div class="col-md-6 mb-3"><label>Contact Number</label><input type="text" id="editContactNumber" class="form-control" required></div>
+          <div class="col-md-6 mb-3"><label>Email</label><input type="email" id="editEmail" class="form-control"></div>
+          <div class="col-md-6 mb-3"><label>Date of Birth</label><input type="date" id="editDateOfBirth" class="form-control"></div>
+          <div class="col-md-6 mb-3"><label>Gender</label><select id="editGender" class="form-select"><option>Male</option><option>Female</option><option>Other</option></select></div>
+          <div class="col-md-12 mb-3"><label>Address</label><textarea id="editAddress" class="form-control"></textarea></div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="submit" form="edit-patient-form" class="btn btn-primary">Save Changes</button>
+    </div>
+  </div></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../js/layout-loader.js"></script>
 <script>
-  // Handle the form submission for adding a new patient
+  const token = localStorage.getItem('authToken');
+  let currentPage = 0;
+  const addModal = new bootstrap.Modal(document.getElementById('addPatientModal'));
+  const editModal = new bootstrap.Modal(document.getElementById('editPatientModal'));
+
+  function loadPatients(page = 0) {
+    currentPage = page;
+    const keyword = document.getElementById('keywordFilter').value;
+    let url = `http://localhost:8080/api/patients?page=${page}&size=5&sort=fullName,asc`;
+    if (keyword) url += `&keyword=${keyword}`;
+
+    fetch(url, { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => res.json()).then(pageData => {
+      renderTable(pageData.content);
+      renderPagination(pageData);
+      document.getElementById('result-summary').textContent = `Showing ${pageData.numberOfElements} of ${pageData.totalElements} results.`;
+    });
+  }
+
+  function renderTable(patients) {
+    const tableBody = document.getElementById('patient-table-body');
+    tableBody.innerHTML = '';
+    patients.forEach(p => {
+      tableBody.innerHTML += `<tr>
+                    <td>${p.fullName}</td><td>${p.contactNumber}</td><td>${p.email || ''}</td><td>${p.gender || ''}</td>
+                    <td><button class="btn btn-primary btn-sm edit-btn" data-patient='${JSON.stringify(p)}'>Edit</button></td>
+                </tr>`;
+    });
+    attachRowEventListeners();
+  }
+
+  function attachRowEventListeners() {
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const patientData = JSON.parse(this.dataset.patient);
+        document.getElementById('editPatientId').value = patientData.id;
+        document.getElementById('editFullName').value = patientData.fullName;
+        document.getElementById('editContactNumber').value = patientData.contactNumber;
+        document.getElementById('editEmail').value = patientData.email;
+        document.getElementById('editDateOfBirth').value = patientData.dateOfBirth;
+        document.getElementById('editGender').value = patientData.gender;
+        document.getElementById('editAddress').value = patientData.address;
+        editModal.show();
+      });
+    });
+  }
+
+  function renderPagination(pageData) {
+    const paginationUl = document.getElementById('pagination');
+    paginationUl.innerHTML = '';
+    if (pageData.totalPages <= 1) return;
+    if (!pageData.first) { paginationUl.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="event.preventDefault(); loadPatients(${currentPage - 1})">Previous</a></li>`; }
+    if (!pageData.last) { paginationUl.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="event.preventDefault(); loadPatients(${currentPage + 1})">Next</a></li>`; }
+  }
+
   document.getElementById('add-patient-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    const token = localStorage.getItem('authToken');
-
-    const patientData = {
-      fullName: document.getElementById('fullName').value,
-      contactNumber: document.getElementById('contactNumber').value,
-      email: document.getElementById('email').value,
-      dateOfBirth: document.getElementById('dateOfBirth').value,
-      gender: document.getElementById('gender').value,
-      address: document.getElementById('address').value
-    };
-
+    const patientData = { fullName: document.getElementById('addFullName').value, contactNumber: document.getElementById('addContactNumber').value, email: document.getElementById('addEmail').value, dateOfBirth: document.getElementById('addDateOfBirth').value, gender: document.getElementById('addGender').value, address: document.getElementById('addAddress').value };
     fetch('http://localhost:8080/api/patients', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-      body: JSON.stringify(patientData)
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(patientData)
     }).then(response => {
-      if (response.ok) {
-        alert('Patient added successfully!');
-        location.reload(); // Reload the page to see the new patient
-      } else {
-        alert('Error adding patient. Please check the details and try again.');
-      }
+      if (response.ok) { addModal.hide(); this.reset(); loadPatients(0); }
+      else { alert('Error adding patient.'); }
     });
   });
+
+  document.getElementById('edit-patient-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const patientId = document.getElementById('editPatientId').value;
+    const updatedData = { fullName: document.getElementById('editFullName').value, contactNumber: document.getElementById('editContactNumber').value, email: document.getElementById('editEmail').value, dateOfBirth: document.getElementById('editDateOfBirth').value, gender: document.getElementById('editGender').value, address: document.getElementById('editAddress').value };
+    fetch(`http://localhost:8080/api/patients/${patientId}`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(updatedData)
+    }).then(response => {
+      if (response.ok) { editModal.hide(); loadPatients(currentPage); }
+      else { alert('Error updating patient.'); }
+    });
+  });
+
+  document.getElementById('filter-btn').addEventListener('click', () => loadPatients(0));
+  document.addEventListener('DOMContentLoaded', () => loadPatients(0));
 </script>
 </body>
 </html>
