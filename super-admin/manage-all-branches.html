@@ -1,0 +1,145 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org"-->
+<!--      th:replace="~{layout :: layout(~{::title}, ~{::.content-wrapper})}">-->
+<!--<head>-->
+<!--  <title>Manage All Branches</title>-->
+<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+
+<!--</head>-->
+<!--<body>-->
+<!--<div class="content-wrapper">-->
+<!--  <div class="container-fluid">-->
+<!--    <div class="d-flex justify-content-between align-items-center">-->
+<!--      <h1 class="mt-4">Manage Branches</h1>-->
+<!--      <a href="add-new-branch.html" class="btn btn-primary mt-4"><i class="bi bi-plus-circle"></i> Add New Branch</a>-->
+<!--    </div>-->
+<!--    <p class="text-muted">View statistics and manage individual hospital branches.</p>-->
+<!--    <hr>-->
+
+<!--    <div class="row">-->
+<!--      <div class="col-md-6 col-lg-4 mb-4" th:each="branch : ${branchList}">-->
+<!--        <div class="card h-100 shadow-sm">-->
+<!--          <div class="card-header bg-light">-->
+<!--            <h5 class="card-title mb-0" th:text="${branch.name}">Colombo Main</h5>-->
+<!--            <small class="text-muted" th:text="${branch.location}"><i class="bi bi-geo-alt"></i> Colombo 07</small>-->
+<!--          </div>-->
+<!--          <div class="card-body">-->
+<!--            <ul class="list-group list-group-flush">-->
+<!--              <li class="list-group-item d-flex justify-content-between align-items-center">-->
+<!--                Total Patients-->
+<!--                <span class="badge bg-primary rounded-pill" th:text="${branch.patientCount}">450</span>-->
+<!--              </li>-->
+<!--              <li class="list-group-item d-flex justify-content-between align-items-center">-->
+<!--                Total Doctors-->
+<!--                <span class="badge bg-info rounded-pill" th:text="${branch.doctorCount}">50</span>-->
+<!--              </li>-->
+<!--              <li class="list-group-item d-flex justify-content-between align-items-center">-->
+<!--                Appointments Today-->
+<!--                <span class="badge bg-success rounded-pill" th:text="${branch.appointmentsTodayCount}">25</span>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--          <div class="card-footer text-center">-->
+<!--&lt;!&ndash;            <a th:href="@{/branch/dashboard/{id}(id=${branch.id})}" class="btn btn-dark w-100">&ndash;&gt;-->
+<!--            <a href="manage-branch-details.html" class="btn btn-dark w-100">-->
+<!--              <i class="bi bi-sliders"></i> Manage Branch-->
+<!--            </a>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="col-md-6 col-lg-4 mb-4">-->
+<!--        <div class="card h-100 shadow-sm">-->
+<!--          <div class="card-header bg-light">-->
+<!--            <h5 class="card-title mb-0">Kandy Branch</h5>-->
+<!--            <small class="text-muted"><i class="bi bi-geo-alt"></i> Kandy</small>-->
+<!--          </div>-->
+<!--          <div class="card-body">-->
+<!--            <ul class="list-group list-group-flush">-->
+<!--              <li class="list-group-item d-flex justify-content-between align-items-center">-->
+<!--                Total Patients-->
+<!--                <span class="badge bg-primary rounded-pill">300</span>-->
+<!--              </li>-->
+<!--              <li class="list-group-item d-flex justify-content-between align-items-center">-->
+<!--                Total Doctors-->
+<!--                <span class="badge bg-info rounded-pill">40</span>-->
+<!--              </li>-->
+<!--              <li class="list-group-item d-flex justify-content-between align-items-center">-->
+<!--                Appointments Today-->
+<!--                <span class="badge bg-success rounded-pill">18</span>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--          <div class="card-footer text-center">-->
+<!--&lt;!&ndash;            <a href="#" class="btn btn-dark w-100">&ndash;&gt;-->
+<!--            <a href="manage-branch-details.html" class="btn btn-dark w-100">-->
+
+<!--            <i class="bi bi-sliders"></i> Manage Branch-->
+<!--            </a>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--<script src="js/layout-loader.js"></script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage All Branches</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="../js/auth.js" defer></script>
+</head>
+<body>
+<div id="sidebar-placeholder"></div>
+
+<div class="content">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>Manage Branches</h1>
+    <a href="add-new-branch.html" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add New Branch</a>
+  </div>
+  <p class="text-muted">View statistics and manage individual hospital branches.</p>
+  <hr>
+  <div id="branch-summary-container" class="row">
+    <!-- Branch summary cards will be loaded here by JavaScript -->
+  </div>
+</div>
+
+<script src="js/layout-loader.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const token = localStorage.getItem('authToken');
+    fetch('http://localhost:8080/api/super/branch/summary', { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => res.json()).then(summaries => {
+      const container = document.getElementById('branch-summary-container');
+      container.innerHTML = '';
+      if (summaries.length === 0) {
+        container.innerHTML = '<p>No branches found. Please add a new branch.</p>';
+        return;
+      }
+      summaries.forEach(s => {
+        container.innerHTML += `
+                        <div class="col-md-6 col-lg-4 mb-4"><div class="card h-100 shadow-sm">
+                            <div class="card-header"><h5 class="card-title mb-0">${s.name}</h5><small class="text-muted">${s.location}</small></div>
+                            <div class="card-body"><ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between">Total Patients <span class="badge bg-primary rounded-pill">${s.patientCount}</span></li>
+                                <li class="list-group-item d-flex justify-content-between">Total Doctors <span class="badge bg-info rounded-pill">${s.doctorCount}</span></li>
+                            </ul></div>
+                            <div class="card-footer"><a href="manage-branch-details.html" class="btn btn-dark w-100">Manage Details</a></div>
+                        </div></div>`;
+      });
+    });
+  });
+</script>
+</body>
+</html>
