@@ -199,28 +199,69 @@
     const token = localStorage.getItem('authToken');
     const editModal = new bootstrap.Modal(document.getElementById('editBranchModal'));
 
+    // function loadBranches() {
+    //     fetch('http://localhost:8080/api/super/branch', { headers: { 'Authorization': 'Bearer ' + token } })
+    //         .then(res => res.json()).then(branches => {
+    //         const tbody = document.getElementById('branch-details-table');
+    //         tbody.innerHTML = '';
+    //         branches.forEach((b, index) => {
+    //             const isActive = b.status === 'ACTIVE';
+    //             const statusBadge = `<span class="badge bg-${isActive ? 'success' : 'secondary'}">${b.status}</span>`;
+    //             const statusButton = isActive ? `<button class="btn btn-sm btn-warning" onclick="updateStatus(${b.id}, 'INACTIVE')">Deactivate</button>` : `<button class="btn btn-sm btn-success" onclick="updateStatus(${b.id}, 'ACTIVE')">Activate</button>`;
+    //             tbody.innerHTML += `
+    //                     <tr>
+    //                         <th>${index + 1}</th><td>${b.name}</td><td>${b.location}</td><td>${statusBadge}</td>
+    //                         <td>
+    //                             <button class="btn btn-sm btn-primary edit-btn" data-branch='${JSON.stringify(b)}'><i class="bi bi-pencil-square"></i></button>
+    //                             <button class="btn btn-sm btn-danger" onclick="deleteBranch(${b.id})"><i class="bi bi-trash-fill"></i></button>
+    //                             ${statusButton}
+    //                         </td>
+    //                     </tr>`;
+    //         });
+    //         attachEditListeners();
+    //     });
+    // }
+
+
+
     function loadBranches() {
         fetch('http://localhost:8080/api/super/branch', { headers: { 'Authorization': 'Bearer ' + token } })
             .then(res => res.json()).then(branches => {
             const tbody = document.getElementById('branch-details-table');
             tbody.innerHTML = '';
             branches.forEach((b, index) => {
+                // =============================================================
+                // CRITICAL FIX STARTS HERE
+                // =============================================================
                 const isActive = b.status === 'ACTIVE';
-                const statusBadge = `<span class="badge bg-${isActive ? 'success' : 'secondary'}">${b.status}</span>`;
-                const statusButton = isActive ? `<button class="btn btn-sm btn-warning" onclick="updateStatus(${b.id}, 'INACTIVE')">Deactivate</button>` : `<button class="btn btn-sm btn-success" onclick="updateStatus(${b.id}, 'ACTIVE')">Activate</button>`;
+                const statusBadge = `<span class="badge bg-${isActive ? 'success' : 'secondary'}">${b.status || 'N/A'}</span>`;
+                const statusButton = isActive
+                    ? `<button class="btn btn-sm btn-warning" onclick="updateStatus(${b.id}, 'INACTIVE')">Deactivate</button>`
+                    : `<button class="btn btn-sm btn-success" onclick="updateStatus(${b.id}, 'ACTIVE')">Activate</button>`;
+                // =============================================================
+                // CRITICAL FIX ENDS HERE
+                // =============================================================
+
                 tbody.innerHTML += `
-                        <tr>
-                            <th>${index + 1}</th><td>${b.name}</td><td>${b.location}</td><td>${statusBadge}</td>
-                            <td>
-                                <button class="btn btn-sm btn-primary edit-btn" data-branch='${JSON.stringify(b)}'><i class="bi bi-pencil-square"></i></button>
-                                <button class="btn btn-sm btn-danger" onclick="deleteBranch(${b.id})"><i class="bi bi-trash-fill"></i></button>
-                                ${statusButton}
-                            </td>
-                        </tr>`;
+                    <tr>
+                        <th>${index + 1}</th>
+                        <td>${b.name}</td>
+                        <td>${b.location}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary edit-btn" data-branch='${JSON.stringify(b)}'><i class="bi bi-pencil-square"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteBranch(${b.id})"><i class="bi bi-trash-fill"></i></button>
+                            ${statusButton}
+                        </td>
+                    </tr>`;
             });
             attachEditListeners();
         });
     }
+
+    // ... all your other functions (attachEditListeners, deleteBranch, updateStatus, etc.)
+
+    document.addEventListener('DOMContentLoaded', loadBranches);
 
     function attachEditListeners() {
         document.querySelectorAll('.edit-btn').forEach(btn => {
