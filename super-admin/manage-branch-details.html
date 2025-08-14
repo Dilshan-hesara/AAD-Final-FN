@@ -1,82 +1,141 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html lang="en">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta name="viewport" content="width=device-width, initial-scale=1.0">&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>Manage Branches</title>&ndash;&gt;-->
+<!--&lt;!&ndash;    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">&ndash;&gt;-->
+<!--&lt;!&ndash;    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">&ndash;&gt;-->
+<!--&lt;!&ndash;    <style>&ndash;&gt;-->
+<!--&lt;!&ndash;        body {&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #f8f9fa;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .container-fluid {&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 20px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .card {&ndash;&gt;-->
+<!--&lt;!&ndash;            box-shadow: 0 4px 8px rgba(0,0,0,0.1);&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;    </style>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<div class="container-fluid">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="card">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="card-header d-flex justify-content-between align-items-center">&ndash;&gt;-->
+<!--&lt;!&ndash;            <h3>Manage Branch Details</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;            <a href="add-new-branch.html" class="btn btn-primary">&ndash;&gt;-->
+<!--&lt;!&ndash;                <i class="bi bi-plus-circle-fill me-2"></i>Add New Branch&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="card-body">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="table-responsive">&ndash;&gt;-->
+<!--&lt;!&ndash;                <table class="table table-striped table-hover">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <thead class="table-dark">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <th scope="col">#</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <th scope="col">Branch Name</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <th scope="col">Location</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <th scope="col">Contact</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <th scope="col">Email</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <th scope="col">Actions</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </thead>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <th scope="row">1</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>Colombo Main Branch</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>Galle Road, Colombo 3</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>0112345678</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>colombo@hms.com</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <button class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <button class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i></button>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <th scope="row">2</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>Kandy City Branch</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>Peradeniya Road, Kandy</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>0812223334</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>kandy@hms.com</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <button class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <button class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i></button>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;                </table>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="card-footer text-end">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a href="dashboard.html" class="btn btn-secondary">Back to Dashboard</a>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
 <!--<!DOCTYPE html>-->
 <!--<html lang="en">-->
 <!--<head>-->
 <!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>Manage Branches</title>-->
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">-->
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">-->
-<!--    <style>-->
-<!--        body {-->
-<!--            background-color: #f8f9fa;-->
-<!--        }-->
-<!--        .container-fluid {-->
-<!--            padding: 20px;-->
-<!--        }-->
-<!--        .card {-->
-<!--            box-shadow: 0 4px 8px rgba(0,0,0,0.1);-->
-<!--        }-->
-<!--    </style>-->
+<!--    <title>Manage Branch Details</title>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">-->
+<!--    <link rel="stylesheet" href="../css/styles.css">-->
+<!--    <script src="../js/auth.js" defer></script>-->
 <!--</head>-->
 <!--<body>-->
+<!--<div id="sidebar-placeholder"></div>-->
 
-<!--<div class="container-fluid">-->
+<!--<div class="content">-->
+<!--    <div class="d-flex justify-content-between align-items-center">-->
+<!--        <h3>Manage Branch Details</h3>-->
+<!--        <a href="add-new-branch.html" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add New Branch</a>-->
+<!--    </div>-->
+<!--    <hr>-->
 <!--    <div class="card">-->
-<!--        <div class="card-header d-flex justify-content-between align-items-center">-->
-<!--            <h3>Manage Branch Details</h3>-->
-<!--            <a href="add-new-branch.html" class="btn btn-primary">-->
-<!--                <i class="bi bi-plus-circle-fill me-2"></i>Add New Branch-->
-<!--            </a>-->
-<!--        </div>-->
 <!--        <div class="card-body">-->
 <!--            <div class="table-responsive">-->
 <!--                <table class="table table-striped table-hover">-->
 <!--                    <thead class="table-dark">-->
-<!--                    <tr>-->
-<!--                        <th scope="col">#</th>-->
-<!--                        <th scope="col">Branch Name</th>-->
-<!--                        <th scope="col">Location</th>-->
-<!--                        <th scope="col">Contact</th>-->
-<!--                        <th scope="col">Email</th>-->
-<!--                        <th scope="col">Actions</th>-->
-<!--                    </tr>-->
+<!--                    <tr><th>#</th><th>Name</th><th>Location</th><th>Contact</th><th>Email</th><th>Actions</th></tr>-->
 <!--                    </thead>-->
-<!--                    <tbody>-->
-<!--                    <tr>-->
-<!--                        <th scope="row">1</th>-->
-<!--                        <td>Colombo Main Branch</td>-->
-<!--                        <td>Galle Road, Colombo 3</td>-->
-<!--                        <td>0112345678</td>-->
-<!--                        <td>colombo@hms.com</td>-->
-<!--                        <td>-->
-<!--                            <button class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button>-->
-<!--                            <button class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i></button>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    <tr>-->
-<!--                        <th scope="row">2</th>-->
-<!--                        <td>Kandy City Branch</td>-->
-<!--                        <td>Peradeniya Road, Kandy</td>-->
-<!--                        <td>0812223334</td>-->
-<!--                        <td>kandy@hms.com</td>-->
-<!--                        <td>-->
-<!--                            <button class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button>-->
-<!--                            <button class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i></button>-->
-<!--                        </td>-->
-<!--                    </tr>-->
-<!--                    </tbody>-->
+<!--                    <tbody id="branch-details-table"></tbody>-->
 <!--                </table>-->
 <!--            </div>-->
-<!--        </div>-->
-<!--        <div class="card-footer text-end">-->
-<!--            <a href="dashboard.html" class="btn btn-secondary">Back to Dashboard</a>-->
 <!--        </div>-->
 <!--    </div>-->
 <!--</div>-->
 
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--<script src="js/layout-loader.js"></script>-->
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        const token = localStorage.getItem('authToken');-->
+<!--        fetch('http://localhost:8080/api/super/branch', { headers: { 'Authorization': 'Bearer ' + token } })-->
+<!--            .then(res => res.json()).then(branches => {-->
+<!--            const tbody = document.getElementById('branch-details-table');-->
+<!--            tbody.innerHTML = '';-->
+<!--            branches.forEach((b, index) => {-->
+<!--                tbody.innerHTML += `-->
+<!--                        <tr>-->
+<!--                            <th>${index + 1}</th><td>${b.name}</td><td>${b.location}</td>-->
+<!--                            <td>${b.contactNumber}</td><td>${b.email}</td>-->
+<!--                            <td>-->
+<!--                                <button class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button>-->
+<!--                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i></button>-->
+<!--                            </td>-->
+<!--                        </tr>`;-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 <!--</body>-->
 <!--</html>-->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,7 +149,6 @@
 </head>
 <body>
 <div id="sidebar-placeholder"></div>
-
 <div class="content">
     <div class="d-flex justify-content-between align-items-center">
         <h3>Manage Branch Details</h3>
@@ -102,7 +160,7 @@
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead class="table-dark">
-                    <tr><th>#</th><th>Name</th><th>Location</th><th>Contact</th><th>Email</th><th>Actions</th></tr>
+                    <tr><th>#</th><th>Name</th><th>Location</th><th>Status</th><th>Actions</th></tr>
                     </thead>
                     <tbody id="branch-details-table"></tbody>
                 </table>
@@ -111,27 +169,105 @@
     </div>
 </div>
 
+<div class="modal fade" id="editBranchModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Branch</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-branch-form">
+                    <input type="hidden" id="editBranchId">
+                    <div class="mb-3"><label>Branch Name</label><input type="text" id="editBranchName" class="form-control" required></div>
+                    <div class="mb-3"><label>Location</label><input type="text" id="editBranchLocation" class="form-control" required></div>
+                    <div class="mb-3"><label>Contact</label><input type="tel" id="editBranchContact" class="form-control" required></div>
+                    <div class="mb-3"><label>Email</label><input type="email" id="editBranchEmail" class="form-control" required></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="edit-branch-form" class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/layout-loader.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('authToken');
+    const editModal = new bootstrap.Modal(document.getElementById('editBranchModal'));
+
+    function loadBranches() {
         fetch('http://localhost:8080/api/super/branch', { headers: { 'Authorization': 'Bearer ' + token } })
             .then(res => res.json()).then(branches => {
             const tbody = document.getElementById('branch-details-table');
             tbody.innerHTML = '';
             branches.forEach((b, index) => {
+                const isActive = b.status === 'ACTIVE';
+                const statusBadge = `<span class="badge bg-${isActive ? 'success' : 'secondary'}">${b.status}</span>`;
+                const statusButton = isActive ? `<button class="btn btn-sm btn-warning" onclick="updateStatus(${b.id}, 'INACTIVE')">Deactivate</button>` : `<button class="btn btn-sm btn-success" onclick="updateStatus(${b.id}, 'ACTIVE')">Activate</button>`;
                 tbody.innerHTML += `
                         <tr>
-                            <th>${index + 1}</th><td>${b.name}</td><td>${b.location}</td>
-                            <td>${b.contactNumber}</td><td>${b.email}</td>
+                            <th>${index + 1}</th><td>${b.name}</td><td>${b.location}</td><td>${statusBadge}</td>
                             <td>
-                                <button class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></button>
-                                <button class="btn btn-sm btn-danger"><i class="bi bi-trash-fill"></i></button>
+                                <button class="btn btn-sm btn-primary edit-btn" data-branch='${JSON.stringify(b)}'><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteBranch(${b.id})"><i class="bi bi-trash-fill"></i></button>
+                                ${statusButton}
                             </td>
                         </tr>`;
             });
+            attachEditListeners();
         });
+    }
+
+    function attachEditListeners() {
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const branch = JSON.parse(this.dataset.branch);
+                document.getElementById('editBranchId').value = branch.id;
+                document.getElementById('editBranchName').value = branch.name;
+                document.getElementById('editBranchLocation').value = branch.location;
+                document.getElementById('editBranchContact').value = branch.contactNumber;
+                document.getElementById('editBranchEmail').value = branch.email;
+                editModal.show();
+            });
+        });
+    }
+
+    document.getElementById('edit-branch-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const branchId = document.getElementById('editBranchId').value;
+        const data = {
+            name: document.getElementById('editBranchName').value,
+            location: document.getElementById('editBranchLocation').value,
+            contactNumber: document.getElementById('editBranchContact').value,
+            email: document.getElementById('editBranchEmail').value
+        };
+        fetch(`http://localhost:8080/api/super/branch/${branchId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify(data)
+        }).then(res => { if(res.ok) { editModal.hide(); loadBranches(); } else { alert('Error updating'); }});
     });
+
+    function deleteBranch(id) {
+        if (!confirm('Are you sure? This action cannot be undone.')) return;
+        fetch(`http://localhost:8080/api/super/branch/${id}`, {
+            method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token }
+        }).then(res => { if(res.ok) loadBranches(); else alert('Error deleting branch.'); });
+    }
+
+    function updateStatus(id, status) {
+        fetch(`http://localhost:8080/api/super/branch/${id}/status`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({ status: status })
+        }).then(res => { if(res.ok) loadBranches(); else alert('Error updating status.'); });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadBranches);
 </script>
 </body>
 </html>
