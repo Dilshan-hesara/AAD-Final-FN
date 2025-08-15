@@ -1,91 +1,226 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html lang="en" xmlns:th="http://www.thymeleaf.org"&ndash;&gt;-->
+<!--&lt;!&ndash;      th:replace="~{layout :: layout(~{::title}, ~{::.content-wrapper})}">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;  <title>Manage All Branches</title>&ndash;&gt;-->
+<!--&lt;!&ndash;  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">&ndash;&gt;-->
+
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="content-wrapper">&ndash;&gt;-->
+<!--&lt;!&ndash;  <div class="container-fluid">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="d-flex justify-content-between align-items-center">&ndash;&gt;-->
+<!--&lt;!&ndash;      <h1 class="mt-4">Manage Branches</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;      <a href="add-new-branch.html" class="btn btn-primary mt-4"><i class="bi bi-plus-circle"></i> Add New Branch</a>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <p class="text-muted">View statistics and manage individual hospital branches.</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <hr>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <div class="row">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="col-md-6 col-lg-4 mb-4" th:each="branch : ${branchList}">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="card h-100 shadow-sm">&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="card-header bg-light">&ndash;&gt;-->
+<!--&lt;!&ndash;            <h5 class="card-title mb-0" th:text="${branch.name}">Colombo Main</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;            <small class="text-muted" th:text="${branch.location}"><i class="bi bi-geo-alt"></i> Colombo 07</small>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="card-body">&ndash;&gt;-->
+<!--&lt;!&ndash;            <ul class="list-group list-group-flush">&ndash;&gt;-->
+<!--&lt;!&ndash;              <li class="list-group-item d-flex justify-content-between align-items-center">&ndash;&gt;-->
+<!--&lt;!&ndash;                Total Patients&ndash;&gt;-->
+<!--&lt;!&ndash;                <span class="badge bg-primary rounded-pill" th:text="${branch.patientCount}">450</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;              <li class="list-group-item d-flex justify-content-between align-items-center">&ndash;&gt;-->
+<!--&lt;!&ndash;                Total Doctors&ndash;&gt;-->
+<!--&lt;!&ndash;                <span class="badge bg-info rounded-pill" th:text="${branch.doctorCount}">50</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;              <li class="list-group-item d-flex justify-content-between align-items-center">&ndash;&gt;-->
+<!--&lt;!&ndash;                Appointments Today&ndash;&gt;-->
+<!--&lt;!&ndash;                <span class="badge bg-success rounded-pill" th:text="${branch.appointmentsTodayCount}">25</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;            </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="card-footer text-center">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            <a th:href="@{/branch/dashboard/{id}(id=${branch.id})}" class="btn btn-dark w-100">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;            <a href="manage-branch-details.html" class="btn btn-dark w-100">&ndash;&gt;-->
+<!--&lt;!&ndash;              <i class="bi bi-sliders"></i> Manage Branch&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      <div class="col-md-6 col-lg-4 mb-4">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="card h-100 shadow-sm">&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="card-header bg-light">&ndash;&gt;-->
+<!--&lt;!&ndash;            <h5 class="card-title mb-0">Kandy Branch</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;            <small class="text-muted"><i class="bi bi-geo-alt"></i> Kandy</small>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="card-body">&ndash;&gt;-->
+<!--&lt;!&ndash;            <ul class="list-group list-group-flush">&ndash;&gt;-->
+<!--&lt;!&ndash;              <li class="list-group-item d-flex justify-content-between align-items-center">&ndash;&gt;-->
+<!--&lt;!&ndash;                Total Patients&ndash;&gt;-->
+<!--&lt;!&ndash;                <span class="badge bg-primary rounded-pill">300</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;              <li class="list-group-item d-flex justify-content-between align-items-center">&ndash;&gt;-->
+<!--&lt;!&ndash;                Total Doctors&ndash;&gt;-->
+<!--&lt;!&ndash;                <span class="badge bg-info rounded-pill">40</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;              <li class="list-group-item d-flex justify-content-between align-items-center">&ndash;&gt;-->
+<!--&lt;!&ndash;                Appointments Today&ndash;&gt;-->
+<!--&lt;!&ndash;                <span class="badge bg-success rounded-pill">18</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              </li>&ndash;&gt;-->
+<!--&lt;!&ndash;            </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="card-footer text-center">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            <a href="#" class="btn btn-dark w-100">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;            <a href="manage-branch-details.html" class="btn btn-dark w-100">&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <i class="bi bi-sliders"></i> Manage Branch&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--&lt;!&ndash;<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;<script src="js/layout-loader.js"></script>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+
 <!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org"-->
-<!--      th:replace="~{layout :: layout(~{::title}, ~{::.content-wrapper})}">-->
+<!--<html lang="en">-->
 <!--<head>-->
+<!--  <meta charset="UTF-8">-->
 <!--  <title>Manage All Branches</title>-->
 <!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
-
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">-->
+<!--  <link rel="stylesheet" href="../css/styles.css">-->
+<!--  <script src="../js/auth.js" defer></script>-->
 <!--</head>-->
 <!--<body>-->
-<!--<div class="content-wrapper">-->
-<!--  <div class="container-fluid">-->
-<!--    <div class="d-flex justify-content-between align-items-center">-->
-<!--      <h1 class="mt-4">Manage Branches</h1>-->
-<!--      <a href="add-new-branch.html" class="btn btn-primary mt-4"><i class="bi bi-plus-circle"></i> Add New Branch</a>-->
-<!--    </div>-->
-<!--    <p class="text-muted">View statistics and manage individual hospital branches.</p>-->
-<!--    <hr>-->
+<!--<div id="sidebar-placeholder"></div>-->
 
-<!--    <div class="row">-->
-<!--      <div class="col-md-6 col-lg-4 mb-4" th:each="branch : ${branchList}">-->
-<!--        <div class="card h-100 shadow-sm">-->
-<!--          <div class="card-header bg-light">-->
-<!--            <h5 class="card-title mb-0" th:text="${branch.name}">Colombo Main</h5>-->
-<!--            <small class="text-muted" th:text="${branch.location}"><i class="bi bi-geo-alt"></i> Colombo 07</small>-->
-<!--          </div>-->
-<!--          <div class="card-body">-->
-<!--            <ul class="list-group list-group-flush">-->
-<!--              <li class="list-group-item d-flex justify-content-between align-items-center">-->
-<!--                Total Patients-->
-<!--                <span class="badge bg-primary rounded-pill" th:text="${branch.patientCount}">450</span>-->
-<!--              </li>-->
-<!--              <li class="list-group-item d-flex justify-content-between align-items-center">-->
-<!--                Total Doctors-->
-<!--                <span class="badge bg-info rounded-pill" th:text="${branch.doctorCount}">50</span>-->
-<!--              </li>-->
-<!--              <li class="list-group-item d-flex justify-content-between align-items-center">-->
-<!--                Appointments Today-->
-<!--                <span class="badge bg-success rounded-pill" th:text="${branch.appointmentsTodayCount}">25</span>-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--          </div>-->
-<!--          <div class="card-footer text-center">-->
-<!--&lt;!&ndash;            <a th:href="@{/branch/dashboard/{id}(id=${branch.id})}" class="btn btn-dark w-100">&ndash;&gt;-->
-<!--            <a href="manage-branch-details.html" class="btn btn-dark w-100">-->
-<!--              <i class="bi bi-sliders"></i> Manage Branch-->
-<!--            </a>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-
-<!--      <div class="col-md-6 col-lg-4 mb-4">-->
-<!--        <div class="card h-100 shadow-sm">-->
-<!--          <div class="card-header bg-light">-->
-<!--            <h5 class="card-title mb-0">Kandy Branch</h5>-->
-<!--            <small class="text-muted"><i class="bi bi-geo-alt"></i> Kandy</small>-->
-<!--          </div>-->
-<!--          <div class="card-body">-->
-<!--            <ul class="list-group list-group-flush">-->
-<!--              <li class="list-group-item d-flex justify-content-between align-items-center">-->
-<!--                Total Patients-->
-<!--                <span class="badge bg-primary rounded-pill">300</span>-->
-<!--              </li>-->
-<!--              <li class="list-group-item d-flex justify-content-between align-items-center">-->
-<!--                Total Doctors-->
-<!--                <span class="badge bg-info rounded-pill">40</span>-->
-<!--              </li>-->
-<!--              <li class="list-group-item d-flex justify-content-between align-items-center">-->
-<!--                Appointments Today-->
-<!--                <span class="badge bg-success rounded-pill">18</span>-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--          </div>-->
-<!--          <div class="card-footer text-center">-->
-<!--&lt;!&ndash;            <a href="#" class="btn btn-dark w-100">&ndash;&gt;-->
-<!--            <a href="manage-branch-details.html" class="btn btn-dark w-100">-->
-
-<!--            <i class="bi bi-sliders"></i> Manage Branch-->
-<!--            </a>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-
-<!--    </div>-->
+<!--<div class="content">-->
+<!--  <div class="d-flex justify-content-between align-items-center">-->
+<!--    <h1>Manage Branches</h1>-->
+<!--    <a href="add-new-branch.html" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add New Branch</a>-->
+<!--  </div>-->
+<!--  <p class="text-muted">View statistics and manage individual hospital branches.</p>-->
+<!--  <hr>-->
+<!--  <div id="branch-summary-container" class="row">-->
+<!--    &lt;!&ndash; Branch summary cards will be loaded here by JavaScript &ndash;&gt;-->
 <!--  </div>-->
 <!--</div>-->
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
-<!--<script src="js/layout-loader.js"></script>-->
 
+<!--<script src="js/layout-loader.js"></script>-->
+<!--<script>-->
+<!--  document.addEventListener('DOMContentLoaded', function() {-->
+<!--    const token = localStorage.getItem('authToken');-->
+<!--    fetch('http://localhost:8080/api/super/branch/summary', { headers: { 'Authorization': 'Bearer ' + token } })-->
+<!--            .then(res => res.json()).then(summaries => {-->
+<!--      const container = document.getElementById('branch-summary-container');-->
+<!--      container.innerHTML = '';-->
+<!--      if (summaries.length === 0) {-->
+<!--        container.innerHTML = '<p>No branches found. Please add a new branch.</p>';-->
+<!--        return;-->
+<!--      }-->
+<!--      summaries.forEach(s => {-->
+<!--        container.innerHTML += `-->
+<!--                        <div class="col-md-6 col-lg-4 mb-4"><div class="card h-100 shadow-sm">-->
+<!--                            <div class="card-header"><h5 class="card-title mb-0">${s.name}</h5><small class="text-muted">${s.location}</small></div>-->
+<!--                            <div class="card-body"><ul class="list-group list-group-flush">-->
+<!--                                <li class="list-group-item d-flex justify-content-between">Total Patients <span class="badge bg-primary rounded-pill">${s.patientCount}</span></li>-->
+<!--                                <li class="list-group-item d-flex justify-content-between">Total Doctors <span class="badge bg-info rounded-pill">${s.doctorCount}</span></li>-->
+<!--                            </ul></div>-->
+<!--                            <div class="card-footer"><a href="manage-branch-details.html" class="btn btn-dark w-100">Manage Details</a></div>-->
+<!--                        </div></div>`;-->
+<!--      });-->
+<!--    });-->
+<!--  });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>Manage All Branches</title>-->
+<!--  &lt;!&ndash; BOOTSTRAP CSS &ndash;&gt;-->
+<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--  &lt;!&ndash; BOOTSTRAP ICONS &ndash;&gt;-->
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">-->
+<!--  &lt;!&ndash; YOUR CUSTOM CSS &ndash;&gt;-->
+<!--  <link rel="stylesheet" href="../css/styles.css">-->
+<!--  &lt;!&ndash; PAGE PROTECTION SCRIPT &ndash;&gt;-->
+<!--  <script src="../js/auth.js" defer></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div id="sidebar-placeholder"></div>-->
+
+<!--<div class="content">-->
+<!--  <div class="d-flex justify-content-between align-items-center">-->
+<!--    <h1>Manage Branches</h1>-->
+<!--    <a href="add-new-branch.html" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add New Branch</a>-->
+<!--  </div>-->
+<!--  <p class="text-muted">View statistics and manage individual hospital branches.</p>-->
+<!--  <hr>-->
+<!--  <div id="branch-summary-container" class="row">-->
+<!--    &lt;!&ndash; Branch summary cards will be loaded here by JavaScript &ndash;&gt;-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<script src="js/layout-loader.js"></script>-->
+<!--<script>-->
+<!--  document.addEventListener('DOMContentLoaded', function() {-->
+<!--    const token = localStorage.getItem('authToken');-->
+<!--    fetch('http://localhost:8080/api/super/branch/summary', { headers: { 'Authorization': 'Bearer ' + token } })-->
+<!--            .then(res => res.json()).then(summaries => {-->
+<!--      const container = document.getElementById('branch-summary-container');-->
+<!--      container.innerHTML = '';-->
+<!--      if (summaries.length === 0) {-->
+<!--        container.innerHTML = '<p>No branches found. Please add a new branch.</p>';-->
+<!--        return;-->
+<!--      }-->
+<!--      summaries.forEach(s => {-->
+<!--        container.innerHTML += `-->
+<!--                        <div class="col-md-6 col-lg-4 mb-4">-->
+<!--                            <div class="card h-100 shadow-sm">-->
+<!--                                <div class="card-header bg-dark text-white">-->
+<!--                                    <h5 class="card-title mb-0">${s.name}</h5>-->
+<!--                                </div>-->
+<!--                                <div class="card-body">-->
+<!--                                    <ul class="list-group list-group-flush">-->
+<!--                                        <li class="list-group-item d-flex justify-content-between">-->
+<!--                                            <span><i class="bi bi-people-fill me-2"></i>Total Patients</span>-->
+<!--                                            <span class="badge bg-primary rounded-pill">${s.totalPatientCount}</span>-->
+<!--                                        </li>-->
+<!--                                        <li class="list-group-item d-flex justify-content-between">-->
+<!--                                            <span><i class="bi bi-heart-pulse-fill me-2"></i>Active Doctors</span>-->
+<!--                                            <span class="badge bg-info rounded-pill">${s.activeDoctorCount}</span>-->
+<!--                                        </li>-->
+<!--                                        <li class="list-group-item d-flex justify-content-between">-->
+<!--                                            <span><i class="bi bi-person-workspace me-2"></i>Active Receptionists</span>-->
+<!--                                            <span class="badge bg-light text-dark rounded-pill">${s.activeReceptionistCount}</span>-->
+<!--                                        </li>-->
+<!--                                        <li class="list-group-item d-flex justify-content-between">-->
+<!--                                            <span><i class="bi bi-calendar-event-fill me-2"></i>Appointments Today</span>-->
+<!--                                            <span class="badge bg-success rounded-pill">${s.todaysAppointmentCount}</span>-->
+<!--                                        </li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                                <div class="card-footer">-->
+<!--                                    <a href="manage-branch-details.html?id=${s.id}" class="btn btn-outline-dark w-100">Manage Details</a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>`;-->
+<!--      });-->
+<!--    });-->
+<!--  });-->
+<!--</script>-->
 <!--</body>-->
 <!--</html>-->
 
@@ -95,14 +230,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Manage All Branches</title>
+  <!-- BOOTSTRAP CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- BOOTSTRAP ICONS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <!-- YOUR CUSTOM CSS -->
   <link rel="stylesheet" href="../css/styles.css">
+  <!-- PAGE PROTECTION SCRIPT -->
   <script src="../js/auth.js" defer></script>
 </head>
 <body>
 <div id="sidebar-placeholder"></div>
-
 <div class="content">
   <div class="d-flex justify-content-between align-items-center">
     <h1>Manage Branches</h1>
@@ -115,6 +253,9 @@
   </div>
 </div>
 
+<!-- BOOTSTRAP JS (Optional but recommended) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- YOUR SCRIPTS -->
 <script src="js/layout-loader.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -123,23 +264,149 @@
             .then(res => res.json()).then(summaries => {
       const container = document.getElementById('branch-summary-container');
       container.innerHTML = '';
-      if (summaries.length === 0) {
-        container.innerHTML = '<p>No branches found. Please add a new branch.</p>';
-        return;
-      }
       summaries.forEach(s => {
+        const isActive = s.status === 'ACTIVE';
+        const headerClass = isActive ? 'bg-dark text-white' : 'bg-light text-muted';
+        const statusIcon = isActive
+                ? '<i class="bi bi-check-circle-fill text-success"></i>'
+                : '<i class="bi bi-x-circle-fill text-danger"></i>';
+
         container.innerHTML += `
-                        <div class="col-md-6 col-lg-4 mb-4"><div class="card h-100 shadow-sm">
-                            <div class="card-header"><h5 class="card-title mb-0">${s.name}</h5><small class="text-muted">${s.location}</small></div>
-                            <div class="card-body"><ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between">Total Patients <span class="badge bg-primary rounded-pill">${s.patientCount}</span></li>
-                                <li class="list-group-item d-flex justify-content-between">Total Doctors <span class="badge bg-info rounded-pill">${s.doctorCount}</span></li>
-                            </ul></div>
-                            <div class="card-footer"><a href="manage-branch-details.html" class="btn btn-dark w-100">Manage Details</a></div>
-                        </div></div>`;
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-header ${headerClass}">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">${s.name}</h5>
+                                        ${statusIcon}
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <span><i class="bi bi-people-fill me-2"></i>Total Patients</span>
+                                            <span class="badge bg-primary rounded-pill">${s.totalPatientCount}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <span><i class="bi bi-heart-pulse-fill me-2"></i>Active Doctors</span>
+                                            <span class="badge bg-info rounded-pill">${s.activeDoctorCount}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <span><i class="bi bi-person-workspace me-2"></i>Active Receptionists</span>
+                                            <span class="badge bg-light text-dark rounded-pill">${s.activeReceptionistCount}</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <span><i class="bi bi-calendar-event-fill me-2"></i>Appointments Today</span>
+                                            <span class="badge bg-success rounded-pill">${s.todaysAppointmentCount}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="manage-branch-details.html?id=${s.id}" class="btn btn-outline-dark w-100">Manage Details</a>
+                                </div>
+                            </div>
+                        </div>`;
       });
     });
   });
 </script>
 </body>
 </html>
+
+
+
+<!--meeka branch detai leek ekk taba 2k kcidhrta filert krl ena eke stuea ek anuva -->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>Manage Branch Details</title>-->
+<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">-->
+<!--  <link rel="stylesheet" href="../css/styles.css">-->
+<!--  <script src="../js/auth.js" defer></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div id="sidebar-placeholder"></div>-->
+<!--<div class="content">-->
+<!--  <h3>Manage Branch Details</h3><hr>-->
+
+<!--  &lt;!&ndash; Active Branches Table &ndash;&gt;-->
+<!--  <h4 class="mt-4"><i class="bi bi-check-circle-fill text-success"></i> Active Branches</h4>-->
+<!--  <div class="card mb-5"><div class="card-body"><div class="table-responsive">-->
+<!--    <table class="table table-striped table-hover">-->
+<!--      <thead class="table-dark"><tr><th>#</th><th>Name</th><th>Location</th><th>Contact</th><th>Actions</th></tr></thead>-->
+<!--      <tbody id="active-branches-table"></tbody>-->
+<!--    </table>-->
+<!--  </div></div></div>-->
+
+<!--  &lt;!&ndash; Inactive Branches Table &ndash;&gt;-->
+<!--  <h4 class="mt-4"><i class="bi bi-x-circle-fill text-danger"></i> Inactive Branches</h4>-->
+<!--  <div class="card"><div class="card-body"><div class="table-responsive">-->
+<!--    <table class="table table-striped table-hover">-->
+<!--      <thead class="table-dark"><tr><th>#</th><th>Name</th><th>Location</th><th>Contact</th><th>Actions</th></tr></thead>-->
+<!--      <tbody id="inactive-branches-table"></tbody>-->
+<!--    </table>-->
+<!--  </div></div></div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Your Edit Modal would go here &ndash;&gt;-->
+
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--<script src="../js/layout-loader.js"></script>-->
+<!--<script>-->
+<!--  const token = localStorage.getItem('authToken');-->
+
+<!--  function loadAllBranches() {-->
+<!--    loadActiveBranches();-->
+<!--    loadInactiveBranches();-->
+<!--  }-->
+
+<!--  function loadActiveBranches() {-->
+<!--    fetch('http://localhost:8080/api/branches/active', { headers: { 'Authorization': 'Bearer ' + token } })-->
+<!--            .then(res => res.json()).then(branches => {-->
+<!--      const tbody = document.getElementById('active-branches-table');-->
+<!--      tbody.innerHTML = '';-->
+<!--      branches.forEach((b, index) => {-->
+<!--        tbody.innerHTML += `-->
+<!--                        <tr>-->
+<!--                            <th>${index + 1}</th><td>${b.name}</td><td>${b.location}</td><td>${b.contactNumber}</td>-->
+<!--                            <td>-->
+<!--                                <button class="btn btn-sm btn-primary">Edit</button>-->
+<!--                                <button class="btn btn-sm btn-warning" onclick="updateStatus(${b.id}, 'INACTIVE')">Deactivate</button>-->
+<!--                            </td>-->
+<!--                        </tr>`;-->
+<!--      });-->
+<!--    });-->
+<!--  }-->
+
+<!--  function loadInactiveBranches() {-->
+<!--    fetch('http://localhost:8080/api/branches/inactive', { headers: { 'Authorization': 'Bearer ' + token } })-->
+<!--            .then(res => res.json()).then(branches => {-->
+<!--      const tbody = document.getElementById('inactive-branches-table');-->
+<!--      tbody.innerHTML = '';-->
+<!--      branches.forEach((b, index) => {-->
+<!--        tbody.innerHTML += `-->
+<!--                        <tr>-->
+<!--                            <th>${index + 1}</th><td>${b.name}</td><td>${b.location}</td><td>${b.contactNumber}</td>-->
+<!--                            <td>-->
+<!--                                <button class="btn btn-sm btn-primary">Edit</button>-->
+<!--                                <button class="btn btn-sm btn-success" onclick="updateStatus(${b.id}, 'ACTIVE')">Activate</button>-->
+<!--                            </td>-->
+<!--                        </tr>`;-->
+<!--      });-->
+<!--    });-->
+<!--  }-->
+
+<!--  function updateStatus(id, status) {-->
+<!--    if (!confirm('Are you sure?')) return;-->
+<!--    fetch(`http://localhost:8080/apiZZ/branch/${id}/status`, {-->
+<!--      method: 'PATCH',-->
+<!--      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },-->
+<!--      body: JSON.stringify({ status: status })-->
+<!--    }).then(res => { if(res.ok) loadAllBranches(); else alert('Error updating status'); });-->
+<!--  }-->
+
+<!--  document.addEventListener('DOMContentLoaded', loadAllBranches);-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
