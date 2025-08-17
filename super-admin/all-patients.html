@@ -1,69 +1,149 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout :: layout(~{::title}, ~{::.content-wrapper})}">
-<head>
-  <title>All Patients</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org"-->
+<!--      th:replace="~{layout :: layout(~{::title}, ~{::.content-wrapper})}">-->
+<!--<head>-->
+<!--  <title>All Patients</title>-->
+<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
 
+<!--</head>-->
+<!--<body>-->
+<!--<div class="content-wrapper">-->
+<!--  <div class="container-fluid">-->
+<!--    <h1 class="mt-4">All Patients (All Branches)</h1>-->
+<!--    <hr>-->
+
+<!--    <div class="card bg-light mb-4 shadow-sm">-->
+<!--      <div class="card-body">-->
+<!--        <form class="row g-3 align-items-center">-->
+<!--          <div class="col-md-5">-->
+<!--            <label for="searchName" class="form-label">Search by Patient Name/ID</label>-->
+<!--            <input type="text" class="form-control" id="searchName" name="name">-->
+<!--          </div>-->
+<!--          <div class="col-md-5">-->
+<!--            <label for="filterBranch" class="form-label">Filter by Branch</label>-->
+<!--            <select class="form-select" id="filterBranch" name="branchId">-->
+<!--              <option value="">All Branches</option>-->
+<!--              <option th:each="branch : ${branchList}"-->
+<!--                      th:value="${branch.id}"-->
+<!--                      th:text="${branch.name}">-->
+<!--              </option>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--          <div class="col-md-2 d-flex align-items-end">-->
+<!--            <button type="submit" class="btn btn-primary w-100">Search</button>-->
+<!--          </div>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="card shadow-sm">-->
+<!--      <div class="card-header"><i class="bi bi-table"></i> Patient List</div>-->
+<!--      <div class="card-body">-->
+<!--        <table class="table table-hover">-->
+<!--          <thead class="table-light">-->
+<!--          <tr>-->
+<!--            <th>ID</th>-->
+<!--            <th>First Name</th>-->
+<!--            <th>Last Name</th>-->
+<!--            <th>Contact Number</th>-->
+<!--            <th>Branch</th>-->
+<!--            <th>Actions</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          <tr th:each="patient : ${patientList}">-->
+<!--            <td th:text="${patient.id}">#P001</td>-->
+<!--            <td th:text="${patient.firstName}">Nimal</td>-->
+<!--            <td th:text="${patient.lastName}">Bandara</td>-->
+<!--            <td th:text="${patient.contactNumber}">071-xxxxxxx</td>-->
+<!--            <td><span class="badge bg-secondary" th:text="${patient.branch.name}">Colombo</span></td>-->
+<!--            <td><a href="#" class="btn btn-sm btn-info">Details</a></td>-->
+<!--          </tr>-->
+<!--          </tbody>-->
+<!--        </table>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Patients</title>
 </head>
 <body>
-<div class="content-wrapper">
-  <div class="container-fluid">
-    <h1 class="mt-4">All Patients (All Branches)</h1>
-    <hr>
-
-    <div class="card bg-light mb-4 shadow-sm">
-      <div class="card-body">
-        <form class="row g-3 align-items-center">
-          <div class="col-md-5">
-            <label for="searchName" class="form-label">Search by Patient Name/ID</label>
-            <input type="text" class="form-control" id="searchName" name="name">
-          </div>
-          <div class="col-md-5">
-            <label for="filterBranch" class="form-label">Filter by Branch</label>
-            <select class="form-select" id="filterBranch" name="branchId">
-              <option value="">All Branches</option>
-              <option th:each="branch : ${branchList}"
-                      th:value="${branch.id}"
-                      th:text="${branch.name}">
-              </option>
-            </select>
-          </div>
-          <div class="col-md-2 d-flex align-items-end">
-            <button type="submit" class="btn btn-primary w-100">Search</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <div class="card shadow-sm">
-      <div class="card-header"><i class="bi bi-table"></i> Patient List</div>
-      <div class="card-body">
-        <table class="table table-hover">
-          <thead class="table-light">
-          <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Contact Number</th>
-            <th>Branch</th>
-            <th>Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="patient : ${patientList}">
-            <td th:text="${patient.id}">#P001</td>
-            <td th:text="${patient.firstName}">Nimal</td>
-            <td th:text="${patient.lastName}">Bandara</td>
-            <td th:text="${patient.contactNumber}">071-xxxxxxx</td>
-            <td><span class="badge bg-secondary" th:text="${patient.branch.name}">Colombo</span></td>
-            <td><a href="#" class="btn btn-sm btn-info">Details</a></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+<div id="sidebar-placeholder"></div>
+<div class="content">
+  <h1>All Patients (All Branches)</h1><hr>
+  <div class="card bg-light mb-4">
+    <div class="card-body"><div class="row g-3">
+      <div class="col-md-5"><label>Search by Name/Contact</label><input type="text" id="keywordFilter" class="form-control"></div>
+      <div class="col-md-5"><label>Filter by Branch</label><select id="branchFilter" class="form-select"><option value="">All Branches</option></select></div>
+      <div class="col-md-2 d-flex align-items-end"><button id="filter-btn" class="btn btn-primary w-100">Search</button></div>
+    </div></div>
   </div>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <span id="result-summary"></span>
+  </div>
+  <div class="card"><div class="table-responsive">
+    <table class="table table-hover">
+      <thead class="table-light"><tr><th>Name</th><th>Contact</th><th>Email</th><th>Gender</th><th>Actions</th></tr></thead>
+      <tbody id="patient-table-body"></tbody>
+    </table>
+  </div></div>
+  <nav class="mt-4"><ul id="pagination" class="pagination justify-content-center"></ul></nav>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/layout-loader.js"></script>
+<script>
+  const token = localStorage.getItem('authToken');
+  let currentPage = 0;
+
+  function loadPatients(page = 0) {
+    currentPage = page;
+    const keyword = document.getElementById('keywordFilter').value;
+    const branchId = document.getElementById('branchFilter').value;
+    let url = `http://localhost:8080/api/super-admin/all-patients?page=${page}&size=10&sort=fullName,asc`;
+    if (keyword) url += `&keyword=${keyword}`;
+    if (branchId) url += `&branchId=${branchId}`;
+
+    fetch(url, { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => res.json()).then(pageData => {
+      renderTable(pageData.content);
+      renderPagination(pageData);
+      document.getElementById('result-summary').textContent = `Showing ${pageData.numberOfElements} of ${pageData.totalElements} patients.`;
+    });
+  }
+
+  function renderTable(patients) {
+    const tableBody = document.getElementById('patient-table-body');
+    tableBody.innerHTML = '';
+    patients.forEach(p => {
+      tableBody.innerHTML += `<tr><td>${p.fullName}</td><td>${p.contactNumber}</td><td>${p.email || ''}</td><td>${p.gender || ''}</td><td><button class="btn btn-sm btn-info">Details</button></td></tr>`;
+    });
+  }
+
+  function renderPagination(pageData) { /* Your pagination logic here */ }
+
+  function loadBranchesForFilter() {
+    const branchFilter = document.getElementById('branchFilter');
+    fetch('http://localhost:8080/api/branches', { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => res.json()).then(branches => {
+      branches.forEach(b => branchFilter.innerHTML += `<option value="${b.id}">${b.name}</option>`);
+    });
+  }
+
+  document.getElementById('filter-btn').addEventListener('click', () => loadPatients(0));
+  document.addEventListener('DOMContentLoaded', () => {
+    loadBranchesForFilter();
+    loadPatients(0);
+  });
+</script>
 </body>
 </html>
