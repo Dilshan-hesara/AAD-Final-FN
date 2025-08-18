@@ -92,38 +92,54 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>All Appointments</title>
-  <!-- Your CSS links -->
+  <title>All Appointments Report</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/print.css" media="print">
+  <script src="../js/auth.js" defer></script>
 </head>
 <body>
 <div id="sidebar-placeholder"></div>
+
 <div class="content">
-  <h1>All Appointments (All Branches)</h1><hr>
-  <div class="card bg-light mb-4">
-    <div class="card-body"><div class="row g-3">
-      <div class="col-md-6"><label>Search by Patient Name</label><input type="text" id="patientFilter" class="form-control"></div>
-      <div class="col-md-6"><label>Search by Doctor Name</label><input type="text" id="doctorFilter" class="form-control"></div>
-      <div class="col-md-4"><label>Filter by Branch</label><select id="branchFilter" class="form-select"><option value="">All Branches</option></select></div>
-      <div class="col-md-4"><label>Filter by Date</label><input type="date" id="dateFilter" class="form-control"></div>
-      <div class="col-md-4"><label>Filter by Status</label><select id="statusFilter" class="form-select"><option value="">All</option><option>CONFIRMED</option><option>COMPLETED</option><option>CANCELLED</option></select></div>
-    </div></div>
+  <h1>All Appointments Report</h1><hr>
+
+  <!-- Filter Card -->
+  <div class="card bg-light mb-4 filter-card">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-6"><label>Search by Patient Name/Contact</label><input type="text" id="patientFilter" class="form-control" placeholder="Enter keyword..."></div>
+        <div class="col-md-6"><label>Search by Doctor Name/Specialization/Contact</label><input type="text" id="doctorFilter" class="form-control" placeholder="Enter keyword..."></div>
+        <div class="col-md-4"><label>Filter by Date</label><input type="date" id="dateFilter" class="form-control"></div>
+        <div class="col-md-4"><label>Filter by Branch</label><select id="branchFilter" class="form-select"><option value="">All Branches</option></select></div>
+        <div class="col-md-4"><label>Filter by Status</label><select id="statusFilter" class="form-select"><option value="">All Statuses</option><option value="PENDING_PAYMENT">Pending</option><option value="CONFIRMED">Confirmed</option><option value="COMPLETED">Completed</option><option value="CANCELLED">Cancelled</option></select></div>
+      </div>
+    </div>
     <div class="card-footer text-end">
-      <button id="filter-btn" class="btn btn-primary">Search / Filter</button>
+      <button id="filter-btn" class="btn btn-primary">Filter Report</button>
     </div>
   </div>
+
   <div class="d-flex justify-content-between align-items-center mb-3">
     <span id="result-summary"></span>
+    <button id="print-btn" class="btn btn-secondary"><i class="bi bi-printer"></i> Print Report</button>
   </div>
-  <div class="card"><div class="table-responsive">
-    <table class="table table-hover">
-      <thead class="table-light"><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Branch</th><th>Date & Time</th><th>Status</th></tr></thead>
-      <tbody id="appointment-table-body"></tbody>
-    </table>
-  </div></div>
+
+  <!-- Appointments Table -->
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead class="table-light"><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Branch</th><th>Date & Time</th><th>Status</th></tr></thead>
+        <tbody id="appointment-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
   <nav class="mt-4"><ul id="pagination" class="pagination justify-content-center"></ul></nav>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/layout-loader.js"></script>
 <script>
   const token = localStorage.getItem('authToken');
@@ -148,7 +164,7 @@
             .then(res => res.json()).then(pageData => {
       renderTable(pageData.content);
       renderPagination(pageData);
-      document.getElementById('result-summary').textContent = `Showing ${pageData.numberOfElements} of ${pageData.totalElements} appointments.`;
+      document.getElementById('result-summary').textContent = `Showing ${pageData.numberOfElements} of ${pageData.totalElements} results.`;
     });
   }
 
@@ -176,6 +192,7 @@
   }
 
   document.getElementById('filter-btn').addEventListener('click', () => loadAppointments(0));
+  document.getElementById('print-btn').addEventListener('click', () => window.print());
   document.addEventListener('DOMContentLoaded', () => {
     loadBranchesForFilter();
     loadAppointments(0);
