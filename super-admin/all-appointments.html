@@ -88,29 +88,149 @@
 <!--</html>-->
 
 
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>All Appointments Report</title>-->
+<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">-->
+<!--  <link rel="stylesheet" href="../css/styles.css">-->
+<!--  <link rel="stylesheet" href="../css/print.css" media="print">-->
+<!--  <script src="../js/auth.js" defer></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div id="sidebar-placeholder"></div>-->
+
+<!--<div class="content">-->
+<!--  <h1>All Appointments Report</h1><hr>-->
+
+<!--  &lt;!&ndash; Filter Card &ndash;&gt;-->
+<!--  <div class="card bg-light mb-4 filter-card">-->
+<!--    <div class="card-body">-->
+<!--      <div class="row g-3">-->
+<!--        <div class="col-md-6"><label>Search by Patient Name/Contact</label><input type="text" id="patientFilter" class="form-control" placeholder="Enter keyword..."></div>-->
+<!--        <div class="col-md-6"><label>Search by Doctor Name/Specialization/Contact</label><input type="text" id="doctorFilter" class="form-control" placeholder="Enter keyword..."></div>-->
+<!--        <div class="col-md-4"><label>Filter by Date</label><input type="date" id="dateFilter" class="form-control"></div>-->
+<!--        <div class="col-md-4"><label>Filter by Branch</label><select id="branchFilter" class="form-select"><option value="">All Branches</option></select></div>-->
+<!--        <div class="col-md-4"><label>Filter by Status</label><select id="statusFilter" class="form-select"><option value="">All Statuses</option><option value="PENDING_PAYMENT">Pending</option><option value="CONFIRMED">Confirmed</option><option value="COMPLETED">Completed</option><option value="CANCELLED">Cancelled</option></select></div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="card-footer text-end">-->
+<!--      <button id="filter-btn" class="btn btn-primary">Filter Report</button>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="d-flex justify-content-between align-items-center mb-3">-->
+<!--    <span id="result-summary"></span>-->
+<!--    <button id="print-btn" class="btn btn-secondary"><i class="bi bi-printer"></i> Print Report</button>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Appointments Table &ndash;&gt;-->
+<!--  <div class="card">-->
+<!--    <div class="table-responsive">-->
+<!--      <table class="table table-hover mb-0">-->
+<!--        <thead class="table-light"><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Branch</th><th>Date & Time</th><th>Status</th></tr></thead>-->
+<!--        <tbody id="appointment-table-body"></tbody>-->
+<!--      </table>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Pagination Controls &ndash;&gt;-->
+<!--  <nav class="mt-4"><ul id="pagination" class="pagination justify-content-center"></ul></nav>-->
+<!--</div>-->
+
+<!--<script src="js/layout-loader.js"></script>-->
+<!--<script>-->
+<!--  const token = localStorage.getItem('authToken');-->
+<!--  let currentPage = 0;-->
+
+<!--  function loadAppointments(page = 0) {-->
+<!--    currentPage = page;-->
+<!--    const patientKeyword = document.getElementById('patientFilter').value;-->
+<!--    const doctorKeyword = document.getElementById('doctorFilter').value;-->
+<!--    const branchId = document.getElementById('branchFilter').value;-->
+<!--    const status = document.getElementById('statusFilter').value;-->
+<!--    const date = document.getElementById('dateFilter').value;-->
+
+<!--    let url = `http://localhost:8080/api/super-admin/all-appointments?page=${page}&size=10&sort=appointmentDate,desc`;-->
+<!--    if (patientKeyword) url += `&patientKeyword=${patientKeyword}`;-->
+<!--    if (doctorKeyword) url += `&doctorKeyword=${doctorKeyword}`;-->
+<!--    if (branchId) url += `&branchId=${branchId}`;-->
+<!--    if (status) url += `&status=${status}`;-->
+<!--    if (date) url += `&date=${date}`;-->
+
+<!--    fetch(url, { headers: { 'Authorization': 'Bearer ' + token } })-->
+<!--            .then(res => res.json()).then(pageData => {-->
+<!--      renderTable(pageData.content);-->
+<!--      renderPagination(pageData);-->
+<!--      document.getElementById('result-summary').textContent = `Showing ${pageData.numberOfElements} of ${pageData.totalElements} results.`;-->
+<!--    });-->
+<!--  }-->
+
+<!--  function renderTable(appointments) {-->
+<!--    const tableBody = document.getElementById('appointment-table-body');-->
+<!--    tableBody.innerHTML = '';-->
+<!--    appointments.forEach(app => {-->
+<!--      tableBody.innerHTML += `<tr>-->
+<!--                    <td>#${app.id}</td><td>${app.patientName}</td><td>${app.doctorName}</td>-->
+<!--                    <td><span class="badge bg-dark">${app.branchName}</span></td>-->
+<!--                    <td>${new Date(app.appointmentDate).toLocaleString()}</td>-->
+<!--                    <td><span class="badge bg-success">${app.status}</span></td>-->
+<!--                </tr>`;-->
+<!--    });-->
+<!--  }-->
+
+<!--  function renderPagination(pageData) { /* Your pagination logic here */ }-->
+
+<!--  function loadBranchesForFilter() {-->
+<!--    const branchFilter = document.getElementById('branchFilter');-->
+<!--    fetch('http://localhost:8080/api/branch', { headers: { 'Authorization': 'Bearer ' + token } })-->
+<!--            .then(res => res.json()).then(branches => {-->
+<!--      branches.forEach(b => branchFilter.innerHTML += `<option value="${b.id}">${b.name}</option>`);-->
+<!--    });-->
+<!--  }-->
+
+<!--  document.getElementById('filter-btn').addEventListener('click', () => loadAppointments(0));-->
+<!--  document.getElementById('print-btn').addEventListener('click', () => window.print());-->
+<!--  document.addEventListener('DOMContentLoaded', () => {-->
+<!--    loadBranchesForFilter();-->
+<!--    loadAppointments(0);-->
+<!--  });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>All Appointments Report</title>
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <!-- Your Custom CSS -->
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/print.css" media="print">
+  <!-- Page Protection -->
   <script src="../js/auth.js" defer></script>
 </head>
 <body>
 <div id="sidebar-placeholder"></div>
 
 <div class="content">
-  <h1>All Appointments Report</h1><hr>
+  <h1>All Appointments Report</h1>
+  <hr>
 
   <!-- Filter Card -->
   <div class="card bg-light mb-4 filter-card">
     <div class="card-body">
       <div class="row g-3">
         <div class="col-md-6"><label>Search by Patient Name/Contact</label><input type="text" id="patientFilter" class="form-control" placeholder="Enter keyword..."></div>
-        <div class="col-md-6"><label>Search by Doctor Name/Specialization/Contact</label><input type="text" id="doctorFilter" class="form-control" placeholder="Enter keyword..."></div>
+        <div class="col-md-6"><label>Search by Doctor Name/Specialization</label><input type="text" id="doctorFilter" class="form-control" placeholder="Enter keyword..."></div>
         <div class="col-md-4"><label>Filter by Date</label><input type="date" id="dateFilter" class="form-control"></div>
         <div class="col-md-4"><label>Filter by Branch</label><select id="branchFilter" class="form-select"><option value="">All Branches</option></select></div>
         <div class="col-md-4"><label>Filter by Status</label><select id="statusFilter" class="form-select"><option value="">All Statuses</option><option value="PENDING_PAYMENT">Pending</option><option value="CONFIRMED">Confirmed</option><option value="COMPLETED">Completed</option><option value="CANCELLED">Cancelled</option></select></div>
@@ -130,7 +250,7 @@
   <div class="card">
     <div class="table-responsive">
       <table class="table table-hover mb-0">
-        <thead class="table-light"><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Branch</th><th>Date & Time</th><th>Status</th></tr></thead>
+        <thead class="table-light"><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Branch</th><th>Date & Time</th><th>Status</th><th>Actions</th></tr></thead>
         <tbody id="appointment-table-body"></tbody>
       </table>
     </div>
@@ -140,10 +260,30 @@
   <nav class="mt-4"><ul id="pagination" class="pagination justify-content-center"></ul></nav>
 </div>
 
+<!-- Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Appointment Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div id="appointment-details-body" class="modal-body">
+        <!-- Details will be loaded here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/layout-loader.js"></script>
 <script>
   const token = localStorage.getItem('authToken');
   let currentPage = 0;
+  const detailsModal = new bootstrap.Modal(document.getElementById('detailsModal'));
 
   function loadAppointments(page = 0) {
     currentPage = page;
@@ -177,11 +317,46 @@
                     <td><span class="badge bg-dark">${app.branchName}</span></td>
                     <td>${new Date(app.appointmentDate).toLocaleString()}</td>
                     <td><span class="badge bg-success">${app.status}</span></td>
+                    <td><button class="btn btn-sm btn-info" onclick="viewAppointmentDetails(${app.id})">Details</button></td>
                 </tr>`;
     });
   }
 
-  function renderPagination(pageData) { /* Your pagination logic here */ }
+  function viewAppointmentDetails(appointmentId) {
+    fetch(`http://localhost:8080/api/super-admin/all-appointments/${appointmentId}`, { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => res.json())
+            .then(app => {
+              const detailsBody = document.getElementById('appointment-details-body');
+              const appointmentDate = new Date(app.appointmentDate);
+              const feeDisplay = app.fee ? Number(app.fee).toFixed(2) : '0.00';
+
+              detailsBody.innerHTML = `
+                    <h4>Appointment #${app.id}</h4><hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Patient:</strong> ${app.patientName}</p>
+                            <p><strong>Doctor:</strong> ${app.doctorName}</p>
+                            <p><strong>Branch:</strong> ${app.branchName}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Date & Time:</strong> ${appointmentDate.toLocaleString()}</p>
+                            <p><strong>Status:</strong> ${app.status}</p>
+                            <p><strong>Fee:</strong> Rs. ${feeDisplay}</p>
+                        </div>
+                    </div>
+                    <p><strong>Reason:</strong> ${app.reason || 'N/A'}</p>
+                `;
+              detailsModal.show();
+            });
+  }
+
+  function renderPagination(pageData) {
+    const paginationUl = document.getElementById('pagination');
+    paginationUl.innerHTML = '';
+    if (pageData.totalPages <= 1) return;
+    if (!pageData.first) { paginationUl.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="event.preventDefault(); loadAppointments(${currentPage - 1})">Previous</a></li>`; }
+    if (!pageData.last) { paginationUl.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="event.preventDefault(); loadAppointments(${currentPage + 1})">Next</a></li>`; }
+  }
 
   function loadBranchesForFilter() {
     const branchFilter = document.getElementById('branchFilter');
