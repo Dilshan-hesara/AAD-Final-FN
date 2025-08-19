@@ -141,7 +141,7 @@
   </div></div>
 </div>
 
-<!-- Edit Admin Modal -->
+<!--edit modde-->
 <div class="modal fade" id="editAdminModal" tabindex="-1">
   <div class="modal-dialog"><div class="modal-content">
     <div class="modal-header"><h5 class="modal-title">Edit Branch Admin</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
@@ -149,6 +149,11 @@
       <form id="edit-admin-form">
         <input type="hidden" id="editUserId">
         <div class="mb-3"><label>Full Name</label><input type="text" id="editFullName" class="form-control" required></div>
+        <div class="mb-3"><label>Email</label><input type="email" id="editEmail" class="form-control"></div>
+        <div class="mb-3"><label>Contact Number</label><input type="text" id="editContactNumber" class="form-control"></div>
+        <hr>
+        <div class="mb-3"><label>Username</label><input type="text" id="editUsername" class="form-control" required></div>
+        <div class="mb-3"><label>New Password (Optional)</label><input type="password" id="editPassword" class="form-control" placeholder="Leave blank to keep current password"></div>
       </form>
     </div>
     <div class="modal-footer">
@@ -245,12 +250,21 @@
   });
   document.getElementById('edit-admin-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    const id = document.getElementById('editUserId').value;
-    const data = { fullName: document.getElementById('editFullName').value };
-    fetch(`http://localhost:8080/api/super-admin/branch-admins/${id}`, {
-      method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(data)
-    }).then(res => { if(res.ok) { editModal.hide(); loadAdmins(currentPage); } else { alert('Error'); }});
+    const userId = document.getElementById('editUserId').value;
+    const data = {
+      fullName: document.getElementById('editFullName').value,
+      username: document.getElementById('editUsername').value,
+      email: document.getElementById('editEmail').value,
+      contactNumber: document.getElementById('editContactNumber').value,
+      password: document.getElementById('editPassword').value
+    };
+    fetch(`http://localhost:8080/api/super-admin/branch-admins/${userId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(data)
+    }).then(res => { if(res.ok) { editModal.hide(); loadAdmins(currentPage); } else { alert('Error updating'); }});
   });
+
 
   document.addEventListener('DOMContentLoaded', () => {
     loadAdmins(0);
