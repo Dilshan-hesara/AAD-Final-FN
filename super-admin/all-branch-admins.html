@@ -220,12 +220,29 @@
 
   document.getElementById('add-admin-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    const data = { fullName: document.getElementById('addFullName').value, branchId: document.getElementById('addBranchId').value, username: document.getElementById('addUsername').value, password: document.getElementById('addPassword').value };
+    const data = {
+      fullName: document.getElementById('addFullName').value,
+      branchId: document.getElementById('addBranchId').value,
+      username: document.getElementById('addUsername').value,
+      password: document.getElementById('addPassword').value,
+      // --- SEND THE NEW DATA ---
+      email: document.getElementById('addEmail').value,
+      contactNumber: document.getElementById('addContactNumber').value
+    };
     fetch('http://localhost:8080/api/super-admin/branch-admins', {
-      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(data)
-    }).then(res => { if(res.ok) { addModal.hide(); this.reset(); loadAdmins(0); } else { alert('Error'); }});
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(data)
+    }).then(res => {
+      if(res.ok) {
+        addModal.hide();
+        this.reset();
+        loadAdmins(0);
+      } else {
+        alert('Error adding admin.');
+      }
+    });
   });
-
   document.getElementById('edit-admin-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const id = document.getElementById('editUserId').value;
