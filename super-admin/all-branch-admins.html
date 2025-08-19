@@ -123,11 +123,15 @@
     <div class="modal-header"><h5 class="modal-title">Add New Branch Admin</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
     <div class="modal-body">
       <form id="add-admin-form">
-        <div class="mb-3"><label>Full Name</label><input type="text" id="addFullName" class="form-control" required></div>
-        <div class="mb-3"><label>Assign to Branch</label><select id="addBranchId" class="form-select" required><option value="">Loading...</option></select></div>
+        <div class="mb-3"><label class="form-label">Full Name</label><input type="text" id="addFullName" class="form-control" required></div>
+        <!-- NEW FIELDS -->
+        <div class="mb-3"><label class="form-label">Email</label><input type="email" id="addEmail" class="form-control"></div>
+        <div class="mb-3"><label class="form-label">Contact Number</label><input type="text" id="addContactNumber" class="form-control"></div>
+        <!-- END OF NEW FIELDS -->
+        <div class="mb-3"><label class="form-label">Assign to Branch</label><select id="addBranchId" class="form-select" required><option value="">Loading...</option></select></div>
         <hr>
-        <div class="mb-3"><label>Username</label><input type="text" id="addUsername" class="form-control" required></div>
-        <div class="mb-3"><label>Password</label><input type="password" id="addPassword" class="form-control" required></div>
+        <div class="mb-3"><label class="form-label">Username</label><input type="text" id="addUsername" class="form-control" required></div>
+        <div class="mb-3"><label class="form-label">Password</label><input type="password" id="addPassword" class="form-control" required></div>
       </form>
     </div>
     <div class="modal-footer">
