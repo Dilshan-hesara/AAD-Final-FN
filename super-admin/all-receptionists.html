@@ -250,8 +250,6 @@
 <!--</body>-->
 <!--</html>-->
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -285,6 +283,7 @@
   <nav class="mt-4"><ul id="pagination" class="pagination justify-content-center"></ul></nav>
 </div>
 
+<!-- Details Modal -->
 <div class="modal fade" id="detailsModal" tabindex="-1">
   <div class="modal-dialog"><div class="modal-content">
     <div class="modal-header"><h5 class="modal-title">Receptionist Details</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
@@ -294,7 +293,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/layout-loader.js"></script>
+<script src="../js/super-admin/layout-loader.js"></script>
 <script>
   const token = localStorage.getItem('authToken');
   let currentPage = 0;
@@ -325,7 +324,6 @@
       const actionButton = isActive
               ? `<button class="btn btn-warning btn-sm" onclick="updateStatus(${rec.userId}, 'deactivate')">Deactivate</button>`
               : `<button class="btn btn-success btn-sm" onclick="updateStatus(${rec.userId}, 'activate')">Activate</button>`;
-
       tableBody.innerHTML += `
                     <tr>
                         <td>${rec.fullName}</td><td>${rec.username}</td>
@@ -340,7 +338,6 @@
   }
 
   function updateStatus(id, action) {
-    // NOTE: You need to create these endpoints in your SuperAdminApiController
     if (!confirm(`Are you sure you want to ${action} this user?`)) return;
     fetch(`http://localhost:8080/api/super-admin/all-receptionists/${id}/${action}`, {
       method: 'PATCH',
@@ -352,21 +349,36 @@
   }
 
   function viewDetails(userId) {
-    // NOTE: You need to create this endpoint in your SuperAdminApiController
     fetch(`http://localhost:8080/api/super-admin/all-receptionists/${userId}`, { headers: { 'Authorization': 'Bearer ' + token } })
             .then(res => res.json())
             .then(rec => {
               const detailsBody = document.getElementById('details-body');
-              detailsBody.innerHTML = `<h4>${rec.fullName}</h4><p class="text-muted">${rec.username}</p><hr>
+              detailsBody.innerHTML = `
+                    <h4>${rec.fullName}</h4><p class="text-muted">${rec.username}</p><hr>
                     <p><strong>Branch:</strong> ${rec.branchName || 'N/A'}</p>
                     <p><strong>Contact:</strong> ${rec.contactNumber || 'N/A'}</p>
                     <p><strong>Email:</strong> ${rec.email || 'N/A'}</p>
-                    <p><strong>Account Status:</strong> ${rec.active ? 'ACTIVE' : 'INACTIVE'}</p>`;
+                    <p><strong>Account Status:</strong> ${rec.active ? 'ACTIVE' : 'INACTIVE'}</p>
+                `;
               detailsModal.show();
             });
   }
 
-  // --- Your other functions (renderPagination, loadBranchesForFilter) go here ---
+  function renderPagination(pageData) {
+    const paginationUl = document.getElementById('pagination');
+    paginationUl.innerHTML = '';
+    if (pageData.totalPages <= 1) return;
+    if (!pageData.first) { paginationUl.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="event.preventDefault(); loadReceptionists(${currentPage - 1})">Previous</a></li>`; }
+    if (!pageData.last) { paginationUl.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="event.preventDefault(); loadReceptionists(${currentPage + 1})">Next</a></li>`; }
+  }
+
+  function loadBranchesForFilter() {
+    const branchFilter = document.getElementById('branchFilter');
+    fetch('http://localhost:8080/api/branches', { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => res.json()).then(branches => {
+      branches.forEach(b => branchFilter.innerHTML += `<option value="${b.id}">${b.name}</option>`);
+    });
+  }
 
   document.getElementById('filter-btn').addEventListener('click', () => loadReceptionists(0));
   document.addEventListener('DOMContentLoaded', () => {
