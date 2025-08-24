@@ -81,8 +81,7 @@
     currentPage = page;
     const name = document.getElementById('nameFilter').value;
 
-    // ✅✅✅ THE FIX IS HERE ✅✅✅
-    // We changed 'sort=fullName,asc' to 'sort=staffProfile.fullName,asc'
+
     let url = `http://localhost:8080/api/receptionists?page=${page}&size=5&sort=staffProfile.fullName,asc`;
 
     if (name) {
@@ -95,7 +94,7 @@
                 // If the server response is not OK, throw an error to be caught by .catch()
                 throw new Error(`HTTP error! status: ${response.status}`);
               }
-              return response.json(); // This will no longer fail
+              return response.json();
             })
             .then(pageData => {
               renderTable(pageData.content);
