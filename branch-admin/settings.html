@@ -41,7 +41,6 @@
       alertPlaceholder.html(`<div class="alert alert-${type}" role="alert">${message}</div>`);
     }
 
-    // Load the current fee when the page loads
     $.ajax({
       url: 'http://localhost:8080/api/settings/appointment-fee',
       type: 'GET',
@@ -51,7 +50,6 @@
       }
     });
 
-    // Handle the form submission to update the fee
     $('#fee-form').on('submit', function(e) {
       e.preventDefault();
       const newFee = feeInput.val();
