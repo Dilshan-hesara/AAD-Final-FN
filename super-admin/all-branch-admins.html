@@ -371,7 +371,38 @@
     loadBranchesForDropdown();
   });
 
-  function renderPagination(pageData) { /* Your pagination logic here */ }
+  function renderPagination(pageData) { }
+
+
+
+  function loadAdmins(page = 0) {
+    currentPage = page;
+    const keyword = document.getElementById('keywordFilter').value;
+    const branchId = document.getElementById('branchFilter').value;
+    let url = `http://localhost:8080/api/super-admin/branch-admins?page=${page}&size=5&sort=staffProfile.fullName,asc`;
+    if (keyword) url += `&keyword=${keyword}`;
+    if (branchId) url += `&branchId=${branchId}`;
+
+    fetch(url, { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => res.json()).then(pageData => {
+      renderTable(pageData.content);
+      renderPagination(pageData);
+    });
+  }
+
+  function loadBranchesForFilter() {
+    const branchFilter = document.getElementById('branchFilter');
+    fetch('http://localhost:8080/api/branch', { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => res.json()).then(branches => {
+      branches.forEach(b => branchFilter.innerHTML += `<option value="${b.id}">${b.name}</option>`);
+    });
+  }
+
+  document.getElementById('filter-btn').addEventListener('click', () => loadAdmins(0));
+  document.addEventListener('DOMContentLoaded', () => {
+    loadAdmins(0);
+    loadBranchesForFilter();
+  });
 </script>
 </body>
 </html>
