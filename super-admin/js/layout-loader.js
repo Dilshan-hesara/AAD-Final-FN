@@ -75,18 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
 //         });
 // }
 
-function attachLogoutEvent() {
-    document.body.addEventListener('click', function(e) {
-        if (e.target && e.target.id === 'logout-button') {
-            e.preventDefault();
-            localStorage.removeItem('authToken');
-            window.location.href = 'login.html';
-        }
-    });
 
 
-
-}
+4
 
 function fetchSuperAdminProfile() {
     const token = localStorage.getItem('authToken');
@@ -107,5 +98,17 @@ function fetchSuperAdminProfile() {
 
 
 
+}
+
+
+
+function attachLogoutEvent() {
+    document.body.addEventListener('click', function(e) {
+        if (e.target && e.target.id === 'logout-button') {
+            e.preventDefault();
+            localStorage.removeItem('authToken');
+            window.location.href = '../login.html';
+        }
+    });
 }
 
