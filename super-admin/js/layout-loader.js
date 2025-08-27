@@ -49,31 +49,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-function fetchSuperAdminProfile() {
-    const token = localStorage.getItem('authToken');
-    fetch('http://localhost:8080/api/staff/my-profile', {
-        headers: { 'Authorization': 'Bearer ' + token }
-    })
-        .then(res => {
-            if (!res.ok) {
-                throw new Error('Failed to fetch profile: ' + res.statusText);
-            }
-            return res.json();
-        })
-        .then(profile => {
-            const adminNameElement = document.getElementById('super-admin-name');
-            if(adminNameElement) {
-                adminNameElement.textContent = `Welcome, ${profile.fullName}`;
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching super admin profile:', error);
-            const adminNameElement = document.getElementById('super-admin-name');
-            if(adminNameElement) {
-                adminNameElement.textContent = 'Welcome, Guest';
-            }
-        });
-}
+// function fetchSuperAdminProfile() {
+//     const token = localStorage.getItem('authToken');
+//     fetch('http://localhost:8080/api/staff/my-profile', {
+//         headers: { 'Authorization': 'Bearer ' + token }
+//     })
+//         .then(res => {
+//             if (!res.ok) {
+//                 throw new Error('Failed to fetch profile: ' + res.statusText);
+//             }
+//             return res.json();
+//         })
+//         .then(profile => {
+//             const adminNameElement = document.getElementById('super-admin-name');
+//             if(adminNameElement) {
+//                 adminNameElement.textContent = `Welcome, ${profile.fullName}`;
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error fetching super admin profile:', error);
+//             const adminNameElement = document.getElementById('super-admin-name');
+//             if(adminNameElement) {
+//                 adminNameElement.textContent = 'Welcome, Guest';
+//             }
+//         });
+// }
 
 function attachLogoutEvent() {
     document.body.addEventListener('click', function(e) {
@@ -83,4 +83,24 @@ function attachLogoutEvent() {
             window.location.href = 'login.html';
         }
     });
+
+
+
+}
+
+function fetchSuperAdminProfile() {
+    const token = localStorage.getItem('authToken');
+    fetch('http://localhost:8080/api/staff/my-profile', {
+        headers: { 'Authorization': 'Bearer ' + token }
+    })
+        .then(res => res.json())
+        .then(profile => {
+            // Update the name
+            document.getElementById('super-admin-name').textContent = `Welcome, ${profile.fullName}`;
+
+            // --- UPDATE THE PROFILE PICTURE ---
+            if (profile.profilePictureUrl) {
+                document.getElementById('sidebar-profile-pic').src = 'http://localhost:8080' + profile.profilePictureUrl;
+            }
+        });
 }
