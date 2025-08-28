@@ -7,6 +7,7 @@
                 sidebarPlaceholder.innerHTML = sidebarHtml;
                 fetchProfileData();
                 attachLogoutEvent();
+                fetchSuperAdminProfile();
             });
     }
 });
@@ -30,6 +31,26 @@ function fetchProfileData() {
         .catch(error => console.error('Error loading profile data:', error));
 }
 
+                                                            function fetchSuperAdminProfile() {
+                                                                const token = localStorage.getItem('authToken');
+                                                                fetch('http://localhost:8080/api/super-admin/my-profile', {
+                                                                    headers: { 'Authorization': 'Bearer ' + token }
+                                                                })
+                                                                    .then(res => res.json())
+                                                                    .then(profile => {
+
+                                                                        document.getElementById('sidebar-admin-name').textContent = `Welcome, ${profile.fullName}`;
+
+                                                                        if (profile.profilePictureUrl) {
+                                                                            document.getElementById('sidebar-profile-pic').src = 'http://localhost:8080' + profile.profilePictureUrl;
+                                                                        }
+
+
+                                                                    });
+
+
+
+                                                            }
 
 
 
@@ -146,3 +167,15 @@ function fetchProfileData() {
                                                             }
 
                                                             // ... your existing attachLogoutEvent and setActiveLink functions
+
+
+
+
+
+
+
+
+
+
+
+
