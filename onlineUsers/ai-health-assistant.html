@@ -31,19 +31,6 @@
 </head>
 <body style="background-color: #f8f9fa;">
 
-<!--<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">-->
-<!--    <div class="container">-->
-<!--        <a class="navbar-brand fw-bold" th:href="@{/}"><i class="bi bi-hospital"></i> HMS</a>-->
-<!--        <div class="collapse navbar-collapse">-->
-<!--            <ul class="navbar-nav ms-auto">-->
-<!--                <li class="nav-item"><a class="nav-link" th:href="@{/my-appointments}">My Appointments</a></li>-->
-<!--                <li class="nav-item"><a class="nav-link" th:href="@{/profile}">My Profile</a></li>-->
-<!--                <li class="nav-item"><a class="nav-link active" th:href="@{/ai-assistant}">AI Assistant</a></li>-->
-<!--                <li class="nav-item"><a class="btn btn-outline-danger" th:href="@{/logout}">Logout</a></li>-->
-<!--            </ul>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</nav>-->
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -79,7 +66,6 @@
 <script src="../js/user-layout-loader.js"></script>
 
 <script>
-    // This is a simple script to simulate the chat. A real implementation would use AJAX/Fetch to talk to the backend.
     const form = document.getElementById('message-form');
     const input = document.getElementById('user-input');
     const chatWindow = document.getElementById('chat-window');
@@ -88,14 +74,13 @@
         e.preventDefault();
         if (input.value.trim() === '') return;
 
-        // Display user message
         const userBubble = document.createElement('div');
         userBubble.className = 'message-bubble user-message';
         userBubble.textContent = input.value;
         chatWindow.appendChild(userBubble);
 
         input.value = '';
-        chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll to bottom
+        chatWindow.scrollTop = chatWindow.scrollHeight;
     });
 </script>
 
