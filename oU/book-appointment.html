@@ -3,39 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>Book Appointment</title>
-  <!-- jQuery and Select2 CSS -->
 </head>
 <body>
-<!-- Your User Navbar/Layout Here -->
 <div class="container mt-5">
   <h1>Book an Appointment</h1><hr>
   <div class="card"><div class="card-body">
     <form id="book-appointment-form">
-      <!-- Branch & Doctor Select2 dropdowns, Date input, Reason textarea -->
       <button type="submit" class="btn btn-success">Confirm & Pay</button>
     </form>
   </div></div>
 </div>
-<!-- jQuery and Select2 JS -->
 <script>
   $(document).ready(function() {
     const token = localStorage.getItem('authToken');
-    // Your existing jQuery AJAX code for loading dropdowns is correct
-    // ...
-    // Form submission logic
+
     $('#book-appointment-form').on('submit', function(e) {
       e.preventDefault();
-      const appointmentData = { /* ... get data from form */ };
+      const appointmentData = { };
       $.ajax({
         url: 'http://localhost:8080/api/user/book-appointment',
         type: 'POST',
-        headers: { /* ... auth headers */ },
+        headers: {  },
         data: JSON.stringify(appointmentData),
         success: function(response) {
-          // Redirect to payment page with the new appointment ID
           window.location.href = `payment.html?id=${response.appointmentId}`;
         },
-        error: function() { /* ... error handling */ }
+        error: function() {  }
       });
     });
   });
