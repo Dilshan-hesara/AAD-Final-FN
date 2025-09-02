@@ -3,18 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Welcome - HMS</title>
-  <!-- Your welcome page CSS -->
 </head>
 <body>
-<!-- Your welcome page HTML -->
 <a href="login.html" class="btn btn-outline-light me-2">Login</a>
 <a href="register.html" class="btn btn-primary">Register</a>
 <script>
-  // If a user is already logged in, redirect them to their dashboard
   const token = localStorage.getItem('authToken');
   if (token) {
-    // A simple way to check the role would be to decode the JWT on the client
-    // For now, we'll just redirect to a generic dashboard
     window.location.href = 'user-dashboard.html';
   }
 </script>
