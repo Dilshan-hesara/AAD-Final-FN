@@ -54,47 +54,39 @@ function fetchSuperAdminProfile() {
 
 
 
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
+    if (sidebarPlaceholder) {
+        fetch('../components/sidebar.html')
+            .then(response => response.text())
+            .then(sidebarHtml => {
+                sidebarPlaceholder.innerHTML = sidebarHtml;
+                fetchProfileAndDashboardData();
+                attachLogoutEvent();
+                setActiveLink();
+            });
+    }
+});
 
 
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
+    if (sidebarPlaceholder) {
+        fetch('../components/sidebar.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Could not find sidebar.html. Check the file path.');
+                return response.text();
+            })
+            .then(sidebarHtml => {
+                sidebarPlaceholder.innerHTML = sidebarHtml;
+                fetchProfileAndDashboardData();
+                attachLogoutEvent();
+                setActiveLink();
+            })
+            .catch(error => console.error("Error loading sidebar component:", error));
+    }
+});
 
-
-                                                            document.addEventListener('DOMContentLoaded', function() {
-                                                                const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
-                                                                if (sidebarPlaceholder) {
-                                                                    fetch('../components/sidebar.html')
-                                                                        .then(response => response.text())
-                                                                        .then(sidebarHtml => {
-                                                                            sidebarPlaceholder.innerHTML = sidebarHtml;
-                                                                            fetchProfileAndDashboardData();
-                                                                            attachLogoutEvent();
-                                                                            setActiveLink();
-                                                                        });
-                                                                }
-                                                            });
-
-
-
-
-
-
-                                                            document.addEventListener('DOMContentLoaded', function() {
-                                                                const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
-                                                                if (sidebarPlaceholder) {
-                                                                    fetch('../components/sidebar.html')
-                                                                        .then(response => {
-                                                                            if (!response.ok) throw new Error('Could not find sidebar.html. Check the file path.');
-                                                                            return response.text();
-                                                                        })
-                                                                        .then(sidebarHtml => {
-                                                                            sidebarPlaceholder.innerHTML = sidebarHtml;
-
-                                                                            fetchProfileAndDashboardData();
-                                                                            attachLogoutEvent();
-                                                                            setActiveLink();
-                                                                        })
-                                                                        .catch(error => console.error("Error loading sidebar component:", error));
-                                                                }
-                                                            });
 
 
                                                             function attachLogoutEvent() {
