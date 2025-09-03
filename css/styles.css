@@ -3,14 +3,13 @@ body {
     background-color: #f8f9fa;
 }
 
-/* Sidebar Styles */
 .sidebar {
     width: 280px;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #2c3e50; /* Dark Blue-Gray Color */
+    background-color: #2c3e50;
     padding-top: 20px;
     color: white;
     box-shadow: 2px 0 5px rgba(0,0,0,0.1);
@@ -41,9 +40,8 @@ body {
     font-weight: bold;
 }
 
-/* Main Content Area */
 .content {
-    margin-left: 280px; /* Same as sidebar width */
+    margin-left: 280px;
     padding: 30px;
     width: 100%;
 }
@@ -61,7 +59,6 @@ body { display: flex; background-color: #f8f9fa; }
 
 /*\\PRIEND DASH*/
 
-/* css/print.css */
 @media print {
     body {
         background-color: white;

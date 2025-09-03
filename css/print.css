@@ -1,7 +1,5 @@
-/* This stylesheet is only applied when the page is being printed */
 @media print {
 
-    /* Hide non-essential elements */
     .sidebar,
     .filter-card,
     .btn,
@@ -10,24 +8,20 @@
         display: none !important;
     }
 
-    /* Ensure the main content takes up the full page width */
     .content {
         margin-left: 0;
         padding: 0;
     }
 
-    /* Remove shadows and add a simple border to cards for a cleaner look */
     .card {
         box-shadow: none !important;
         border: 1px solid #dee2e6 !important;
     }
 
-    /* Ensure the background is white for printing */
     body {
         background-color: #ffffff;
     }
 
-    /* Style the bill modal specifically for printing */
     .modal {
         position: relative;
         overflow: visible;
