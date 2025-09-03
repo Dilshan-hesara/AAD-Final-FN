@@ -166,7 +166,6 @@ function fetchProfileData() {
                                                                     .catch(error => console.error('Error loading page data:', error));
                                                             }
 
-                                                            // ... your existing attachLogoutEvent and setActiveLink functions
 
 
 
