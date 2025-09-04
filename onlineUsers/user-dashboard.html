@@ -20,11 +20,11 @@
 
 
 
-        .main-content {
-            margin-left: var(--sidebar-width);
-            flex-grow: 1;
-            padding: 40px;
-        }
+        /*.main-content {*/
+        /*    margin-left: var(--sidebar-width);*/
+        /*    flex-grow: 1;*/
+        /*    padding: 40px;*/
+        /*}*/
 
         header h2 {
             font-weight: 700;
@@ -102,26 +102,28 @@
 </head>
 <body>
 
-<div class="sidebar">
-    <div class="profile">
-        <img id="profile-pic" src="https://via.placeholder.com/150" alt="Patient Avatar" class="rounded-circle mb-2">
-        <h5 id="profile-name" class="mb-0">Loading...</h5>
-        <small id="patient-id" class="text-muted"></small>
-    </div>
-    <nav class="nav flex-column">
-        <a class="nav-link active" href="user-dashboard.html"><i class="bi bi-grid-1x2-fill"></i>Dashboard</a>
-        <a class="nav-link" href="my-appointments.html"><i class="bi bi-calendar2-check-fill"></i>My Appointments</a>
-        <a class="nav-link" href="user-profile.html"><i class="bi bi-person-fill"></i>My Profile</a>
-        <hr class="mx-3">
-        <a class="nav-link" href="#" id="logout-button"><i class="bi bi-box-arrow-left"></i>Logout</a>
-    </nav>
-</div>
+<!--<div class="sidebar">-->
+
+<!--    <nav class="nav flex-column">-->
+<!--        <a class="nav-link active" href="user-dashboard.html"><i class="bi bi-grid-1x2-fill"></i>Dashboard</a>-->
+<!--        <a class="nav-link" href="my-appointments.html"><i class="bi bi-calendar2-check-fill"></i>My Appointments</a>-->
+<!--        <a class="nav-link" href="user-profile.html"><i class="bi bi-person-fill"></i>My Profile</a>-->
+<!--        <hr class="mx-3">-->
+<!--        <a class="nav-link" href="#" id="logout-button"><i class="bi bi-box-arrow-left"></i>Logout</a>-->
+<!--    </nav>-->
+<!--</div>-->
 
 <div class="main-content">
     <header class="mb-4">
         <h2 id="welcome-header">Welcome Back!</h2>
         <p id="current-date" class="text-muted"></p>
     </header>
+
+    <div class="profile">
+        <img id="profile-pic" src="https://via.placeholder.com/150" alt="Patient Avatar" class="rounded-circle mb-2">
+        <h5 id="profile-name" class="mb-0">Loading...</h5>
+        <small id="patient-id" class="text-muted"></small>
+    </div>
     <div class="row g-4">
         <div class="col-md-6">
             <div id="upcoming-appointment-card" class="stat-card bg-primary">
