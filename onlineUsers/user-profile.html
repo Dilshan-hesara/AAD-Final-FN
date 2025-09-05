@@ -80,14 +80,35 @@
       }
     });
   }
-  //
-  // document.getElementById('update-profile-form').addEventListener('submit', function(e) {
-  //   e.preventDefault();
-  //   const data = { fullName: document.getElementById('fullName').value, email: document.getElementById('email').value, contactNumber: document.getElementById('contactNumber').value };
-  //   fetch('http://localhost:8080/api/user/my-profile/update', {
-  //     method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(data)
-  //   }).then(res => res.ok ? showAlert('Profile updated!', 'success') : showAlert('Error!', 'danger'));
-  // });
+
+
+  document.getElementById('change-password-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = {
+          currentPassword: document.getElementById('currentPassword').value,
+          newPassword: document.getElementById('newPassword').value
+      };
+      fetch('http://localhost:8080/api/user/my-profile/change-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify(data)
+      }).then(res => {
+          if (res.ok) {
+              showAlert('Password changed successfully!', 'success');
+              this.reset(); // Clear the form
+          } else {
+              res.text().then(text => showAlert(`Error: ${text}`, 'danger'));
+          }
+      });
+  });
+
+  document.getElementById('update-profile-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const data = { fullName: document.getElementById('fullName').value, email: document.getElementById('email').value, contactNumber: document.getElementById('contactNumber').value };
+    fetch('http://localhost:8080/api/user/my-profile/update', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(data)
+    }).then(res => res.ok ? showAlert('Profile updated!', 'success') : showAlert('Error!', 'danger'));
+  });
   const backendBaseUrl = 'http://localhost:8080'; // Define backend URL once
 
   document.getElementById('upload-pic-form').addEventListener('submit', function(e) {
