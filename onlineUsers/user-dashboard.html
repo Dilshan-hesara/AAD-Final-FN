@@ -26,14 +26,7 @@
         /*    padding: 40px;*/
         /*}*/
 
-        header h2 {
-            font-weight: 700;
-            color: #333;
-        }
 
-        header p {
-            color: #6c757d;
-        }
 
         .stat-card {
             color: #fff;
@@ -83,24 +76,23 @@
             border-bottom-width: 2px;
         }
 
-        .badge.bg-secondary {
-            background-color: #6c757d !important;
-        }
-        .badge.bg-success {
-            background-color: #198754 !important;
-        }
-        .badge.bg-warning {
-            background-color: #ffc107 !important;
-        }
-        .badge.bg-danger {
-            background-color: #dc3545 !important;
-        }
+        .badge.bg-secondary
 
 
     </style>
     <script src="js/auth.js" defer></script>
 </head>
 <body>
+
+
+<div class="branch-name text-center mb-2">
+    <h4 class="text-white">Branch Portal</h4>
+    <img id="sidebar-profile-pic" src="https://via.placeholder.com/80" class="rounded-circle mb-2" alt="Avatar" width="80" height="80">
+
+    <h5 id="sidebar-branch-name" class="text-white-50">Loading...</h5>
+    <p id="sidebar-admin-name" class="small text-white-50"></p>
+</div>
+
 
 <!--<div class="sidebar">-->
 
@@ -112,6 +104,7 @@
 <!--        <a class="nav-link" href="#" id="logout-button"><i class="bi bi-box-arrow-left"></i>Logout</a>-->
 <!--    </nav>-->
 <!--</div>-->
+<div id="navbar-placeholder"></div>
 
 <div class="main-content">
     <header class="mb-4">
@@ -124,6 +117,10 @@
         <h5 id="profile-name" class="mb-0">Loading...</h5>
         <small id="patient-id" class="text-muted"></small>
     </div>
+
+
+
+
     <div class="row g-4">
         <div class="col-md-6">
             <div id="upcoming-appointment-card" class="stat-card bg-primary">
@@ -155,6 +152,7 @@
     </div>
 </div>
 <script src="../js/user-layout-loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
