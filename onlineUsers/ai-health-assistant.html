@@ -150,8 +150,16 @@
         const wrapper = document.createElement('div');
         wrapper.className = `chat-message ${sender === 'user' ? 'user-message' : 'ai-message'}`;
 
-        const userProfilePicUrl = document.getElementById('nav-profile-pic').src || 'images/default-avatar.png';
+        // const userProfilePicUrl = document.getElementById('nav-profile-pic').src ;
 
+
+// 1. මුලින්ම ID එක භාවිතා කර සම්පූර්ණ image element එකම තෝරාගන්න
+        const userProfilePicUrl = document.getElementById('nav-profile-pic').src;
+
+// // 2. දැන් ඒ තෝරාගත් element එකට attributes එකතු කරන්න
+//         userProfilePicUrl.setAttribute('width', '32');
+//         userProfilePicUrl.setAttribute('height', '32');
+//         userProfilePicUrl.setAttribute('class', 'rounded-circle');
 
         let avatarElement;
 
