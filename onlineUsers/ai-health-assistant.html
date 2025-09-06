@@ -149,15 +149,13 @@
     function appendMessage(message, sender) {
         const wrapper = document.createElement('div');
         wrapper.className = `chat-message ${sender === 'user' ? 'user-message' : 'ai-message'}`;
-        // <img id="nav-profile-pic" src="" width="32" height="32" className="rounded-circle"/>
 
+        const userProfilePicUrl = document.getElementById('nav-profile-pic').src || 'images/default-avatar.png';
 
-        const userProfilePicUrl = 'nav-profile-pic';
 
         let avatarElement;
 
         if (sender === 'user') {
-
             avatarElement = document.createElement('img');
             avatarElement.src = userProfilePicUrl;
             avatarElement.className = 'avatar-img';
@@ -165,7 +163,6 @@
             avatarElement = document.createElement('i');
             avatarElement.className = 'bi bi-robot avatar';
         }
-
 
         const bubble = document.createElement('div');
         bubble.className = 'bubble';
