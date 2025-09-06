@@ -6,20 +6,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <style>
-        /* ප්‍රධාන chat container එක. Flexbox පාවිච්චි කරලා තියෙන්නේ chat box එක සහ input එක පිළිවෙලට තියාගන්න */
         .chat-container {
             display: flex;
             flex-direction: column;
-            height: 75vh; /* මුළු chat component එකේම උස මෙතනින් සකසන්න */
+            height: 75vh;
             border: 1px solid #ccc;
             border-radius: .375rem;
-            overflow: hidden; /* මෙමගින් කොන් වටකුරු ලෙස පවතී */
+            overflow: hidden;
         }
 
-        /* * Chat messages පෙන්වන කොටස. මේක තමයි scroll වෙන්න ඕන.
-         * flex-grow: 1; -> කියන්නේ ඉතුරු ඔක්කොම ඉඩ මේකට ගන්න කියන එක.
-         * overflow-y: auto; -> කියන්නේ messages වැඩි උනාම ඉබේම scroll bar එකක් දාන්න කියන එක.
-        */
+
         #chat-box {
             flex-grow: 1;
             overflow-y: auto;
@@ -50,6 +46,12 @@
             align-self: flex-end;
             flex-direction: row-reverse;
         }
+        .avatar-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
 
         .user-message .bubble {
             background-color: #0d6efd;
@@ -65,7 +67,6 @@
             color: #333;
         }
 
-        /* Input bar එක තියෙන form එක. මේක scroll වෙන්නෙ නෑ. */
         #chat-form {
             padding: 1rem;
             background-color: #f8f9fa;
@@ -115,51 +116,26 @@
     </div>
 </div>
 <script src="../js/user-layout-loader.js"></script>
+<script src="../js/ai-user-layout-loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     const token = localStorage.getItem('authToken');
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
-    const chatBox = document.getElementById('chat-box'); // Scroll වෙන div එක
+    const chatBox = document.getElementById('chat-box');
 
     function cleanResponse(text) {
         return text.replace(/```[a-zA-Z]*\n?/g, '').replace(/```/g, '').trim();
     }
 
-    // function appendMessage(message, sender) {
-    //     const wrapper = document.createElement('div');
-    //     wrapper.className = `chat-message ${sender === 'user' ? 'user-message' : 'ai-message'}`;
-    //
-    //     const icon = document.createElement('i');
-    //     icon.className = `bi ${sender === 'user' ? 'bi-person-circle' : 'bi-robot'} avatar`;
-    //
-    //     const bubble = document.createElement('div');
-    //     bubble.className = 'bubble';
-    //     bubble.innerHTML = message;
-    //
-    //     wrapper.appendChild(icon);
-    //     wrapper.appendChild(bubble);
-    //     chatBox.appendChild(wrapper);
-    //
-    //     // --- මෙන්න මේ පේලියෙන් තමයි ඉබේම පල්ලෙහාට scroll වෙන්නෙ ---
-    //     // chatBox එකේ scroll කරන්න පුළුවන් සම්පූර්ණ උසටම උඩ ඉඳන් scroll කරනවා.
-    //     chatBox.scrollTop = chatBox.scrollHeight;
-    // }
 
     function appendMessage(message, sender) {
         const wrapper = document.createElement('div');
         wrapper.className = `chat-message ${sender === 'user' ? 'user-message' : 'ai-message'}`;
 
-        // const userProfilePicUrl = document.getElementById('nav-profile-pic').src ;
-
-
-// 1. මුලින්ම ID එක භාවිතා කර සම්පූර්ණ image element එකම තෝරාගන්න
         const userProfilePicUrl = document.getElementById('nav-profile-pic').src;
 
-// // 2. දැන් ඒ තෝරාගත් element එකට attributes එකතු කරන්න
-//         userProfilePicUrl.setAttribute('width', '32');
-//         userProfilePicUrl.setAttribute('height', '32');
-//         userProfilePicUrl.setAttribute('class', 'rounded-circle');
+
 
         let avatarElement;
 
@@ -192,7 +168,6 @@
         chatInput.value = '';
         chatInput.focus();
 
-        // Typing indicator එක පෙන්නනවා
         const typingIndicator = document.createElement('div');
         typingIndicator.id = 'typing-indicator';
         typingIndicator.className = 'chat-message ai-message';
@@ -200,9 +175,8 @@
             <i class="bi bi-robot avatar"></i>
             <div class="bubble"><div class="spinner-grow spinner-grow-sm" role="status"></div></div>`;
         chatBox.appendChild(typingIndicator);
-        chatBox.scrollTop = chatBox.scrollHeight; // Typing indicator එකත් එක්කම scroll කරනවා
+        chatBox.scrollTop = chatBox.scrollHeight;
 
-        // Backend එකට කතා කරනවා
         fetch('http://localhost:8080/api/ai/chat', {
             method: 'POST',
             headers: {
@@ -218,7 +192,7 @@
                 return res.json();
             })
             .then(data => {
-                document.getElementById('typing-indicator')?.remove(); // Typing indicator එක අයින් කරනවා
+                document.getElementById('typing-indicator')?.remove();
                 appendMessage(cleanResponse(data.reply), 'ai');
             })
             .catch(error => {
