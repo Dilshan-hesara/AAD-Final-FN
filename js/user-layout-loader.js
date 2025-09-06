@@ -29,7 +29,7 @@ function loadUserProfile() {
         if (e.target && e.target.id === 'logout-button') {
             e.preventDefault();
             localStorage.removeItem('authToken');
-            window.location.href = 'login.html';
+            window.location.href = '../login.html';
         }
     });
 }
