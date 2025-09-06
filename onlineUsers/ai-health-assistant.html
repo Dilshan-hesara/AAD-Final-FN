@@ -149,9 +149,10 @@
     function appendMessage(message, sender) {
         const wrapper = document.createElement('div');
         wrapper.className = `chat-message ${sender === 'user' ? 'user-message' : 'ai-message'}`;
+        // <img id="nav-profile-pic" src="" width="32" height="32" className="rounded-circle"/>
 
 
-        const userProfilePicUrl = 'images/profile.jpg';
+        const userProfilePicUrl = 'nav-profile-pic';
 
         let avatarElement;
 
@@ -203,10 +204,12 @@
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
             },
-            body: JSON.stringify({ message: userMessage })
+            body: JSON.stringify({message: userMessage})
         })
             .then(res => {
-                if (!res.ok) { throw new Error('Network response was not ok'); }
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
                 return res.json();
             })
             .then(data => {
