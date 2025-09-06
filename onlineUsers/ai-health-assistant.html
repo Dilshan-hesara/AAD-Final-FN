@@ -148,19 +148,19 @@
     const chatInput = document.getElementById('chat-input');
     const chatBox = document.getElementById('chat-box');
 
-    function appendMessage(message, sender) {
-        const isUser = sender === 'user';
-        const senderClass = isUser ? 'user-message' : 'ai-message';
-        const iconClass = isUser ? 'bi-person-circle' : 'bi-robot';
-
-        const messageHtml = `
-                <div class="chat-message ${senderClass}">
-                    <i class="bi ${iconClass} avatar"></i>
-                    <div class="bubble">${message}</div>
-                </div>`;
-        chatBox.innerHTML += messageHtml;
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
+    // function appendMessage(message, sender) {
+    //     const isUser = sender === 'user';
+    //     const senderClass = isUser ? 'user-message' : 'ai-message';
+    //     const iconClass = isUser ? 'bi-person-circle' : 'bi-robot';
+    //
+    //     const messageHtml = `
+    //             <div class="chat-message ${senderClass}">
+    //                 <i class="bi ${iconClass} avatar"></i>
+    //                 <div class="bubble">${message}</div>
+    //             </div>`;
+    //     chatBox.innerHTML += messageHtml;
+    //     chatBox.scrollTop = chatBox.scrollHeight;
+    // }
 
     chatForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -196,6 +196,31 @@
                 console.error("Chat error:", error);
             });
     });
+
+
+    function appendMessage(message, sender) {
+        const isUser = sender === 'user';
+        const senderClass = isUser ? 'user-message' : 'ai-message';
+        const iconClass = isUser ? 'bi-person-circle' : 'bi-robot';
+
+        const wrapper = document.createElement('div');
+        wrapper.className = `chat-message ${senderClass}`;
+
+        const icon = document.createElement('i');
+        icon.className = `bi ${iconClass} avatar`;
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.textContent = message;
+
+        wrapper.appendChild(icon);
+        wrapper.appendChild(bubble);
+
+        chatBox.appendChild(wrapper);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
 </script>
+
 </body>
 </html>
