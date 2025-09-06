@@ -50,7 +50,6 @@
             .then(response => response.json().then(data => ({ ok: response.ok, data })))
             .then(({ ok, data }) => {
               if (ok) {
-                // ✅ Store the actual token under the correct key
                 localStorage.setItem('authToken', data.redirectUrl);
                 localStorage.setItem('userRole', data.role);
 
@@ -68,7 +67,7 @@
                     redirectUrl = 'receptionist/dashboard.html';
                     break;
                     case 'ROLE_ONLINEUSER':
-                    redirectUrl = 'onlineUsers/my-appointments.html';
+                    redirectUrl = 'onlineUsers/index.html';
                     break;
                   default:
                     console.log("Role did not match any case. Redirecting to index.html");
