@@ -1,17 +1,5 @@
+// profil detai
 
-document.addEventListener('DOMContentLoaded', function() {
-    const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
-    if (sidebarPlaceholder) {
-        fetch('../components/sidebar.html')
-            .then(response => response.text())
-            .then(sidebarHtml => {
-                sidebarPlaceholder.innerHTML = sidebarHtml;
-                fetchProfileData();
-                attachLogoutEvent();
-                fetchSuperAdminProfile();
-            });
-    }
-});
 
 function fetchProfileData() {
     const token = localStorage.getItem('authToken');
@@ -57,6 +45,25 @@ function fetchSuperAdminProfile() {
 
 
 
+//branch admin
+
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
+    if (sidebarPlaceholder) {
+        fetch('../components/sidebar.html')
+            .then(response => response.text())
+            .then(sidebarHtml => {
+                sidebarPlaceholder.innerHTML = sidebarHtml;
+                fetchProfileData();
+                attachLogoutEvent();
+                fetchSuperAdminProfile();
+            });
+    }
+});
+
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
     if (sidebarPlaceholder) {
@@ -91,6 +98,62 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+
+
+//res
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarPlaceholder = document.getElementById('resp-sidebar-placeholder');
+    if (sidebarPlaceholder) {
+        fetch('../components/resp-sidebar.html')
+            .then(response => response.text())
+            .then(sidebarHtml => {
+                sidebarPlaceholder.innerHTML = sidebarHtml;
+                fetchProfileData();
+                attachLogoutEvent();
+                fetchSuperAdminProfile();
+
+            });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarPlaceholder = document.getElementById('resp-sidebar-placeholder');
+    if (sidebarPlaceholder) {
+        fetch('../components/resp-sidebar.html')
+            .then(response => response.text())
+            .then(sidebarHtml => {
+                sidebarPlaceholder.innerHTML = sidebarHtml;
+                fetchProfileAndDashboardData();
+                attachLogoutEvent();
+                setActiveLink();
+            });
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarPlaceholder = document.getElementById('resp-sidebar-placeholder');
+    if (sidebarPlaceholder) {
+        fetch('../components/resp-sidebar.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Could not find sidebar.html. Check the file path.');
+                return response.text();
+            })
+            .then(sidebarHtml => {
+                sidebarPlaceholder.innerHTML = sidebarHtml;
+                fetchProfileAndDashboardData();
+                attachLogoutEvent();
+                setActiveLink();
+            })
+            .catch(error => console.error("Error loading sidebar component:", error));
+    }
+});
+
+
+
+//logout
 
 function attachLogoutEvent() {
     document.body.addEventListener('click', function(e) {
@@ -143,10 +206,6 @@ function fetchProfileAndDashboardData() {
         .catch(error => console.error('Error loading page data:', error));
 
 }
-
-
-
-
 
 
 
