@@ -1,127 +1,243 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org"-->
-<!--      th:replace="~{branch-layout :: layout(~{::title}, ~{::.content-wrapper})}">-->
-<!--<head>-->
-<!--  <title>Branch Messaging</title>-->
-<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html lang="en" xmlns:th="http://www.thymeleaf.org"&ndash;&gt;-->
+<!--&lt;!&ndash;      th:replace="~{branch-layout :: layout(~{::title}, ~{::.content-wrapper})}">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;  <title>Branch Messaging</title>&ndash;&gt;-->
+<!--&lt;!&ndash;  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">&ndash;&gt;-->
 
+<!--&lt;!&ndash;  <style>&ndash;&gt;-->
+<!--&lt;!&ndash;    .chat-container { display: flex; height: 80vh; }&ndash;&gt;-->
+<!--&lt;!&ndash;    .branch-list { width: 30%; border-right: 1px solid #ddd; overflow-y: auto; }&ndash;&gt;-->
+<!--&lt;!&ndash;    .chat-window { width: 70%; display: flex; flex-direction: column; }&ndash;&gt;-->
+<!--&lt;!&ndash;    .chat-header { padding: 15px; border-bottom: 1px solid #ddd; background-color: #f8f9fa; }&ndash;&gt;-->
+<!--&lt;!&ndash;    .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; background-color: #e9ecef; }&ndash;&gt;-->
+<!--&lt;!&ndash;    .chat-input { padding: 15px; border-top: 1px solid #ddd; }&ndash;&gt;-->
+<!--&lt;!&ndash;    .message { margin-bottom: 15px; }&ndash;&gt;-->
+<!--&lt;!&ndash;    .message .content { padding: 10px 15px; border-radius: 20px; max-width: 70%; }&ndash;&gt;-->
+<!--&lt;!&ndash;    .message.sender .content { background-color: #0d6efd; color: white; float: right; }&ndash;&gt;-->
+<!--&lt;!&ndash;    .message.receiver .content { background-color: #fff; border: 1px solid #ddd; float: left; }&ndash;&gt;-->
+<!--&lt;!&ndash;  </style>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="content-wrapper">&ndash;&gt;-->
+<!--&lt;!&ndash;  <div class="container-fluid">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="d-flex justify-content-between align-items-center">&ndash;&gt;-->
+<!--&lt;!&ndash;      <h1 class="mt-4">Internal Messaging</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;      <button class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#composeModal">&ndash;&gt;-->
+<!--&lt;!&ndash;        <i class="bi bi-pencil-square"></i> New Message&ndash;&gt;-->
+<!--&lt;!&ndash;      </button>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <hr>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <div class="card shadow-sm">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="card-body p-0">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="chat-container">&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="branch-list">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="list-group list-group-flush">&ndash;&gt;-->
+<!--&lt;!&ndash;              <a th:href="@{/branch/messaging/{id}(id=${branch.id})}" class="list-group-item list-group-item-action"&ndash;&gt;-->
+<!--&lt;!&ndash;                 th:each="branch : ${otherBranches}" th:classappend="${currentChatPartner?.id == branch.id} ? 'active' : ''">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="d-flex w-100 justify-content-between">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <h6 class="mb-1" th:text="${branch.name}">Kandy Branch</h6>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p class="mb-1 small text-muted">Last message snippet...</p>&ndash;&gt;-->
+<!--&lt;!&ndash;              </a>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;          <div class="chat-window">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="chat-header">&ndash;&gt;-->
+<!--&lt;!&ndash;              <h5 th:if="${currentChatPartner}" th:text="${currentChatPartner.name}">Kandy Branch</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;              <h5 th:unless="${currentChatPartner}">Select a branch to start messaging</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <div class="chat-messages">&ndash;&gt;-->
+<!--&lt;!&ndash;              <div class="message receiver clearfix">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="content">Hi, can you transfer patient #105's records?</div>&ndash;&gt;-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;              <div class="message sender clearfix">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="content">Sure, sending them over now.</div>&ndash;&gt;-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;              <div class="message clearfix" th:each="msg : ${messageHistory}"&ndash;&gt;-->
+<!--&lt;!&ndash;                   th:classappend="${msg.senderBranch.id == myBranch.id} ? 'sender' : 'receiver'">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="content" th:text="${msg.content}">Message text here</div>&ndash;&gt;-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <div class="chat-input">&ndash;&gt;-->
+<!--&lt;!&ndash;              <form th:action="@{/branch/messaging/send}" method="post" class="d-flex">&ndash;&gt;-->
+<!--&lt;!&ndash;                <input type="hidden" name="receiverBranchId" th:value="${currentChatPartner?.id}" />&ndash;&gt;-->
+<!--&lt;!&ndash;                <input type="text" name="content" class="form-control" placeholder="Type a message..." required>&ndash;&gt;-->
+<!--&lt;!&ndash;                <button type="submit" class="btn btn-primary ms-2"><i class="bi bi-send-fill"></i></button>&ndash;&gt;-->
+<!--&lt;!&ndash;              </form>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<div class="modal fade" id="composeModal" tabindex="-1" aria-hidden="true">&ndash;&gt;-->
+<!--&lt;!&ndash;  <div class="modal-dialog">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="modal-content">&ndash;&gt;-->
+<!--&lt;!&ndash;      <form th:action="@{/branch/messaging/send}" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="modal-header">&ndash;&gt;-->
+<!--&lt;!&ndash;          <h5 class="modal-title">Compose New Message</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="modal-body">&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="mb-3">&ndash;&gt;-->
+<!--&lt;!&ndash;            <label for="recipient" class="form-label">To:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;            <select class="form-select" id="recipient" name="receiverBranchId" required>&ndash;&gt;-->
+<!--&lt;!&ndash;              <option value="">&#45;&#45; Select a Branch &#45;&#45;</option>&ndash;&gt;-->
+<!--&lt;!&ndash;              <option th:each="branch : ${otherBranches}" th:value="${branch.id}" th:text="${branch.name}"></option>&ndash;&gt;-->
+<!--&lt;!&ndash;            </select>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="mb-3">&ndash;&gt;-->
+<!--&lt;!&ndash;            <label for="message-text" class="form-label">Message:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;            <textarea class="form-control" id="message-text" name="content" rows="4" required></textarea>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="modal-footer">&ndash;&gt;-->
+<!--&lt;!&ndash;          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>&ndash;&gt;-->
+<!--&lt;!&ndash;          <button type="submit" class="btn btn-primary">Send Message</button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </form>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>Internal Messaging</title>-->
+<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">-->
+<!--  <link rel="stylesheet" href="../css/styles.css">-->
+<!--  <script src="../js/auth.js" defer></script>-->
 <!--  <style>-->
-<!--    .chat-container { display: flex; height: 80vh; }-->
+<!--    .chat-container { display: flex; height: 75vh; }-->
 <!--    .branch-list { width: 30%; border-right: 1px solid #ddd; overflow-y: auto; }-->
 <!--    .chat-window { width: 70%; display: flex; flex-direction: column; }-->
-<!--    .chat-header { padding: 15px; border-bottom: 1px solid #ddd; background-color: #f8f9fa; }-->
-<!--    .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; background-color: #e9ecef; }-->
-<!--    .chat-input { padding: 15px; border-top: 1px solid #ddd; }-->
+<!--    .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; background-color: #f1f3f5; }-->
 <!--    .message { margin-bottom: 15px; }-->
-<!--    .message .content { padding: 10px 15px; border-radius: 20px; max-width: 70%; }-->
-<!--    .message.sender .content { background-color: #0d6efd; color: white; float: right; }-->
-<!--    .message.receiver .content { background-color: #fff; border: 1px solid #ddd; float: left; }-->
+<!--    .message-content { padding: 10px 15px; border-radius: 18px; max-width: 70%; clear: both; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }-->
+<!--    .sender { text-align: right; }-->
+<!--    .sender .message-content { background-color: #0d6efd; color: white; float: right; }-->
+<!--    .receiver .message-content { background-color: #ffffff; border: 1px solid #e9ecef; float: left; }-->
 <!--  </style>-->
 <!--</head>-->
 <!--<body>-->
-<!--<div class="content-wrapper">-->
-<!--  <div class="container-fluid">-->
-<!--    <div class="d-flex justify-content-between align-items-center">-->
-<!--      <h1 class="mt-4">Internal Messaging</h1>-->
-<!--      <button class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#composeModal">-->
-<!--        <i class="bi bi-pencil-square"></i> New Message-->
-<!--      </button>-->
-<!--    </div>-->
-
-<!--    <hr>-->
-
-<!--    <div class="card shadow-sm">-->
-<!--      <div class="card-body p-0">-->
-<!--        <div class="chat-container">-->
-<!--          <div class="branch-list">-->
-<!--            <div class="list-group list-group-flush">-->
-<!--              <a th:href="@{/branch/messaging/{id}(id=${branch.id})}" class="list-group-item list-group-item-action"-->
-<!--                 th:each="branch : ${otherBranches}" th:classappend="${currentChatPartner?.id == branch.id} ? 'active' : ''">-->
-<!--                <div class="d-flex w-100 justify-content-between">-->
-<!--                  <h6 class="mb-1" th:text="${branch.name}">Kandy Branch</h6>-->
-<!--                </div>-->
-<!--                <p class="mb-1 small text-muted">Last message snippet...</p>-->
-<!--              </a>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--          <div class="chat-window">-->
-<!--            <div class="chat-header">-->
-<!--              <h5 th:if="${currentChatPartner}" th:text="${currentChatPartner.name}">Kandy Branch</h5>-->
-<!--              <h5 th:unless="${currentChatPartner}">Select a branch to start messaging</h5>-->
-<!--            </div>-->
-
-<!--            <div class="chat-messages">-->
-<!--              <div class="message receiver clearfix">-->
-<!--                <div class="content">Hi, can you transfer patient #105's records?</div>-->
-<!--              </div>-->
-<!--              <div class="message sender clearfix">-->
-<!--                <div class="content">Sure, sending them over now.</div>-->
-<!--              </div>-->
-<!--              <div class="message clearfix" th:each="msg : ${messageHistory}"-->
-<!--                   th:classappend="${msg.senderBranch.id == myBranch.id} ? 'sender' : 'receiver'">-->
-<!--                <div class="content" th:text="${msg.content}">Message text here</div>-->
-<!--              </div>-->
-<!--            </div>-->
-
-<!--            <div class="chat-input">-->
-<!--              <form th:action="@{/branch/messaging/send}" method="post" class="d-flex">-->
-<!--                <input type="hidden" name="receiverBranchId" th:value="${currentChatPartner?.id}" />-->
-<!--                <input type="text" name="content" class="form-control" placeholder="Type a message..." required>-->
-<!--                <button type="submit" class="btn btn-primary ms-2"><i class="bi bi-send-fill"></i></button>-->
-<!--              </form>-->
-<!--            </div>-->
-<!--          </div>-->
+<!--<div id="sidebar-placeholder"></div>-->
+<!--<div class="content">-->
+<!--  <h1>Internal Messaging</h1><hr>-->
+<!--  <div class="card shadow-sm"><div class="card-body p-0">-->
+<!--    <div class="chat-container">-->
+<!--      <div id="branch-list" class="branch-list list-group list-group-flush"></div>-->
+<!--      <div class="chat-window">-->
+<!--        <div class="p-3 border-bottom bg-light"><h5 id="chat-header">Select a branch to start a conversation</h5></div>-->
+<!--        <div id="chat-messages" class="chat-messages"></div>-->
+<!--        <div class="p-3 border-top">-->
+<!--          <form id="message-form" class="d-flex">-->
+<!--            <input type="text" id="message-input" class="form-control" placeholder="Type a message..." required disabled>-->
+<!--            <button type="submit" class="btn btn-primary ms-2"><i class="bi bi-send-fill"></i></button>-->
+<!--          </form>-->
 <!--        </div>-->
 <!--      </div>-->
 <!--    </div>-->
-<!--  </div>-->
+<!--  </div></div>-->
 <!--</div>-->
-
-<!--<div class="modal fade" id="composeModal" tabindex="-1" aria-hidden="true">-->
-<!--  <div class="modal-dialog">-->
-<!--    <div class="modal-content">-->
-<!--      <form th:action="@{/branch/messaging/send}" method="post">-->
-<!--        <div class="modal-header">-->
-<!--          <h5 class="modal-title">Compose New Message</h5>-->
-<!--          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
-<!--        </div>-->
-<!--        <div class="modal-body">-->
-<!--          <div class="mb-3">-->
-<!--            <label for="recipient" class="form-label">To:</label>-->
-<!--            <select class="form-select" id="recipient" name="receiverBranchId" required>-->
-<!--              <option value="">&#45;&#45; Select a Branch &#45;&#45;</option>-->
-<!--              <option th:each="branch : ${otherBranches}" th:value="${branch.id}" th:text="${branch.name}"></option>-->
-<!--            </select>-->
-<!--          </div>-->
-<!--          <div class="mb-3">-->
-<!--            <label for="message-text" class="form-label">Message:</label>-->
-<!--            <textarea class="form-control" id="message-text" name="content" rows="4" required></textarea>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="modal-footer">-->
-<!--          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-<!--          <button type="submit" class="btn btn-primary">Send Message</button>-->
-<!--        </div>-->
-<!--      </form>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
 
 <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--<script src="../js/layout-loader.js"></script>-->
+<!--<script>-->
+<!--  const token = localStorage.getItem('authToken');-->
+<!--  let myBranchId = null;-->
+<!--  let activeConversationId = null;-->
 
+<!--  function loadOtherBranches() {-->
+<!--    fetch('http://localhost:8080/api/staff/my-profile', { headers: { 'Authorization': 'Bearer ' + token } })-->
+<!--            .then(res => res.json()).then(profile => {-->
+<!--      myBranchId = profile.branchId;-->
+<!--      fetch('http://localhost:8080/api/branch', { headers: { 'Authorization': 'Bearer ' + token } })-->
+<!--              .then(res => res.json()).then(branches => {-->
+<!--        const list = document.getElementById('branch-list');-->
+<!--        list.innerHTML = '';-->
+<!--        branches.forEach(branch => {-->
+<!--          if (branch.id !== myBranchId) {-->
+<!--            list.innerHTML += `<a href="#" class="list-group-item list-group-item-action" id="branch-link-${branch.id}" onclick="loadConversation(${branch.id}, '${branch.name}')">${branch.name}</a>`;-->
+<!--          }-->
+<!--        });-->
+<!--      });-->
+<!--    });-->
+<!--  }-->
+
+<!--  function loadConversation(otherBranchId, branchName) {-->
+<!--    activeConversationId = otherBranchId;-->
+<!--    document.querySelectorAll('.branch-list a').forEach(a => a.classList.remove('active'));-->
+<!--    document.getElementById(`branch-link-${otherBranchId}`).classList.add('active');-->
+<!--    document.getElementById('chat-header').textContent = `Chat with ${branchName}`;-->
+<!--    document.getElementById('message-input').disabled = false;-->
+
+<!--    fetch(`http://localhost:8080/api/messages/conversation/${otherBranchId}`, { headers: { 'Authorization': 'Bearer ' + token } })-->
+<!--            .then(res => res.json()).then(messages => {-->
+<!--      const chatBox = document.getElementById('chat-messages');-->
+<!--      chatBox.innerHTML = '';-->
+<!--      messages.forEach(msg => {-->
+<!--        const senderClass = msg.senderBranchId === myBranchId ? 'sender' : 'receiver';-->
+<!--        const senderName = senderClass === 'sender' ? 'Me' : msg.senderBranchName;-->
+<!--        chatBox.innerHTML += `<div class="message ${senderClass}"><small class="text-muted">${senderName}</small><div class="message-content">${msg.content}</div></div>`;-->
+<!--      });-->
+<!--      chatBox.scrollTop = chatBox.scrollHeight;-->
+<!--    });-->
+<!--  }-->
+
+<!--  document.getElementById('message-form').addEventListener('submit', function(e) {-->
+<!--    e.preventDefault();-->
+<!--    const content = document.getElementById('message-input').value;-->
+<!--    if (!content || !activeConversationId) return;-->
+
+<!--    const data = { receiverBranchId: activeConversationId, content: content };-->
+
+<!--    fetch('http://localhost:8080/api/messages/send', {-->
+<!--      method: 'POST',-->
+<!--      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },-->
+<!--      body: JSON.stringify(data)-->
+<!--    }).then(res => {-->
+<!--      if(res.ok) {-->
+<!--        document.getElementById('message-input').value = '';-->
+<!--        const headerText = document.getElementById('chat-header').textContent;-->
+<!--        loadConversation(activeConversationId, headerText.replace('Chat with ', ''));-->
+<!--      } else { alert('Failed to send message'); }-->
+<!--    });-->
+<!--  });-->
+
+<!--  document.addEventListener('DOMContentLoaded', loadOtherBranches);-->
+<!--</script>-->
 <!--</body>-->
 <!--</html>-->
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Internal Messaging</title>
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <!-- Your Custom CSS -->
   <link rel="stylesheet" href="../css/styles.css">
+  <!-- Page Protection Script -->
   <script src="../js/auth.js" defer></script>
   <style>
     .chat-container { display: flex; height: 75vh; }
@@ -133,12 +249,18 @@
     .sender { text-align: right; }
     .sender .message-content { background-color: #0d6efd; color: white; float: right; }
     .receiver .message-content { background-color: #ffffff; border: 1px solid #e9ecef; float: left; }
+    .sender-name-admin { font-weight: bold; color: #0d6efd; }
+    .sender-name-receptionist { font-weight: bold; color: #6c757d; }
   </style>
 </head>
 <body>
 <div id="sidebar-placeholder"></div>
 <div class="content">
-  <h1>Internal Messaging</h1><hr>
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>Internal Messaging</h1>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#composeModal"><i class="bi bi-pencil-square"></i> New Message</button>
+  </div>
+  <hr>
   <div class="card shadow-sm"><div class="card-body p-0">
     <div class="chat-container">
       <div id="branch-list" class="branch-list list-group list-group-flush"></div>
@@ -156,12 +278,32 @@
   </div></div>
 </div>
 
+<!-- New Message Modal -->
+<div class="modal fade" id="composeModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="compose-form">
+        <div class="modal-header"><h5 class="modal-title">Compose New Message</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body">
+          <div class="mb-3"><label class="form-label">To:</label><select id="recipient-select" class="form-select" required><option value="">-- Select a Branch --</option></select></div>
+          <div class="mb-3"><label class="form-label">Message:</label><textarea id="compose-message-text" class="form-control" rows="4" required></textarea></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../js/layout-loader.js"></script>
 <script>
   const token = localStorage.getItem('authToken');
   let myBranchId = null;
   let activeConversationId = null;
+  const composeModal = new bootstrap.Modal(document.getElementById('composeModal'));
 
   function loadOtherBranches() {
     fetch('http://localhost:8080/api/staff/my-profile', { headers: { 'Authorization': 'Bearer ' + token } })
@@ -170,10 +312,13 @@
       fetch('http://localhost:8080/api/branch', { headers: { 'Authorization': 'Bearer ' + token } })
               .then(res => res.json()).then(branches => {
         const list = document.getElementById('branch-list');
+        const recipientSelect = document.getElementById('recipient-select');
         list.innerHTML = '';
+        recipientSelect.innerHTML = '<option value="">-- Select a Branch --</option>';
         branches.forEach(branch => {
           if (branch.id !== myBranchId) {
             list.innerHTML += `<a href="#" class="list-group-item list-group-item-action" id="branch-link-${branch.id}" onclick="loadConversation(${branch.id}, '${branch.name}')">${branch.name}</a>`;
+            recipientSelect.innerHTML += `<option value="${branch.id}">${branch.name}</option>`;
           }
         });
       });
@@ -193,10 +338,29 @@
       chatBox.innerHTML = '';
       messages.forEach(msg => {
         const senderClass = msg.senderBranchId === myBranchId ? 'sender' : 'receiver';
-        const senderName = senderClass === 'sender' ? 'Me' : msg.senderBranchName;
-        chatBox.innerHTML += `<div class="message ${senderClass}"><small class="text-muted">${senderName}</small><div class="message-content">${msg.content}</div></div>`;
+        const senderName = senderClass === 'sender' ? 'Me' : msg.senderFullName;
+
+        let senderNameClass = 'text-muted';
+        if (msg.senderRole === 'BRANCH_ADMIN') senderNameClass = 'sender-name-admin';
+        if (msg.senderRole === 'RECEPTIONIST') senderNameClass = 'sender-name-receptionist';
+
+        chatBox.innerHTML += `<div class="message ${senderClass}"><small class="${senderNameClass}">${senderName}</small><div class="message-content">${msg.content}</div></div>`;
       });
       chatBox.scrollTop = chatBox.scrollHeight;
+    });
+  }
+
+  function sendMessage(receiverId, content) {
+    const data = { receiverBranchId: receiverId, content: content };
+    fetch('http://localhost:8080/api/messages/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(data)
+    }).then(res => {
+      if(res.ok) {
+        const headerText = document.getElementById('chat-header').textContent;
+        loadConversation(receiverId, headerText.replace('Chat with ', ''));
+      } else { alert('Failed to send message'); }
     });
   }
 
@@ -204,20 +368,18 @@
     e.preventDefault();
     const content = document.getElementById('message-input').value;
     if (!content || !activeConversationId) return;
+    sendMessage(activeConversationId, content);
+    this.reset();
+  });
 
-    const data = { receiverBranchId: activeConversationId, content: content };
-
-    fetch('http://localhost:8080/api/messages/send', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-      body: JSON.stringify(data)
-    }).then(res => {
-      if(res.ok) {
-        document.getElementById('message-input').value = '';
-        const headerText = document.getElementById('chat-header').textContent;
-        loadConversation(activeConversationId, headerText.replace('Chat with ', ''));
-      } else { alert('Failed to send message'); }
-    });
+  document.getElementById('compose-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const receiverId = document.getElementById('recipient-select').value;
+    const content = document.getElementById('compose-message-text').value;
+    if (!receiverId || !content) return;
+    sendMessage(receiverId, content);
+    this.reset();
+    composeModal.hide();
   });
 
   document.addEventListener('DOMContentLoaded', loadOtherBranches);
