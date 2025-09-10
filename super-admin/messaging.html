@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Super Admin Messaging</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <!-- Your Custom CSS -->
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="../js/auth.js" defer></script>
+  <style>
+    .chat-container { display: flex; height: 75vh; }
+    .contact-list { width: 35%; border-right: 1px solid #ddd; overflow-y: auto; }
+    .chat-window { width: 65%; display: flex; flex-direction: column; }
+    .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; background-color: #f1f3f5; }
+    .message { margin-bottom: 15px; }
+    .message-content { padding: 10px 15px; border-radius: 18px; max-width: 80%; clear: both; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    .sender { text-align: right; }
+    .sender .message-content { background-color: #dc3545; color: white; float: right; } /* Red for Super Admin */
+    .receiver .message-content { background-color: #ffffff; border: 1px solid #e9ecef; float: left; }
+    .list-group-item.active { z-index: 2; color: #fff; background-color: #6c757d; border-color: #6c757d; }
+  </style>
+</head>
+<body>
+<div id="sidebar-placeholder"></div>
+
+<div class="content">
+  <div class="d-flex justify-content-between align-items-center">
+    <h1>Super Admin Messaging</h1>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#composeModal"><i class="bi bi-pencil-square"></i> New Message</button>
+  </div>
+  <hr>
+  <div class="card shadow-sm"><div class="card-body p-0">
+    <div class="chat-container">
+      <div id="contacts-list" class="contact-list list-group list-group-flush"></div>
+      <div class="chat-window">
+        <div class="p-3 border-bottom bg-light"><h5 id="chat-header">Select a contact to start</h5></div>
+        <div id="chat-messages" class="chat-messages"></div>
+        <div class="p-3 border-top">
+          <form id="message-form" class="d-flex">
+            <input type="text" id="message-input" class="form-control" required disabled>
+            <button type="submit" class="btn btn-primary ms-2"><i class="bi bi-send-fill"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- New Message Modal -->
+<div class="modal fade" id="composeModal" tabindex="-1">
+  <div class="modal-dialog"><div class="modal-content">
+    <form id="compose-form">
+      <div class="modal-header"><h5 class="modal-title">Compose New Message</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <div class="mb-3"><label>To:</label><select id="recipient-select" class="form-select" required></select></div>
+        <div class="mb-3"><label>Message:</label><textarea id="compose-message-text" class="form-control" rows="4" required></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </div>
+    </form>
+  </div></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/layout-loader.js"></script>
+<script>
+  const token = localStorage.getItem('authToken');
+  let myProfile = {};
+  let activeConversation = {};
+  const composeModal = new bootstrap.Modal(document.getElementById('composeModal'));
+
+  function loadContacts() {
+    fetch('http://localhost:8080/api/staff/my-profile', { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => res.json()).then(profile => {
+      myProfile = profile;
+      fetch('http://localhost:8080/api/super-admin/messages/contacts', { headers: { 'Authorization': 'Bearer ' + token } })
+              .then(res => res.json()).then(contacts => {
+        const contactsList = document.getElementById('contacts-list');
+        const recipientSelect = document.getElementById('recipient-select');
+        contactsList.innerHTML = '';
+        recipientSelect.innerHTML = '<option value="">-- Select a Recipient --</option>';
+
+        // Group contacts by branch
+        const groupedByBranch = contacts.reduce((acc, contact) => {
+          const branch = contact.branchName || 'No Branch Assigned';
+          if (!acc[branch]) acc[branch] = [];
+          acc[branch].push(contact);
+          return acc;
+        }, {});
+
+        for (const branchName in groupedByBranch) {
+          contactsList.innerHTML += `<div class="list-group-item list-group-item-light text-muted small">${branchName}</div>`;
+          recipientSelect.innerHTML += `<optgroup label="${branchName}">`;
+          groupedByBranch[branchName].forEach(contact => {
+            const contactData = JSON.stringify(contact);
+            const displayName = `${contact.fullName} (${contact.role.replace('_', ' ')})`;
+            contactsList.innerHTML += `<a href="#" class="list-group-item list-group-item-action" data-contact='${contactData}' onclick='loadConversation(this)'>${displayName}</a>`;
+            recipientSelect.innerHTML += `<option value='${contactData}'>${displayName}</option>`;
+          });
+          recipientSelect.innerHTML += `</optgroup>`;
+        }
+      });
+    });
+  }
+
+  function loadConversation(element) {
+    const recipient = JSON.parse(element.dataset.contact);
+    activeConversation = recipient;
+
+    document.querySelectorAll('.contact-list a').forEach(a => a.classList.remove('active'));
+    element.classList.add('active');
+    document.getElementById('chat-header').textContent = `Chat with ${recipient.fullName}`;
+    document.getElementById('message-input').disabled = false;
+
+    fetch(`http://localhost:8080/api/super-admin/messages/conversation/${recipient.userId}`, { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => res.json()).then(messages => {
+      const chatBox = document.getElementById('chat-messages');
+      chatBox.innerHTML = '';
+      messages.forEach(msg => {
+        const senderClass = msg.senderId === myProfile.userId ? 'sender' : 'receiver';
+        const senderName = senderClass === 'sender' ? 'Me' : msg.senderFullName;
+        chatBox.innerHTML += `<div class="message ${senderClass}"><small>${senderName}</small><div class="message-content">${msg.content}</div></div>`;
+      });
+      chatBox.scrollTop = chatBox.scrollHeight;
+    });
+  }
+
+  function sendMessage(receiverId, content) {
+    const data = { receiverId, content };
+    fetch('http://localhost:8080/api/super-admin/messages/send', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(data)
+    }).then(res => {
+      if(res.ok) {
+        const activeLink = document.querySelector('.list-group-item.active');
+        if (activeLink) loadConversation(activeLink);
+      } else { alert('Failed to send message.'); }
+    });
+  }
+
+  document.getElementById('message-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    sendMessage(activeConversation.userId, document.getElementById('message-input').value);
+    this.reset();
+  });
+
+  document.getElementById('compose-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const recipientData = JSON.parse(document.getElementById('recipient-select').value);
+    const content = document.getElementById('compose-message-text').value;
+    sendMessage(recipientData.userId, content);
+    composeModal.hide();
+    this.reset();
+  });
+
+  document.addEventListener('DOMContentLoaded', loadContacts);
+</script>
+</body>
+</html>
