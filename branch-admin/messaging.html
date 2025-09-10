@@ -746,37 +746,32 @@
 <!--</script>-->
 <!--</body>-->
 <!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Internal Messaging</title>
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <!-- Your Custom CSS -->
   <link rel="stylesheet" href="../css/styles.css">
   <script src="../js/auth.js" defer></script>
   <style>
     .chat-container { display: flex; height: 75vh; }
-    .branch-list { width: 30%; border-right: 1px solid #ddd; overflow-y: auto; }
-    .chat-window { width: 70%; display: flex; flex-direction: column; }
+    .contact-list { width: 35%; border-right: 1px solid #ddd; overflow-y: auto; }
+    .chat-window { width: 65%; display: flex; flex-direction: column; }
     .chat-messages { flex-grow: 1; padding: 20px; overflow-y: auto; background-color: #f1f3f5; }
     .message { margin-bottom: 15px; }
-    .message-content { padding: 10px 15px; border-radius: 18px; max-width: 70%; clear: both; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    .message-content { padding: 10px 15px; border-radius: 18px; max-width: 80%; clear: both; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
     .sender { text-align: right; }
     .sender .message-content { background-color: #0d6efd; color: white; float: right; }
     .receiver .message-content { background-color: #ffffff; border: 1px solid #e9ecef; float: left; }
-    .sender-name-admin { font-weight: bold; color: #0d6efd; }
-    .sender-name-receptionist { font-weight: bold; color: #6c757d; }
+    .sender-name-admin { font-weight: bold; color: #6f42c1; }
+    .sender-name-receptionist { font-weight: bold; color: #0dcaf0; }
     .list-group-item.active { z-index: 2; color: #fff; background-color: #0d6efd; border-color: #0d6efd; }
   </style>
 </head>
 <body>
 <div id="sidebar-placeholder"></div>
-
 <div class="content">
   <div class="d-flex justify-content-between align-items-center">
     <h1>Internal Messaging</h1>
@@ -785,7 +780,7 @@
   <hr>
   <div class="card shadow-sm"><div class="card-body p-0">
     <div class="chat-container">
-      <div id="contacts-list" class="branch-list list-group list-group-flush">
+      <div id="contacts-list" class="contact-list list-group list-group-flush">
         <div class="p-3 text-center">Loading contacts...</div>
       </div>
       <div class="chat-window">
@@ -804,7 +799,6 @@
   </div></div>
 </div>
 
-<!-- New Message Modal -->
 <div class="modal fade" id="composeModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -848,7 +842,7 @@
           recipientSelect.innerHTML += '<optgroup label="Super Admins">';
           superAdmins.forEach(sa => {
             const contactData = JSON.stringify({ branchId: null, role: 'SUPER_ADMIN', name: 'Super Admin' });
-            list.innerHTML += `<a href="#" class="list-group-item list-group-item-action" onclick='loadConversation(${contactData})'>${sa.branchName}</a>`;
+            list.innerHTML += `<a href="#" class="list-group-item list-group-item-action" data-contact='${contactData}' onclick='loadConversation(this)'>${sa.branchName}</a>`;
             recipientSelect.innerHTML += `<option value='${contactData}'>${sa.branchName}</option>`;
           });
           recipientSelect.innerHTML += '</optgroup>';
@@ -874,13 +868,14 @@
     const recipient = JSON.parse(element.dataset.contact);
     activeConversation = recipient;
 
-    document.querySelectorAll('.branch-list a').forEach(a => a.classList.remove('active'));
+    document.querySelectorAll('.contact-list a').forEach(a => a.classList.remove('active'));
     element.classList.add('active');
     document.getElementById('chat-header').textContent = `Chat with ${recipient.name}`;
     document.getElementById('message-input').disabled = false;
 
-    fetch(`http://localhost:8080/api/messages/mark-as-read/${recipient.branchId}`, { method: 'POST', headers: { 'Authorization': 'Bearer ' + token } });
-    fetch(`http://localhost:8080/api/messages/conversation?otherBranchId=${recipient.branchId}&otherRole=${recipient.role}`, { headers: { 'Authorization': 'Bearer ' + token } })
+    const url = `http://localhost:8080/api/messages/conversation?otherBranchId=${recipient.branchId}&otherRole=${recipient.role}`;
+
+    fetch(url, { headers: { 'Authorization': 'Bearer ' + token } })
             .then(res => res.json()).then(messages => {
       const chatBox = document.getElementById('chat-messages');
       chatBox.innerHTML = '';
@@ -924,24 +919,7 @@
     this.reset();
   });
 
-  function checkForNotifications() {
-    fetch('http://localhost:8080/api/messages/notifications', { headers: { 'Authorization': 'Bearer ' + token } })
-            .then(res => res.json()).then(data => {
-      const notificationLink = document.querySelector('a[href="messaging.html"]');
-      if (notificationLink && data.unreadCount > 0) {
-        notificationLink.innerHTML = `<i class="bi bi-chat-dots-fill me-2"></i> Messaging <span class="badge bg-danger ms-2">${data.unreadCount}</span>`;
-      } else if (notificationLink) {
-        notificationLink.innerHTML = `<i class="bi bi-chat-dots-fill me-2"></i> Messaging`;
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    loadContacts();
-    checkForNotifications();
-    setInterval(checkForNotifications, 15000); // Check every 15 seconds
-  });
+  document.addEventListener('DOMContentLoaded', loadContacts);
 </script>
 </body>
 </html>
-
