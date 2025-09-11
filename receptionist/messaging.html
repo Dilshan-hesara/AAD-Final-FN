@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,18 +87,6 @@
         const recipientSelect = document.getElementById('recipient-select');
         list.innerHTML = '';
         recipientSelect.innerHTML = '<option value="">-- Select a Recipient --</option>';
-
-        const superAdmins = contacts.filter(c => c.role === 'SUPER_ADMIN');
-        if (superAdmins.length > 0) {
-          list.innerHTML += '<div class="list-group-item list-group-item-light text-muted small">SUPER ADMINS</div>';
-          recipientSelect.innerHTML += '<optgroup label="Super Admins">';
-          superAdmins.forEach(sa => {
-            const contactData = JSON.stringify({ branchId: null, role: 'SUPER_ADMIN', name: 'Super Admin' });
-            list.innerHTML += `<a href="#" class="list-group-item list-group-item-action" data-contact='${contactData}' onclick='loadConversation(this)'>${sa.branchName}</a>`;
-            recipientSelect.innerHTML += `<option value='${contactData}'>${sa.branchName}</option>`;
-          });
-          recipientSelect.innerHTML += '</optgroup>';
-        }
 
         const otherBranches = contacts.filter(c => c.role !== 'SUPER_ADMIN');
         if (otherBranches.length > 0) {
