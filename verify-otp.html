@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>Verify OTP</title></head>
+<body>
+<div class="container" style="max-width: 500px; margin-top: 100px;">
+    <h3>Verify OTP</h3>
+    <p>Please check your email and enter the 6-digit code we sent you.</p>
+    <form id="verify-form">
+        <input type="text" id="otp" class="form-control" required>
+        <button type="submit" class="btn btn-primary mt-3">Verify Code</button>
+    </form>
+</div>
+<script>
+    const username = new URLSearchParams(window.location.search).get('username');
+    document.getElementById('verify-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const otp = document.getElementById('otp').value;
+        fetch('/api/password-reset/verify', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ username: username, otp: otp })
+        }).then(res => {
+            if (res.ok) { window.location.href = `reset-password.html?username=${username}&otp=${otp}`; }
+            else { alert('Error: Invalid or expired OTP.'); }
+        });
+    });
+</script>
+</body>
+</html>
