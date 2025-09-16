@@ -22,21 +22,27 @@
   </div>
   <hr>
 
-  <!-- Top Row Statistics -->
-  <div class="row">
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card bg-success text-white h-100"><div class="card-body"><h5 class="card-title">Today's Earnings</h5><h2 id="todays-earnings" class="display-5">...</h2></div></div>
-    </div>
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card bg-warning text-dark h-100"><div class="card-body"><h5 class="card-title">Active Doctors</h5><h2 id="doctor-count" class="display-5">...</h2></div></div>
-    </div>
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card bg-info text-white h-100"><div class="card-body"><h5 class="card-title">Receptionists</h5><h2 id="receptionist-count" class="display-5">...</h2></div></div>
-    </div>
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card border-success h-100"><div class="card-body text-success"><h5 class="card-title">Completed Today</h5><h2 id="completed-count" class="display-5">...</h2></div></div>
-    </div>
-  </div>
+<!--  <div class="row" >-->
+<!--    <div class="col-lg-3 col-md-6 mb-4">-->
+<!--      <div class="card bg-success text-white h-100"><div class="card-body"><h5 class="card-title">Today's Earnings</h5><h2 id="todays-earnings" class="display-5">...</h2></div></div>-->
+<!--    </div>-->
+<!--    <div class="col-lg-3 col-md-6 mb-4">-->
+<!--      <div class="card bg-warning text-dark h-100"><div class="card-body"><h5 class="card-title">Active Doctors</h5><h2 id="doctor-count" class="display-5">...</h2></div></div>-->
+<!--    </div>-->
+<!--    <div class="col-lg-3 col-md-6 mb-4">-->
+<!--      <div class="card bg-info text-white h-100"><div class="card-body"><h5 class="card-title">Receptionists</h5><h2 id="receptionist-count" class="display-5">...</h2></div></div>-->
+<!--    </div>-->
+<!--    <div class="col-lg-3 col-md-6 mb-4">-->
+<!--      <div class="card border-success h-100"><div class="card-body text-success"><h5 class="card-title">Completed Today</h5><h2 id="completed-count" class="display-5">...</h2></div></div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+
+  <h2 id="todays-earnings" hidden></h2>
+  <h2 id="doctor-count" hidden></h2>
+  <h2 id="receptionist-count" hidden></h2>
+  <h2 id="completed-count" hidden></h2>
+
 
   <!-- Today's Appointment Summary -->
   <h4 class="mt-4 mb-3">Today's Appointments</h4>
@@ -91,7 +97,11 @@
 
 
 <script src="../js/layout-loader.js"></script>
+
 <script>
+
+
+
   let myChart; // Variable to hold the chart instance
 
   // Function to update the clock
