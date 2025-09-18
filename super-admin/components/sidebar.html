@@ -126,7 +126,19 @@
   <a href="all-branch-admins.html"><i class="bi bi-person-video3 me-2"></i> Branch Admins</a>
   <a href="all-receptionists.html"><i class="bi bi-person-workspace me-2"></i> All Receptionists</a>
   <a href="manage-super-admins.html"><i class="bi bi-person-badge-fill me-2"></i> Super Admins</a>
-  <hr class="text-white">
+<!--  <hr class="text-white">-->
+
+<!--  <hr class="text-white-50">-->
+  <div class="dropdown px-3 mb-2">
+    <a href="#" class="nav-link text-white dropdown-toggle position-relative" data-bs-toggle="dropdown" id="notification-bell">
+      <i class="bi bi-bell-fill me-2"></i> Notifications
+      <span id="notification-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;"></span>
+    </a>
+    <ul id="notification-list" class="dropdown-menu dropdown-menu-dark" style="width: 280px;">
+      <li><span class="dropdown-item-text">Loading...</span></li>
+    </ul>
+  </div>
+<!--  <a href="my-profile.html"><i class="bi bi-person-circle me-2"></i> My Profile</a>-->
 
   <a href="super-admin-my-profile.html"><i class="bi bi-person-circle me-2"></i> My Profile</a>
   <a href="#" id="logout-button"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>
