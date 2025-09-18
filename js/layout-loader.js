@@ -210,8 +210,49 @@ function fetchProfileAndDashboardData() {
 
 
 
+// In your layout-loader.js
 
+// Add these two functions to the file
+function checkForNotifications() {
+    const token = localStorage.getItem('authToken');
+    // --- Use the new, dedicated URL ---
+    fetch('http://localhost:8080/api/branch-admin/notifications/unread', { headers: { 'Authorization': 'Bearer ' + token } })
+        .then(res => res.json())
+        .then(notifications => {
+            // ... logic to display notifications and update badge count ...
+        });
+}
 
+function markNotificationsAsRead() {
+    const token = localStorage.getItem('authToken');
+    // --- Use the new, dedicated URL ---
+    fetch('http://localhost:8080/api/branch-admin/notifications/mark-as-read', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token }
+    }).then(() => {
+        setTimeout(checkForNotifications, 500);
+    });
+}
 
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
+    if (sidebarPlaceholder) {
+        fetch('../components/sidebar.html')
+            .then(response => response.text())
+            .then(sidebarHtml => {
+                sidebarPlaceholder.innerHTML = sidebarHtml;
+
+                // Load all necessary data and attach events
+                fetchProfileData();
+                attachLogoutEvent();
+                setActiveLink();
+
+                // Initialize notifications
+                checkForNotifications();
+                setInterval(checkForNotifications, 30000);
+                document.getElementById('notification-bell').addEventListener('click', markNotificationsAsRead);
+            });
+    }
+});
 
 
