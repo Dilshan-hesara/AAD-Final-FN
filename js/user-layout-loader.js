@@ -48,28 +48,7 @@ function markNotificationsAsRead() {
     });
 }
 
-// ... your other functions (loadUserProfile, attachLogoutEvent)
 
-
-
-
-
-
-
-
-//
-// document.addEventListener('DOMContentLoaded', function() {
-//     const navbarPlaceholder = document.getElementById('navbar-placeholder');
-//     if (navbarPlaceholder) {
-//         fetch('../components/user-nav.html')
-//             .then(res => res.text())
-//             .then(html => {
-//                 navbarPlaceholder.innerHTML = html;
-//                 loadUserProfile();
-//             });
-//     }
-// });
-//
 function loadUserProfile() {
     const token = localStorage.getItem('authToken');
     fetch('http://localhost:8080/api/user/my-profile', {
