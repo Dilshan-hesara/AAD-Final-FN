@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - HMS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Navbar style (same as Home page) */
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: transparent;
+      z-index: 1000;
+      padding: 15px 20px;
+    }
+
+    .navbar .nav-link {
+      color: white !important;
+      font-weight: 500;
+      margin-left: 15px;
+      transition: 0.3s;
+    }
+
+    .navbar .nav-link:hover {
+      color: #0d6efd !important;
+    }
+
+    .navbar .navbar-brand {
+      color: white !important;
+      font-weight: bold;
+    }
+
+    .btn-login {
+      background: transparent;
+      color: white;
+      border: 1px solid white;
+      padding: 5px 15px;
+      margin-right: 10px;
+      transition: 0.3s;
+    }
+    .btn-login:hover {
+      background: white;
+      color: #0d6efd;
+    }
+
+    .btn-register {
+      background: #0d6efd;
+      color: white;
+      padding: 5px 15px;
+      border: none;
+      transition: 0.3s;
+    }
+    .btn-register:hover {
+      background: #0b5ed7;
+    }
+
+    /* Hero section */
+    .hero {
+      height: 100vh;
+      background: url("https://picsum.photos/1920/1080?hospital2") center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* About content section */
+    .about-section {
+      padding: 80px 20px;
+      background: #fff;
+    }
+
+    .about-section h2 {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .about-card {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+    }
+
+    .footer {
+      background-color: #343a40;
+      color: white;
+      padding: 40px 0;
+    }
+    .footer a {
+      color: #adb5bd;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">
+      <i class="bi bi-hospital-fill"></i> HMS
+    </a>
+    <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+        <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <div class="ms-auto d-flex">
+        <a href="login.html" class="btn btn-login me-2">Login</a>
+        <a href="register.html" class="btn btn-register">Register</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="fw-bold">About Our Hospital</h1>
+    <p class="lead">Dedicated to providing exceptional care for our community.</p>
+  </div>
+</section>
+
+<!-- About Content -->
+<section class="about-section container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="about-card">
+        <h2>Our Mission</h2>
+        <p>
+          Since our founding, we have been committed to combining advanced medical technology
+          with compassionate, patient-centered care. Our goal is to be a beacon of health and hope,
+          offering a comprehensive range of services to meet the needs of every individual and family we serve.
+        </p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="about-card">
+        <h2>Our Vision</h2>
+        <p>
+          We aim to transform healthcare delivery in our community by setting the highest standards
+          for quality and innovation. Our vision is to provide a healthcare environment that promotes
+          healing, wellness, and trust for generations to come.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container text-center">
+    <p>&copy; 2025 Hospital Management System. All Rights Reserved.</p>
+    <p>
+      <a href="privacy-policy.html" class="mx-2">Privacy Policy</a> |
+      <a href="terms-of-service.html" class="mx-2">Terms of Service</a> |
+      <a href="https://dilshanhesara.com/" class="mx-2">Copyright © 2025 Dilshan Hesara. All rights reserved</a>
+
+    </p>
+    <p>
+
+      <a href="https://dilshanhesara.com/" class="mx-2">&copy;  Developed By Dilshan Hesara</a>
+
+    </p>
+
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

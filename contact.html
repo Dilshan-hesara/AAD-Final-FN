@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - HMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-light: #f4f7fc;
+            --primary-blue: #0d6efd;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-light);
+        }
+        h1, h2, h3, h4, h5, h6 { font-weight: 600; }
+
+        /* 🔹 Navbar */
+        .navbar {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            background: transparent !important;
+            z-index: 1000;
+            padding: 15px 20px;
+        }
+        .navbar .nav-link {
+            color: white !important;
+            font-weight: 500;
+            margin-left: 15px;
+            transition: 0.3s;
+        }
+        .navbar .nav-link:hover { color: #0d6efd !important; }
+        .navbar .navbar-brand { color: white !important; font-weight: bold; }
+        .btn-login {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 5px 15px;
+            margin-right: 10px;
+            transition: 0.3s;
+        }
+        .btn-login:hover { background: white; color: #0d6efd; }
+        .btn-register {
+            background: #0d6efd;
+            color: white;
+            padding: 5px 15px;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-register:hover { background: #0b5ed7; }
+
+        /* 🔹 Header with background image */
+        .page-header {
+            background: url("https://picsum.photos/1920/600?contact-hospital") center/cover no-repeat;
+            color: white;
+            padding: 8rem 0 6rem;
+            text-align: center;
+            position: relative;
+        }
+        .page-header::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.55);
+        }
+        .page-header .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 🔹 Section */
+        .section-padding { padding: 6rem 0; }
+        .card {
+            border: none;
+            border-radius: 0.75rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+        .contact-info-list {
+            list-style: none;
+            padding: 0;
+        }
+        .contact-info-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .contact-info-list i {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            margin-top: 5px;
+        }
+        .map-container {
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 40px 0;
+        }
+        .footer a {
+            color: #adb5bd;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 🔹 Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="index.html">
+            <i class="bi bi-hospital-fill"></i> HMS
+        </a>
+        <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+            </ul>
+            <div class="ms-auto d-flex">
+                <a href="login.html" class="btn btn-login me-2">Login</a>
+                <a href="register.html" class="btn btn-register">Register</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- 🔹 Page Header -->
+<header class="page-header">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Get In Touch</h1>
+        <p class="lead">We're here to help. Contact us for any inquiries or support.</p>
+    </div>
+</header>
+
+<!-- 🔹 Contact Section -->
+<section class="section-padding">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-5">
+                <h3>Contact Information</h3>
+                <p class="text-muted">Reach out to us through any of the following channels. We look forward to hearing from you.</p>
+                <ul class="contact-info-list mt-4">
+                    <li>
+                        <i class="bi bi-geo-alt-fill"></i>
+                        <div>
+                            <strong>Address:</strong><br>
+                            No. 123, Galle Road, Colombo 03, Sri Lanka.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="bi bi-telephone-fill"></i>
+                        <div>
+                            <strong>Phone:</strong><br>
+                            +94 11 234 5678
+                        </div>
+                    </li>
+                    <li>
+                        <i class="bi bi-envelope-fill"></i>
+                        <div>
+                            <strong>Email:</strong><br>
+                            info@hms-example.com
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-7">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <h3 class="mb-4">Send us a Message</h3>
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Subject</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Message</label>
+                                <textarea class="form-control" rows="5"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary px-4">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 🔹 Google Map -->
+<div class="map-container my-5 container">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126743.58585782717!2d79.78610584444583!3d6.922003319085869!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae253d10f7a7003%3A0x320b2e4d32d3838d!2sColombo!5e0!3m2!1sen!2slk!4v1690000000000"
+            width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+</div>
+
+<footer class="footer">
+    <div class="container text-center">
+        <p>&copy; 2025 Hospital Management System. All Rights Reserved.</p>
+        <p>
+            <a href="privacy-policy.html" class="mx-2">Privacy Policy</a> |
+            <a href="terms-of-service.html" class="mx-2">Terms of Service</a> |
+            <a href="https://dilshanhesara.com/" class="mx-2">Copyright © 2025 Dilshan Hesara. All rights reserved</a>
+
+        </p>
+        <p>
+
+            <a href="https://dilshanhesara.com/" class="mx-2">&copy;  Developed By Dilshan Hesara</a>
+
+        </p>
+
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
