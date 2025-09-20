@@ -5,85 +5,280 @@
   <title>Branch Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="../js/auth.js" defer></script>
+
+  <style>
+    :root {
+      --primary-light: #f4f7fc;
+      --text-dark: #1a202c;
+      --text-muted-light: #6c757d;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--primary-light);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    .content {
+      padding: 2.5rem;
+    }
+
+    .card {
+      border: none;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-header {
+      background-color: #fff;
+      border-bottom: 1px solid #e9ecef;
+      font-weight: 600;
+      padding: 1rem 1.5rem;
+      border-radius: 0.75rem 0.75rem 0 0 !important;
+    }
+
+    .stat-card .icon-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-card .icon-circle i {
+      font-size: 2.2rem;
+    }
+
+    .stat-card h4 {
+      font-weight: 700;
+    }
+
+    .bg-success-soft { background-color: rgba(25, 135, 84, 0.1); }
+    .bg-warning-soft { background-color: rgba(255, 193, 7, 0.15); }
+    .bg-info-soft { background-color: rgba(13, 202, 240, 0.15); }
+    .bg-primary-soft { background-color: rgba(13, 110, 253, 0.1); }
+    .bg-danger-soft { background-color: rgba(220, 53, 69, 0.1); }
+    .bg-secondary-soft { background-color: rgba(108, 117, 125, 0.1); }
+
+    .table {
+      vertical-align: middle;
+    }
+
+    .table thead th {
+      font-weight: 600;
+      color: var(--text-muted-light);
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      border: none;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .table tbody tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 600;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 280px; /
+      padding: 1.5rem 1rem;
+      background-color: #ffffff;
+      border-right: 1px solid #e9ecef;
+      display: flex;
+      flex-direction: column;
+      transition: width 0.3s ease;
+    }
+
+    #sidebar-profile-pic {
+      border: 3px solid #dee2e6;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    #sidebar-branch-name {
+      font-weight: 600;
+      color: #212529;
+      margin-top: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    #sidebar-admin-name {
+      color: #6c757d;
+      font-size: 0.85rem;
+    }
+
+    .sidebar a, .sidebar .nav-link {
+      display: flex;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      margin: 0.25rem 0;
+      color: #495057;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+
+    .sidebar a i, .sidebar .nav-link i {
+      font-size: 1.2rem;
+      width: 30px;
+      margin-right: 0.5rem;
+    }
+
+    .sidebar a:hover, .sidebar .nav-link:hover {
+      background-color: rgba(13, 110, 253, 0.1);
+      color: #0d6efd;
+    }
+
+    .sidebar a.active {
+      background-color: #0d6efd;
+      color: #fff;
+      font-weight: 500;
+      box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+    }
+
+    .sidebar hr {
+      border-color: #e9ecef;
+    }
+
+
+    .sidebar .dropdown-menu {
+      border-radius: 0.5rem;
+      border: 1px solid #dee2e6;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    #notification-badge {
+      font-size: 0.65em !important;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+    }
+
+
+
+    .sidebar {
+      width: 280px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      z-index: 1000;
+    }
+
+
+    .content {
+      margin-left: 280px;
+      padding: 2.5rem;
+      width: calc(100% - 280px);
+    }
+
+
+    #sidebar-branch-name {
+      font-weight: 600;
+      color: #212529;
+      margin-top: 0.5rem;
+      margin-bottom: 0.25rem;
+      text-transform: lowercase;
+    }
+
+    #sidebar-admin-name {
+      color: #6c757d;
+      font-size: 0.85rem;
+      text-transform: lowercase;
+    }
+  </style>
 </head>
 <body>
 <div id="sidebar-placeholder"></div>
 
 <div class="content">
-  <div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h1 class="mb-0">Branch Dashboard</h1>
       <p id="current-date-time" class="text-muted"></p>
     </div>
   </div>
-  <hr>
 
-  <!-- Top Row Statistics -->
-  <div class="row">
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card bg-success text-white h-100"><div class="card-body"><h5 class="card-title">Today's Earnings</h5><h2 id="todays-earnings" class="display-5">...</h2></div></div>
+  <div class="row g-4">
+    <div class="col-lg-3 col-md-6">
+      <div class="card stat-card h-100"><div class="card-body"><div class="d-flex align-items-center"><div class="icon-circle bg-success-soft"><i class="bi bi-cash-stack text-success"></i></div><div class="ms-3"><h6 class="text-muted mb-1">Today's Earnings</h6><h4 id="todays-earnings" class="mb-0">...</h4></div></div></div></div>
     </div>
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card bg-warning text-dark h-100"><div class="card-body"><h5 class="card-title">Active Doctors</h5><h2 id="doctor-count" class="display-5">...</h2></div></div>
+    <div class="col-lg-3 col-md-6">
+      <div class="card stat-card h-100"><div class="card-body"><div class="d-flex align-items-center"><div class="icon-circle bg-warning-soft"><i class="bi bi-heart-pulse text-warning"></i></div><div class="ms-3"><h6 class="text-muted mb-1">Active Doctors</h6><h4 id="doctor-count" class="mb-0">...</h4></div></div></div></div>
     </div>
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card bg-info text-white h-100"><div class="card-body"><h5 class="card-title">Receptionists</h5><h2 id="receptionist-count" class="display-5">...</h2></div></div>
+    <div class="col-lg-3 col-md-6">
+      <div class="card stat-card h-100"><div class="card-body"><div class="d-flex align-items-center"><div class="icon-circle bg-info-soft"><i class="bi bi-person-workspace text-info"></i></div><div class="ms-3"><h6 class="text-muted mb-1">Receptionists</h6><h4 id="receptionist-count" class="mb-0">...</h4></div></div></div></div>
     </div>
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card border-success h-100"><div class="card-body text-success"><h5 class="card-title">Completed Today</h5><h2 id="completed-count" class="display-5">...</h2></div></div>
+    <div class="col-lg-3 col-md-6">
+      <div class="card stat-card h-100"><div class="card-body"><div class="d-flex align-items-center"><div class="icon-circle bg-primary-soft"><i class="bi bi-check2-circle text-primary"></i></div><div class="ms-3"><h6 class="text-muted mb-1">Completed Today</h6><h4 id="completed-count" class="mb-0">...</h4></div></div></div></div>
     </div>
   </div>
 
-  <!-- Today's Appointment Summary -->
-  <h4 class="mt-4 mb-3">Today's Appointments</h4>
-  <div class="row">
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card border-primary h-100"><div class="card-body text-primary"><h5 class="card-title">Online Bookings</h5><h2 id="online-count" class="display-5">...</h2></div></div>
+  <h4 class="mt-5 mb-3">Today's Appointments</h4>
+  <div class="row g-4">
+    <div class="col-lg-3 col-md-6">
+      <div class="card stat-card h-100"><div class="card-body"><div class="d-flex align-items-center"><div class="icon-circle bg-primary-soft"><i class="bi bi-cloud-check text-primary"></i></div><div class="ms-3"><h6 class="text-muted mb-1">Online Bookings</h6><h4 id="online-count" class="mb-0">...</h4></div></div></div></div>
     </div>
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card border-secondary h-100"><div class="card-body text-secondary"><h5 class="card-title">Walk-in / Manual</h5><h2 id="walkin-count" class="display-5">...</h2></div></div>
+    <div class="col-lg-3 col-md-6">
+      <div class="card stat-card h-100"><div class="card-body"><div class="d-flex align-items-center"><div class="icon-circle bg-secondary-soft"><i class="bi bi-person-walking text-secondary"></i></div><div class="ms-3"><h6 class="text-muted mb-1">Walk-in / Manual</h6><h4 id="walkin-count" class="mb-0">...</h4></div></div></div></div>
     </div>
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card bg-primary text-white h-100"><div class="card-body"><h5 class="card-title">Confirmed Today</h5><h2 id="confirmed-count" class="display-5">...</h2></div></div>
+    <div class="col-lg-3 col-md-6">
+      <div class="card stat-card h-100"><div class="card-body"><div class="d-flex align-items-center"><div class="icon-circle bg-success-soft"><i class="bi bi-calendar2-check text-success"></i></div><div class="ms-3"><h6 class="text-muted mb-1">Confirmed Today</h6><h4 id="confirmed-count" class="mb-0">...</h4></div></div></div></div>
     </div>
-    <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card bg-danger text-white h-100"><div class="card-body"><h5 class="card-title">Cancelled Today</h5><h2 id="cancelled-count" class="display-5">...</h2></div></div>
+    <div class="col-lg-3 col-md-6">
+      <div class="card stat-card h-100"><div class="card-body"><div class="d-flex align-items-center"><div class="icon-circle bg-danger-soft"><i class="bi bi-calendar2-x text-danger"></i></div><div class="ms-3"><h6 class="text-muted mb-1">Cancelled Today</h6><h4 id="cancelled-count" class="mb-0">...</h4></div></div></div></div>
     </div>
   </div>
 
-<!--  <div class="card shadow-sm">-->
-<!--    <div class="card-header"><i class="bi bi-lightning-fill"></i> Quick Actions</div>-->
-<!--    <div class="card-body d-grid gap-2">-->
-<!--      <a href="book-appointment.html" class="btn btn-outline-primary"><i class="bi bi-calendar-plus"></i> Book for a Patient</a>-->
-<!--      <a href="patient.html" class="btn btn-outline-secondary"><i class="bi bi-person-plus"></i> Add New Patient</a>-->
-<!--    </div>-->
-<!--  </div>-->
-
-  <!-- Chart and Doctors on Duty -->
-  <div class="row mt-4">
-    <div class="col-lg-8">
-      <div class="card shadow-sm h-100">
-        <div class="card-header">Doctors on Duty</div>
-        <ul id="doctors-on-duty-list" class="list-group list-group-flush">
-        </ul>
+  <div class="row mt-5">
+    <div class="col-lg-8 mb-4 mb-lg-0">
+      <div class="card h-100">
+        <div class="card-header"><i class="bi bi-person-check-fill me-2"></i>Doctors on Duty</div>
+        <div class="card-body p-0">
+          <ul id="doctors-on-duty-list" class="list-group list-group-flush"></ul>
+        </div>
       </div>
     </div>
     <div class="col-lg-4">
-      <div class="card shadow-sm h-100">
-        <div class="card-header">Appointment Status Breakdown</div>
-        <div class="card-body"><canvas id="appointmentStatusChart"></canvas></div>
+      <div class="card h-100">
+        <div class="card-header"><i class="bi bi-pie-chart-fill me-2"></i>Appointment Status Breakdown</div>
+        <div class="card-body d-flex align-items-center justify-content-center"><canvas id="appointmentStatusChart"></canvas></div>
       </div>
     </div>
   </div>
 
-
-  <div class="card mt-4 shadow-sm">
-    <div class="card-header"><i class="bi bi-cloud-check-fill"></i> Today's Online Bookings</div>
+  <div class="card mt-5">
+    <div class="card-header"><i class="bi bi-cloud-check-fill me-2"></i> Today's Online Bookings</div>
     <div class="card-body">
-      <table class="table table-hover"><thead class="table-light"><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Time</th><th>Status</th></tr></thead><tbody id="online-bookings-table"></tbody></table>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Time</th><th>Status</th></tr></thead>
+          <tbody id="online-bookings-table"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -91,13 +286,11 @@
 
 <script src="../js/layout-loader.js"></script>
 <script>
-  let myChart; // Variable to hold the chart instance
+  let myChart;
 
-  // Function to update the clock
   function updateClock() { document.getElementById('current-date-time').textContent = new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }); }
   updateClock(); setInterval(updateClock, 1000);
 
-  // This function is called from layout-loader.js to populate the page
   function loadDashboardData(data) {
     document.getElementById('todays-earnings').textContent = `Rs. ${data.todaysEarnings.toFixed(2)}`;
     document.getElementById('doctor-count').textContent = data.doctorCount;
@@ -110,29 +303,8 @@
     renderAppointmentChart(data);
   }
 
-  // This function is called from layout-loader.js to populate the doctors list
-  // function loadDoctorsOnDuty() {
-  //   const token = localStorage.getItem('authToken');
-  //   fetch('http://localhost:8080/api/doctors', { headers: { 'Authorization': 'Bearer ' + token } })
-  //           .then(res => res.json())
-  //           .then(doctors => {
-  //             const list = document.getElementById('doctors-on-duty-list');
-  //             list.innerHTML = '';
-  //             if(doctors.length > 0) {
-  //               doctors.forEach(doc => {
-  //                 list.innerHTML += `<li class="list-group-item">${doc.fullName} (${doc.specialization})</li>`;
-  //               });
-  //             } else {
-  //               list.innerHTML = '<li class="list-group-item">No active doctors found.</li>';
-  //             }
-  //           });
-  // }
-
-
   function loadDoctorsOnDuty() {
     const token = localStorage.getItem('authToken');
-
-    // --- CORRECTED: Call the new, simpler API endpoint ---
     fetch('http://localhost:8080/api/doctors/active-list', { headers: { 'Authorization': 'Bearer ' + token } })
             .then(res => {
               if (!res.ok) { throw new Error("Failed to load doctors list"); }
@@ -143,16 +315,16 @@
               list.innerHTML = '';
               if(doctors.length > 0) {
                 doctors.forEach(doc => {
-                  list.innerHTML += `<li class="list-group-item">${doc.fullName} (${doc.specialization})</li>`;
+                  list.innerHTML += `<li class="list-group-item border-0">${doc.fullName} <span class="text-muted small">(${doc.specialization})</span></li>`;
                 });
               } else {
-                list.innerHTML = '<li class="list-group-item">No active doctors found.</li>';
+                list.innerHTML = '<li class="list-group-item border-0">No active doctors found.</li>';
               }
             })
             .catch(error => {
               console.error("Error loading doctors on duty:", error);
               const list = document.getElementById('doctors-on-duty-list');
-              list.innerHTML = '<li class="list-group-item text-danger">Could not load doctor list.</li>';
+              list.innerHTML = '<li class="list-group-item text-danger border-0">Could not load doctor list.</li>';
             });
   }
 
@@ -160,7 +332,6 @@
     const ctx = document.getElementById('appointmentStatusChart');
     if (!ctx) return;
 
-    // CRITICAL FIX: Destroy the old chart before creating a new one
     if (myChart) {
       myChart.destroy();
     }
@@ -171,15 +342,23 @@
         labels: ['Confirmed', 'Completed', 'Cancelled'],
         datasets: [{
           data: [data.confirmedCount, data.completedCount, data.cancelledCount],
-          backgroundColor: ['#0d6efd', '#198754', '#dc3545']
+          backgroundColor: ['#0d6efd', '#198754', '#dc3545'],
+          borderColor: '#fff',
+          borderWidth: 4
         }]
       },
-      options: { responsive: true, maintainAspectRatio: false }
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+          }
+        }
+      }
     });
   }
 
-
-  // Online Bookings
   const token = localStorage.getItem('authToken');
   fetch('http://localhost:8080/api/appointments/online-bookings/today', { headers: { 'Authorization': 'Bearer ' + token } })
           .then(res => res.json())
@@ -189,12 +368,14 @@
             if (appointments.length > 0) {
               appointments.forEach(app => {
                 const time = new Date(app.appointmentDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                tbody.innerHTML += `<tr><td>${app.id}</td><td>${app.patientName}</td><td>${app.doctorName}</td><td>${time}</td><td><span class="badge bg-primary">${app.status}</span></td></tr>`;
+                tbody.innerHTML += `<tr><td>#${app.id}</td><td>${app.patientName}</td><td>${app.doctorName}</td><td>${time}</td><td><span class="badge bg-primary-soft text-primary">${app.status}</span></td></tr>`;
               });
             } else {
-              tbody.innerHTML = '<tr><td colspan="5" class="text-center">No online bookings for today.</td></tr>';
+              tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">No online bookings for today.</td></tr>';
             }
           });
 </script>
 </body>
 </html>
+
+
