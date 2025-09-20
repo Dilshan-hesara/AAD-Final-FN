@@ -2,91 +2,227 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Manage Super Admins</title>
-    <!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Super Admins - HMS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <!-- Your Custom CSS -->
-    <link rel="stylesheet" href="../css/styles.css">
-    <!-- Page Protection -->
-    <script src="../js/auth.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+    .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+    .filter-section { background-color: #ffffff; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color, #e9ecef); margin-bottom: 2rem; }
+    .table { margin-bottom: 0; }
+    .table thead th { border-bottom-width: 1px; background-color: #f8f9fa; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; }
+    .table tbody td { vertical-align: middle; }
+    .status-badge { font-weight: 600; padding: 0.4em 0.9em; border-radius: 50px; font-size: 0.75rem; }
+    .status-active { background-color: rgba(25, 135, 84, 0.1); color: #198754; }
+    .status-inactive { background-color: rgba(108, 117, 125, 0.1); color: #6c757d; }
+    .pagination .page-link { border-radius: 0.5rem; margin: 0 0.2rem; border: none; color: var(--primary-color, #0d6efd); }
+    .pagination .page-item.active .page-link { background-color: var(--primary-color, #0d6efd); color: white; box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2); }
+    .action-dropdown .dropdown-toggle::after { display: none; }
+
+
+
+
+    :root {
+        --primary-color: #0d6efd;
+        --sidebar-bg: #ffffff;
+        --light-bg: #f8f9fa;
+        --text-primary: #212529;
+        --text-secondary: #6c757d;
+        --border-color: #e9ecef;
+        --primary-bg-light: rgba(13, 110, 253, 0.1);
+    }
+
+
+    body {
+        display: flex;
+        background-color: var(--light-bg);
+        font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 260px;
+        height: 100vh;
+        background-color: var(--sidebar-bg);
+        border-right: 1px solid var(--border-color);
+        padding: 1.5rem 1rem;
+        display: flex;
+        flex-direction: column;
+        z-index: 1000;
+        transition: left 0.3s ease;
+    }
+
+
+    .sidebar-profile {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        padding: 0 0.5rem;
+    }
+
+    .sidebar-profile img {
+        border: 3px solid var(--border-color);
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .sidebar-profile h5 {
+        color: var(--primary-color);
+        margin-top: 0.75rem;
+        margin-bottom: 0.25rem;
+        font-weight: 700;
+        font-size: 1.25rem;
+    }
+
+    .sidebar-profile p {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+
+    .sidebar-nav {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        flex-grow: 1;
+    }
+
+    .sidebar-nav .nav-item a {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        padding: 0.8rem 1rem;
+        border-radius: 8px;
+        color: var(--text-secondary);
+        font-weight: 500;
+        text-decoration: none;
+        transition: background-color 0.2s, color 0.2s;
+        font-size: 0.95rem;
+    }
+
+    .sidebar-nav .nav-item a i {
+        font-size: 1.1rem;
+    }
+
+    .sidebar-nav .nav-item a:hover {
+        background-color: var(--primary-bg-light);
+        color: var(--primary-color);
+    }
+
+    .sidebar-nav .nav-item a.active {
+        background-color: var(--primary-color);
+        color: white;
+        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+    }
+
+    .main-wrapper {
+        flex-grow: 1;
+        padding: 2rem;
+        margin-left: 260px;
+    }
+
+    .mobile-header {
+        display: none;
+    }
+    .overlay {
+        display: none;
+    }
+
+    @media (max-width: 992px) {
+        .sidebar {
+            left: -280px;
+        }
+        .sidebar.active {
+            left: 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+        .main-wrapper {
+            margin-left: 0;
+        }
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 999;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .menu-toggle {
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+        }
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 998;
+            display: block;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .main-wrapper .content-inner {
+            padding: 1.5rem;
+        }
+    }
+</style>
 </head>
 <body>
+
 <div id="sidebar-placeholder"></div>
-<div class="content">
-    <h1>Manage Super Admins</h1><hr>
-    <div class="card bg-light mb-4">
-        <div class="card-body"><div class="row g-3">
-            <div class="col-md-10"><label>Search by Name</label><input type="text" id="keywordFilter" class="form-control" placeholder="Enter name..."></div>
-            <div class="col-md-2 d-flex align-items-end"><button id="filter-btn" class="btn btn-primary w-100">Search</button></div>
-        </div></div>
+
+<div class="main-wrapper">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Manage Super Admins</h1>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal"><i class="bi bi-plus-circle me-2"></i> Add New Super Admin</button>
+    </div>
+    <hr class="mb-4">
+
+    <div class="filter-section">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-10"><label class="form-label fw-bold">Search by Name</label><input type="text" id="keywordFilter" class="form-control" placeholder="Enter name..."></div>
+            <div class="col-md-2"><button id="filter-btn" class="btn btn-primary w-100"><i class="bi bi-search"></i> Search</button></div>
+        </div>
     </div>
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <span id="result-summary"></span>
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal"><i class="bi bi-plus-circle"></i> Add New Super Admin</button>
+        <span id="result-summary" class="text-muted fw-bold"></span>
     </div>
-    <div class="card"><div class="table-responsive">
-        <table class="table table-hover">
-            <thead class="table-light"><tr><th>Name</th><th>Username</th><th>Status</th><th>Actions</th></tr></thead>
-            <tbody id="admin-table-body"></tbody>
-        </table>
-    </div></div>
-    <nav class="mt-4"><ul id="pagination" class="pagination justify-content-center"></ul></nav>
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light"><tr><th>Name</th><th>Username</th><th>Status</th><th class="text-end">Actions</th></tr></thead>
+                <tbody id="admin-table-body"></tbody>
+            </table>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-center">
+            <nav><ul id="pagination" class="pagination"></ul></nav>
+        </div>
+    </div>
 </div>
 
-<!-- Add Modal -->
-<div class="modal fade" id="addModal" tabindex="-1">
-    <div class="modal-dialog"><div class="modal-content">
-        <div class="modal-header"><h5 class="modal-title">Add New Super Admin</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-        <div class="modal-body">
-            <form id="add-form">
-                <div class="mb-3"><label>Full Name</label><input type="text" id="addFullName" class="form-control" required></div>
-                <div class="mb-3"><label>Email</label><input type="email" id="addEmail" class="form-control"></div>
-                <div class="mb-3"><label>Contact Number</label><input type="text" id="addContactNumber" class="form-control"></div><hr>
-                <div class="mb-3"><label>Username</label><input type="text" id="addUsername" class="form-control" required></div>
-                <div class="mb-3"><label>Password</label><input type="password" id="addPassword" class="form-control" required></div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" form="add-form" class="btn btn-primary">Save</button>
-        </div>
-    </div></div>
-</div>
-
-<!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1">
-    <div class="modal-dialog"><div class="modal-content">
-        <div class="modal-header"><h5 class="modal-title">Edit Super Admin</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-        <div class="modal-body">
-            <form id="edit-form">
-                <input type="hidden" id="editUserId">
-                <div class="mb-3"><label>Full Name</label><input type="text" id="editFullName" class="form-control" required></div>
-                <div class="mb-3"><label>Email</label><input type="email" id="editEmail" class="form-control"></div>
-                <div class="mb-3"><label>Contact</label><input type="text" id="editContactNumber" class="form-control"></div><hr>
-                <div class="mb-3"><label>Username</label><input type="text" id="editUsername" class="form-control" required></div>
-                <div class="mb-3"><label>New Password (Optional)</label><input type="password" id="editPassword" class="form-control" placeholder="Leave blank to keep current"></div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" form="edit-form" class="btn btn-primary">Save Changes</button>
-        </div>
-    </div></div>
-</div>
-
-<!-- Details Modal -->
-<div class="modal fade" id="detailsModal" tabindex="-1">
-    <div class="modal-dialog"><div class="modal-content">
-        <div class="modal-header"><h5 class="modal-title">Super Admin Details</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-        <div id="details-body" class="modal-body"></div>
-        <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div>
-    </div></div>
-</div>
+<div class="modal fade" id="addModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><form id="add-form"><div class="modal-header"><h5 class="modal-title">Add New Super Admin</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="mb-3"><label>Full Name</label><input type="text" id="addFullName" class="form-control" required></div><div class="mb-3"><label>Email</label><input type="email" id="addEmail" class="form-control"></div><div class="mb-3"><label>Contact Number</label><input type="text" id="addContactNumber" class="form-control"></div><hr><div class="mb-3"><label>Username</label><input type="text" id="addUsername" class="form-control" required></div><div class="mb-3"><label>Password</label><input type="password" id="addPassword" class="form-control" required></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button><button type="submit" class="btn btn-primary">Save Admin</button></div></form></div></div></div>
+<div class="modal fade" id="editModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><form id="edit-form"><div class="modal-header"><h5 class="modal-title">Edit Super Admin</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="editUserId"><div class="mb-3"><label>Full Name</label><input type="text" id="editFullName" class="form-control" required></div><div class="mb-3"><label>Email</label><input type="email" id="editEmail" class="form-control"></div><div class="mb-3"><label>Contact</label><input type="text" id="editContactNumber" class="form-control"></div><hr><div class="mb-3"><label>Username</label><input type="text" id="editUsername" class="form-control" required></div><div class="mb-3"><label>New Password (Optional)</label><input type="password" id="editPassword" class="form-control" placeholder="Leave blank to keep current"></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button><button type="submit" class="btn btn-primary">Save Changes</button></div></form></div></div></div>
+<div class="modal fade" id="detailsModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Super Admin Details</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div id="details-body" class="modal-body"></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/layout-loader.js"></script>
+
 <script>
     const token = localStorage.getItem('authToken');
     let currentPage = 0;
@@ -102,32 +238,51 @@
         fetch(url, { headers: { 'Authorization': 'Bearer ' + token } }).then(res => res.json()).then(pageData => {
             renderTable(pageData.content);
             renderPagination(pageData);
+            document.getElementById('result-summary').textContent = `Showing ${pageData.numberOfElements} of ${pageData.totalElements} results.`;
         });
     }
 
     function renderTable(admins) {
         const tableBody = document.getElementById('admin-table-body');
         tableBody.innerHTML = '';
+        if (admins.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="4" class="text-center text-muted p-4">No super admins found.</td></tr>`;
+            return;
+        }
         admins.forEach(admin => {
-            const statusBtn = admin.active ? `<button class="btn btn-sm btn-warning action-btn" data-action="deactivate" data-id="${admin.userId}">Deactivate</button>` : `<button class="btn btn-sm btn-success action-btn" data-action="activate" data-id="${admin.userId}">Activate</button>`;
+            const statusClass = `status-${admin.active ? 'active' : 'inactive'}`;
+            const statusText = admin.active ? 'ACTIVE' : 'INACTIVE';
+            const statusActionText = admin.active ? 'Deactivate' : 'Activate';
+            const adminDataString = JSON.stringify(admin).replace(/'/g, "&apos;");
+
             tableBody.innerHTML += `<tr>
-                    <td>${admin.fullName}</td><td>${admin.username}</td>
-                    <td><span class="badge bg-${admin.active ? 'success' : 'secondary'}">${admin.active ? 'ACTIVE' : 'INACTIVE'}</span></td>
-                    <td>
-                        <button class="btn btn-sm btn-info details-btn" data-id="${admin.userId}">Details</button>
-                        <button class="btn btn-sm btn-primary edit-btn" data-admin='${JSON.stringify(admin)}'>Edit</button>
-                        <button class="btn btn-sm btn-danger delete-btn" data-id="${admin.userId}">Delete</button>
-                        ${statusBtn}
-                    </td></tr>`;
+                <td><strong>${admin.fullName}</strong></td>
+                <td>${admin.username}</td>
+                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                <td class="text-end">
+                    <div class="dropdown action-dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item details-btn" href="#" data-id="${admin.userId}"><i class="bi bi-eye-fill me-2"></i>View Details</a></li>
+                            <li><a class="dropdown-item edit-btn" href="#" data-admin='${adminDataString}'><i class="bi bi-pencil-fill me-2"></i>Edit Admin</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item action-btn" href="#" data-action="${admin.active ? 'deactivate' : 'activate'}" data-id="${admin.userId}">${statusActionText}</a></li>
+                            <li><a class="dropdown-item text-danger delete-btn" href="#" data-id="${admin.userId}"><i class="bi bi-trash-fill me-2"></i>Delete Admin</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>`;
         });
         attachRowEventListeners();
     }
 
     function attachRowEventListeners() {
-        document.querySelectorAll('.details-btn').forEach(btn => btn.addEventListener('click', function() { viewDetails(this.dataset.id); }));
-        document.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', function() { openEditModal(JSON.parse(this.dataset.admin)); }));
-        document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', function() { deleteAdmin(this.dataset.id); }));
-        document.querySelectorAll('.action-btn').forEach(btn => btn.addEventListener('click', function() { updateStatus(this.dataset.id, this.dataset.action === 'activate'); }));
+        document.querySelectorAll('.details-btn').forEach(btn => btn.addEventListener('click', function(e) { e.preventDefault(); viewDetails(this.dataset.id); }));
+        document.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', function(e) { e.preventDefault(); openEditModal(JSON.parse(this.dataset.admin.replace(/&apos;/g, "'"))); }));
+        document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', function(e) { e.preventDefault(); deleteAdmin(this.dataset.id); }));
+        document.querySelectorAll('.action-btn').forEach(btn => btn.addEventListener('click', function(e) { e.preventDefault(); updateStatus(this.dataset.id, this.dataset.action === 'activate'); }));
     }
 
     function viewDetails(id) {
@@ -148,21 +303,23 @@
     }
 
     function deleteAdmin(id) {
-        if (!confirm('Are you sure?')) return;
+        if (!confirm('Are you sure you want to permanently delete this admin?')) return;
         fetch(`http://localhost:8080/api/super-admin/manage-admins/${id}`, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + token }})
-            .then(res => { if(res.ok) loadAdmins(currentPage); else alert('Error'); });
+            .then(res => { if(res.ok) loadAdmins(currentPage); else alert('Error deleting admin.'); });
     }
 
     function updateStatus(id, isActive) {
+        const action = isActive ? "activate" : "deactivate";
+        if (!confirm(`Are you sure you want to ${action} this admin?`)) return;
         fetch(`http://localhost:8080/api/super-admin/manage-admins/${id}/status`, { method: 'PATCH', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify({ isActive: isActive })})
-            .then(res => { if(res.ok) loadAdmins(currentPage); else alert('Error'); });
+            .then(res => { if(res.ok) loadAdmins(currentPage); else alert('Error updating status.'); });
     }
 
     document.getElementById('add-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const data = { fullName: document.getElementById('addFullName').value, email: document.getElementById('addEmail').value, contactNumber: document.getElementById('addContactNumber').value, username: document.getElementById('addUsername').value, password: document.getElementById('addPassword').value };
         fetch('http://localhost:8080/api/super-admin/manage-admins', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(data) })
-            .then(res => { if(res.ok) { addModal.hide(); this.reset(); loadAdmins(0); } else { alert('Error'); } });
+            .then(res => { if(res.ok) { addModal.hide(); this.reset(); loadAdmins(0); } else { alert('Error creating admin.'); } });
     });
 
     document.getElementById('edit-form').addEventListener('submit', function(e) {
@@ -170,13 +327,30 @@
         const id = document.getElementById('editUserId').value;
         const data = { fullName: document.getElementById('editFullName').value, username: document.getElementById('editUsername').value, email: document.getElementById('editEmail').value, contactNumber: document.getElementById('editContactNumber').value, password: document.getElementById('editPassword').value };
         fetch(`http://localhost:8080/api/super-admin/manage-admins/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token }, body: JSON.stringify(data) })
-            .then(res => { if(res.ok) { editModal.hide(); loadAdmins(currentPage); } else { alert('Error'); } });
+            .then(res => { if(res.ok) { editModal.hide(); loadAdmins(currentPage); } else { alert('Error updating admin.'); } });
     });
 
     document.getElementById('filter-btn').addEventListener('click', () => loadAdmins(0));
     document.addEventListener('DOMContentLoaded', () => loadAdmins(0));
 
-    function renderPagination(pageData) { /* Your pagination logic here */ }
+    function renderPagination(pageData) {
+        const paginationUl = document.getElementById('pagination');
+        paginationUl.innerHTML = '';
+        if (pageData.totalPages <= 1) return;
+        const createPageItem = (page, text, isDisabled = false, isActive = false) => {
+            return `<li class="page-item ${isDisabled ? 'disabled' : ''} ${isActive ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="event.preventDefault(); ${isDisabled ? '' : `loadAdmins(${page})`}">${text}</a>
+                    </li>`;
+        };
+        paginationUl.innerHTML += createPageItem(currentPage - 1, 'Previous', pageData.first);
+        for (let i = 0; i < pageData.totalPages; i++) {
+            paginationUl.innerHTML += createPageItem(i, i + 1, false, i === currentPage);
+        }
+        paginationUl.innerHTML += createPageItem(currentPage + 1, 'Next', pageData.last);
+    }
 </script>
 </body>
 </html>
+
+
+
