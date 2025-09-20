@@ -1,329 +1,117 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org"-->
-<!--      th:replace="~{layout :: layout(~{::title}, ~{::.content-wrapper})}">-->
-<!--<head>-->
-<!--  <title>Main Dashboard</title>-->
-<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
-
-<!--</head>-->
-<!--<body>-->
-<!--<div class="content-wrapper">-->
-<!--  <div class="container-fluid">-->
-<!--    <h1 class="mt-4">Main Dashboard (All Branches)</h1>-->
-<!--    <p class="text-muted">Overall summary of the entire hospital network.</p>-->
-<!--    <hr>-->
-
-<!--    <div class="row">-->
-<!--      <div class="col-xl-3 col-md-6">-->
-<!--        <div class="card bg-danger text-white mb-4">-->
-<!--          <div class="card-body">-->
-<!--            <h4>Total Branches</h4>-->
-<!--            <h2 th:text="${totalBranches}">5</h2>-->
-<!--            <i class="bi bi-geo-alt-fill" style="font-size: 3rem; position: absolute; top: 15px; right: 15px; opacity: 0.3;"></i>-->
-<!--          </div>-->
-
-<!--          <div class="card-footer d-flex align-items-center justify-content-between">-->
-<!--            <a class="small text-dark stretched-link" th:href="@{/branch/doctors}">View Details</a>-->
-<!--            <div class="small text-dark"><i class="bi bi-arrow-right-circle"></i></div>-->
-<!--          </div>-->
-<!--        </div>-->
-
-<!--      </div>-->
-<!--      <div class="col-xl-3 col-md-6">-->
-<!--        <div class="card bg-primary text-white mb-4">-->
-<!--          <div class="card-body">-->
-<!--            <h4>Total Patients</h4>-->
-<!--            <h2 th:text="${totalPatients}">1250</h2>-->
-<!--            <i class="bi bi-person-fill" style="font-size: 3rem; position: absolute; top: 15px; right: 15px; opacity: 0.3;"></i>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="col-xl-3 col-md-6">-->
-<!--        <div class="card bg-warning text-dark mb-4">-->
-<!--          <div class="card-body">-->
-<!--            <h4>Total Doctors</h4>-->
-<!--            <h2 th:text="${totalDoctors}">150</h2>-->
-<!--            <i class="bi bi-heart-pulse-fill" style="font-size: 3rem; position: absolute; top: 15px; right: 15px; opacity: 0.3;"></i>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="col-xl-3 col-md-6">-->
-<!--        <div class="card bg-success text-white mb-4">-->
-<!--          <div class="card-body">-->
-<!--            <h4>Total Appointments</h4>-->
-<!--            <h2 th:text="${totalAppointments}">4320</h2>-->
-<!--            <i class="bi bi-calendar-check-fill" style="font-size: 3rem; position: absolute; top: 15px; right: 15px; opacity: 0.3;"></i>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div class="card mt-4">-->
-<!--      <div class="card-header">-->
-<!--        <i class="bi bi-table"></i>-->
-<!--        Branch-wise Summary-->
-<!--      </div>-->
-<!--      <div class="card-body">-->
-<!--        <table class="table table-bordered table-hover">-->
-<!--          <thead class="table-dark">-->
-<!--          <tr>-->
-<!--            <th>Branch Name</th>-->
-<!--            <th>Location</th>-->
-<!--            <th>Patient Count</th>-->
-<!--            <th>Doctor Count</th>-->
-<!--            <th>Appointments This Month</th>-->
-<!--          </tr>-->
-<!--          </thead>-->
-<!--          <tbody>-->
-<!--          <tr th:each="summary : ${branchSummaryList}">-->
-<!--            <td th:text="${summary.branchName}">Colombo Main</td>-->
-<!--            <td th:text="${summary.location}">Colombo 07</td>-->
-<!--            <td th:text="${summary.patientCount}">450</td>-->
-<!--            <td th:text="${summary.doctorCount}">50</td>-->
-<!--            <td th:text="${summary.appointmentCount}">1200</td>-->
-<!--          </tr>-->
-<!--          <tr>-->
-<!--            <td>Kandy Branch</td>-->
-<!--            <td>Kandy</td>-->
-<!--            <td>300</td>-->
-<!--            <td>40</td>-->
-<!--            <td>950</td>-->
-<!--          </tr>-->
-<!--          <tr>-->
-<!--            <td>Galle Branch</td>-->
-<!--            <td>Galle</td>-->
-<!--            <td>250</td>-->
-<!--            <td>30</td>-->
-<!--            <td>800</td>-->
-<!--          </tr>-->
-<!--          </tbody>-->
-<!--        </table>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <title>Super Admin Dashboard</title>-->
-<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
-<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">-->
-<!--  <link rel="stylesheet" href="../css/styles.css"> <script src="../js/auth.js" defer></script>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div id="sidebar-placeholder"></div>-->
-
-<!--<div class="content">-->
-<!--  <h1>Main Dashboard</h1>-->
-<!--  <p>Welcome, Super Admin. This is the overview of the entire hospital network.</p>-->
-<!--</div>-->
-
-<!--<script src="js/layout-loader.js"></script>-->
-<!--</body>-->
-<!--</html>-->
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <title>Super Admin Dashboard</title>-->
-<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
-<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">-->
-<!--  <link rel="stylesheet" href="../css/styles.css">-->
-<!--  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
-<!--  <script src="../js/auth.js" defer></script>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div id="sidebar-placeholder"></div>-->
-<!--<div class="content">-->
-<!--  <div class="d-flex justify-content-between align-items-center mb-3">-->
-<!--    <div><h1 class="mb-0">Main Dashboard</h1><p id="current-date-time" class="text-muted"></p></div>-->
-<!--  </div>-->
-<!--  <hr>-->
-
-<!--  <h4 class="mb-3">Network Overview</h4>-->
-<!--  <div class="row">-->
-<!--    <div class="col-lg-3 col-md-6 mb-4"><div class="card bg-primary text-white h-100"><div class="card-body"><h5>Total Branches</h5><h2 id="total-branches" class="display-5">...</h2></div></div></div>-->
-<!--    <div class="col-lg-3 col-md-6 mb-4"><div class="card bg-info text-white h-100"><div class="card-body"><h5>Total Patients</h5><h2 id="total-patients" class="display-5">...</h2></div></div></div>-->
-<!--    <div class="col-lg-3 col-md-6 mb-4"><div class="card bg-secondary text-white h-100"><div class="card-body"><h5>Appointments (This Month)</h5><h2 id="appointments-month" class="display-5">...</h2></div></div></div>-->
-<!--    <div class="col-lg-3 col-md-6 mb-4"><div class="card bg-success text-white h-100"><div class="card-body"><h5>Revenue (This Month)</h5><h2 id="revenue-month" class="display-5">...</h2></div></div></div>-->
-<!--  </div>-->
-
-<!--  <h4 class="mt-4 mb-3">User Summary</h4>-->
-<!--  <div class="row">-->
-<!--    <div class="col"><div class="card text-center mb-4"><div class="card-body"><h5 class="card-title">Doctors (Active/Total)</h5><h2 id="doctors-summary" class="display-6">.../...</h2></div></div></div>-->
-<!--    <div class="col"><div class="card text-center mb-4"><div class="card-body"><h5 class="card-title">Receptionists (Active/Total)</h5><h2 id="receptionists-summary" class="display-6">.../...</h2></div></div></div>-->
-<!--    <div class="col"><div class="card text-center mb-4"><div class="card-body"><h5 class="card-title">Branch Admins (Active/Total)</h5><h2 id="admins-summary" class="display-6">.../...</h2></div></div></div>-->
-<!--    <div class="col"><div class="card text-center mb-4"><div class="card-body"><h5 class="card-title">Super Admins</h5><h2 id="super-admins-total" class="display-6">...</h2></div></div></div>-->
-<!--  </div>-->
-
-<!--  <div class="row mt-4">-->
-<!--    <div class="col-lg-12">-->
-<!--      <div class="card shadow-sm h-100">-->
-<!--        <div class="card-header">This Month's Appointment Breakdown</div>-->
-<!--        <div class="card-body"><canvas id="appointmentChart"></canvas></div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
-<!--<script src="js/layout-loader.js"></script>-->
-<!--<script>-->
-<!--  function updateClock() { document.getElementById('current-date-time').textContent = new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }); }-->
-<!--  updateClock(); setInterval(updateClock, 1000);-->
-
-<!--  document.addEventListener('DOMContentLoaded', function() {-->
-<!--    const token = localStorage.getItem('authToken');-->
-<!--    fetch('http://localhost:8080/api/super-admin/dashboard-summary', { headers: { 'Authorization': 'Bearer ' + token } })-->
-<!--            .then(res => res.json())-->
-<!--            .then(data => {-->
-<!--              // Populate all cards-->
-<!--              document.getElementById('total-branches').textContent = data.totalBranches;-->
-<!--              document.getElementById('total-patients').textContent = data.totalPatients;-->
-<!--              document.getElementById('appointments-month').textContent = data.appointmentsThisMonth;-->
-<!--              document.getElementById('revenue-month').textContent = `Rs. ${data.revenueThisMonth.toFixed(0)}`;-->
-<!--              document.getElementById('doctors-summary').textContent = `${data.activeDoctors} / ${data.totalDoctors}`;-->
-<!--              document.getElementById('receptionists-summary').textContent = `${data.activeReceptionists} / ${data.totalReceptionists}`;-->
-<!--              document.getElementById('admins-summary').textContent = `${data.activeBranchAdmins} / ${data.totalBranchAdmins}`;-->
-<!--              document.getElementById('super-admins-total').textContent = data.totalSuperAdmins;-->
-
-<!--              renderAppointmentChart(data);-->
-<!--            });-->
-<!--  });-->
-
-<!--  function renderAppointmentChart(data) {-->
-<!--    const ctx = document.getElementById('appointmentChart').getContext('2d');-->
-<!--    new Chart(ctx, {-->
-<!--      type: 'bar',-->
-<!--      data: {-->
-<!--        labels: ['Total Appointments', 'Online Bookings', 'Cancellations'],-->
-<!--        datasets: [{-->
-<!--          label: 'Count for this month',-->
-<!--          data: [data.appointmentsThisMonth, data.onlineAppointmentsThisMonth, data.cancelledAppointmentsThisMonth],-->
-<!--          backgroundColor: ['#0d6efd', '#198754', '#dc3545']-->
-<!--        }]-->
-<!--      },-->
-<!--      options: { responsive: true }-->
-<!--    });-->
-<!--  }-->
-<!--</script>-->
-<!--</body>-->
-<!--</html>-->
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <title>Super Admin Dashboard</title>-->
-<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
-<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">-->
-<!--  <link rel="stylesheet" href="../css/styles.css">-->
-<!--  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
-<!--  <script src="../js/auth.js" defer></script>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div id="sidebar-placeholder"></div>-->
-<!--<div class="content">-->
-<!--  <div class="d-flex justify-content-between align-items-center mb-3">-->
-<!--    <div><h1 class="mb-0">Main Dashboard</h1><p id="current-date-time" class="text-muted"></p></div>-->
-<!--  </div>-->
-<!--  <hr>-->
-
-<!--  <h4 class="mb-3">User Overview</h4>-->
-<!--  <div class="row">-->
-<!--    <div class="col"><div class="card text-center mb-4"><div class="card-body"><h5 class="card-title">Total Patients</h5><h2 id="total-patients" class="display-5">...</h2></div></div></div>-->
-<!--    <div class="col"><div class="card text-center mb-4"><div class="card-body"><h5 class="card-title">Active Doctors</h5><h2 id="active-doctors" class="display-5">...</h2></div></div></div>-->
-<!--    <div class="col"><div class="card text-center mb-4"><div class="card-body"><h5 class="card-title">Active Receptionists</h5><h2 id="active-receptionists" class="display-5">...</h2></div></div></div>-->
-<!--    <div class="col"><div class="card text-center mb-4"><div class="card-body"><h5 class="card-title">Active Branch Admins</h5><h2 id="active-admins" class="display-5">...</h2></div></div></div>-->
-<!--  </div>-->
-
-<!--  <h4 class="mt-4 mb-3">This Month's Summary</h4>-->
-<!--  <div class="row">-->
-<!--    <div class="col-lg-3 col-md-6 mb-4"><div class="card bg-success text-white h-100"><div class="card-body"><h5>Revenue</h5><h2 id="revenue-month" class="display-5">...</h2></div></div></div>-->
-<!--    <div class="col-lg-3 col-md-6 mb-4"><div class="card bg-primary text-white h-100"><div class="card-body"><h5>Total Appointments</h5><h2 id="appointments-month" class="display-5">...</h2></div></div></div>-->
-<!--    <div class="col-lg-3 col-md-6 mb-4"><div class="card bg-info text-white h-100"><div class="card-body"><h5>Online Bookings</h5><h2 id="online-month" class="display-5">...</h2></div></div></div>-->
-<!--    <div class="col-lg-3 col-md-6 mb-4"><div class="card bg-danger text-white h-100"><div class="card-body"><h5>Cancellations</h5><h2 id="cancelled-month" class="display-5">...</h2></div></div></div>-->
-<!--  </div>-->
-
-<!--  <div class="row mt-4">-->
-<!--    <div class="col-lg-8"><div class="card shadow-sm h-100"><div class="card-header">Network-Wide User Distribution</div><div class="card-body"><canvas id="userChart"></canvas></div></div></div>-->
-<!--    <div class="col-lg-4"><div class="card shadow-sm h-100"><div class="card-header">Quick Actions</div><div class="card-body d-grid gap-2">-->
-<!--      <a href="manage-branch-details.html" class="btn btn-outline-dark">Manage Branches</a>-->
-<!--      <a href="manage-admins.html" class="btn btn-outline-dark">Manage Branch Admins</a>-->
-<!--    </div></div></div>-->
-<!--  </div>-->
-<!--</div>-->
-
-<!--<script src="js/layout-loader.js"></script>-->
-<!--<script src="js/jquery-3.6.0.min.js"></script>-->
-<!--<script>-->
-<!--  function updateClock() { document.getElementById('current-date-time').textContent = new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' }); }-->
-<!--  updateClock(); setInterval(updateClock, 1000);-->
-
-<!--  document.addEventListener('DOMContentLoaded', function() {-->
-<!--    const token = localStorage.getItem('authToken');-->
-<!--    fetch('http://localhost:8080/api/super-admin/dashboard-summary', { headers: { 'Authorization': 'Bearer ' + token } })-->
-<!--            .then(res => res.json())-->
-<!--            .then(data => {-->
-<!--              // Populate all cards-->
-<!--              document.getElementById('total-patients').textContent = data.totalPatients;-->
-<!--              document.getElementById('active-doctors').textContent = data.activeDoctors;-->
-<!--              document.getElementById('active-receptionists').textContent = data.activeReceptionists;-->
-<!--              document.getElementById('active-admins').textContent = data.activeBranchAdmins;-->
-<!--              document.getElementById('revenue-month').textContent = `Rs. ${data.revenueThisMonth.toFixed(0)}`;-->
-<!--              document.getElementById('appointments-month').textContent = data.appointmentsThisMonth;-->
-<!--              document.getElementById('online-month').textContent = data.onlineAppointmentsThisMonth;-->
-<!--              document.getElementById('cancelled-month').textContent = data.cancelledAppointmentsThisMonth;-->
-
-<!--              // Render the chart-->
-<!--              renderUserChart(data);-->
-<!--            });-->
-<!--  });-->
-
-<!--  function renderUserChart(data) {-->
-<!--    const ctx = document.getElementById('userChart').getContext('2d');-->
-<!--    new Chart(ctx, {-->
-<!--      type: 'bar',-->
-<!--      data: {-->
-<!--        labels: ['Patients', 'Doctors', 'Receptionists', 'Branch Admins'],-->
-<!--        datasets: [{-->
-<!--          label: 'Total Users in System',-->
-<!--          data: [data.totalPatients, data.totalDoctors, data.totalReceptionists, data.totalBranchAdmins],-->
-<!--          backgroundColor: ['#0d6efd', '#198754', '#ffc107', '#dc3545']-->
-<!--        }]-->
-<!--      },-->
-<!--      options: { indexAxis: 'y', responsive: true }-->
-<!--    });-->
-<!--  }-->
-<!--</script>-->
-<!--</body>-->
-<!--</html>-->
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hospital Network Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Admin Dashboard - HMS</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="../js/auth.js" defer></script>
+
+  <style>
+    :root {
+      --primary-color: #0d6efd;
+      --sidebar-bg: #ffffff;
+      --light-bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-primary: #212529;
+      --text-secondary: #6c757d;
+      --border-color: #e9ecef;
+      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      background-color: var(--light-bg);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .sidebar {
+      position: fixed; top: 0; left: 0;
+      width: 260px; height: 100vh;
+      background-color: var(--sidebar-bg);
+      border-right: 1px solid var(--border-color);
+      padding: 1.5rem 1rem;
+      display: flex; flex-direction: column; z-index: 1000;
+      transition: left 0.3s ease;
+    }
+    .sidebar .logo { font-size: 1.2rem; font-weight: 700; color: var(--primary-color); }
+    .sidebar-nav { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
+    .sidebar-nav .nav-item a {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.75rem 1rem; border-radius: 8px;
+      color: var(--text-secondary); font-weight: 500;
+      text-decoration: none; transition: all 0.2s; font-size: 0.95rem;
+    }
+    .sidebar-nav .nav-item a:hover { background-color: var(--primary-bg-light); color: var(--primary-color); }
+    .sidebar-nav .nav-item a.active { background-color: var(--primary-color); color: white; }
+    .sidebar-profile { text-align: center; margin-bottom: 1rem; }
+    .sidebar-profile img { border: 3px solid var(--border-color); }
+
+    .main-wrapper {
+      margin-left: 260px;
+      padding: 2rem;
+      transition: margin-left 0.3s ease;
+    }
+
+    .mobile-header { display: none; }
+
+    @media (max-width: 992px) {
+      .sidebar { left: -280px; }
+      .sidebar.active { left: 0; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
+      .main-wrapper { margin-left: 0; }
+      .mobile-header { display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background-color: white; z-index: 999; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-color); }
+      .menu-toggle { font-size: 1.5rem; background: none; border: none; }
+    }
+
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      height: 100%;
+    }
+    .card-header {
+      background-color: transparent;
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 600;
+    }
+
+    .stat-card {
+      border-left-width: 4px;
+      border-left-style: solid;
+    }
+    .border-left-primary { border-left-color: var(--primary-color); }
+    .border-left-info { border-left-color: #0dcaf0; }
+    .border-left-secondary { border-left-color: #6c757d; }
+    .border-left-success { border-left-color: #198754; }
+
+    .stat-card h5 {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .stat-card h2 {
+      font-weight: 700;
+    }
+    .stat-card .icon {
+      font-size: 2rem;
+      opacity: 0.5;
+    }
+  </style>
 </head>
 <body>
+
 <div id="sidebar-placeholder"></div>
 
-<div class="content">
-  <!-- Header -->
+
+<div class="mobile-header">
+  <div class="logo">HMS Super Admin</div>
+  <button class="menu-toggle" id="menu-toggle"><i class="bi bi-list"></i></button>
+</div>
+
+<div class="main-wrapper">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
       <h1 class="mb-0">Main Dashboard</h1>
@@ -332,16 +120,14 @@
   </div>
   <hr>
 
-  <!-- Network Overview Cards -->
   <h4 class="mb-3">Network Overview</h4>
   <div class="row">
-    <div class="col-lg-3 col-md-6 mb-4"><div class="card bg-primary text-white h-100"><div class="card-body"><h5>Total Branches</h5><h2 id="total-branches">...</h2></div></div></div>
-    <div class="col-lg-3 col-md-6 mb-4"><div class="card bg-info text-white h-100"><div class="card-body"><h5>Total Patients</h5><h2 id="total-patients">...</h2></div></div></div>
-    <div class="col-lg-3 col-md-6 mb-4"><div class="card bg-secondary text-white h-100"><div class="card-body"><h5>Appointments (This Month)</h5><h2 id="appointments-month">...</h2></div></div></div>
-    <div class="col-lg-3 col-md-6 mb-4"><div class="card bg-success text-white h-100"><div class="card-body"><h5>Revenue (This Month)</h5><h2 id="revenue-month">...</h2></div></div></div>
+    <div class="col-lg-3 col-md-6 mb-4"><div class="card stat-card border-left-primary"><div class="card-body d-flex justify-content-between align-items-center"><div><h5>Total Branches</h5><h2 id="total-branches">...</h2></div><i class="bi bi-diagram-3-fill icon text-primary"></i></div></div></div>
+    <div class="col-lg-3 col-md-6 mb-4"><div class="card stat-card border-left-info"><div class="card-body d-flex justify-content-between align-items-center"><div><h5>Total Patients</h5><h2 id="total-patients">...</h2></div><i class="bi bi-people-fill icon text-info"></i></div></div></div>
+    <div class="col-lg-3 col-md-6 mb-4"><div class="card stat-card border-left-secondary"><div class="card-body d-flex justify-content-between align-items-center"><div><h5>Appts (Month)</h5><h2 id="appointments-month">...</h2></div><i class="bi bi-calendar-check-fill icon text-secondary"></i></div></div></div>
+    <div class="col-lg-3 col-md-6 mb-4"><div class="card stat-card border-left-success"><div class="card-body d-flex justify-content-between align-items-center"><div><h5>Revenue (Month)</h5><h2 id="revenue-month">...</h2></div><i class="bi bi-cash-stack icon text-success"></i></div></div></div>
   </div>
 
-  <!-- User Summary -->
   <h4 class="mt-4 mb-3">User Summary</h4>
   <div class="row">
     <div class="col"><div class="card text-center mb-4"><div class="card-body"><h5>Doctors (Active/Total)</h5><h2 id="doctors-summary">.../...</h2></div></div></div>
@@ -350,23 +136,11 @@
     <div class="col"><div class="card text-center mb-4"><div class="card-body"><h5>Super Admins</h5><h2 id="super-admins-total">...</h2></div></div></div>
   </div>
 
-  <!-- Charts -->
   <div class="row mt-4">
-    <div class="col-lg-8">
-      <div class="card shadow-sm h-100">
-        <div class="card-header">This Month's Appointment Breakdown</div>
-        <div class="card-body"><canvas id="appointmentChart"></canvas></div>
-      </div>
-    </div>
-    <div class="col-lg-4">
-      <div class="card shadow-sm h-100">
-        <div class="card-header">User Distribution</div>
-        <div class="card-body"><canvas id="userChart"></canvas></div>
-      </div>
-    </div>
+    <div class="col-lg-8 mb-4"><div class="card h-100"><div class="card-header">This Month's Appointment Breakdown</div><div class="card-body"><canvas id="appointmentChart"></canvas></div></div></div>
+    <div class="col-lg-4 mb-4"><div class="card h-100"><div class="card-header">User Distribution</div><div class="card-body"><canvas id="userChart"></canvas></div></div></div>
   </div>
 
-  <!-- Advanced Analytics -->
   <div class="card mt-4 mb-4"><div class="card-body d-flex gap-2">
     <input type="date" id="startDate" class="form-control w-auto">
     <input type="date" id="endDate" class="form-control w-auto">
@@ -374,17 +148,20 @@
   </div></div>
 
   <div class="row">
-    <div class="col-lg-8"><div class="card"><div class="card-body"><canvas id="trendChart"></canvas></div></div></div>
-    <div class="col-lg-4"><div class="card"><div class="card-body"><canvas id="typeChart"></canvas></div></div></div>
+    <div class="col-lg-8 mb-4"><div class="card"><div class="card-body"><canvas id="trendChart"></canvas></div></div></div>
+    <div class="col-lg-4 mb-4"><div class="card"><div class="card-body"><canvas id="typeChart"></canvas></div></div></div>
   </div>
 </div>
 
-<script src="js/layout-loader.js"></script>
-<script >
+<script src="js/layout-loader.js" ></script>
+<script src="../js/auth.js" ></script>
+<script>
+  document.getElementById('menu-toggle').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('active');
+  });
 
   function updateClock() {
-    document.getElementById('current-date-time').textContent =
-            new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' });
+    document.getElementById('current-date-time').textContent = new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'medium' });
   }
   updateClock(); setInterval(updateClock, 1000);
 
@@ -403,7 +180,6 @@
     })
             .then(res => res.json())
             .then(data => {
-              // Cards
               document.getElementById('total-branches').textContent = data.totalBranches;
               document.getElementById('total-patients').textContent = data.totalPatients;
               document.getElementById('appointments-month').textContent = data.appointmentsThisMonth;
@@ -412,7 +188,6 @@
               document.getElementById('receptionists-summary').textContent = `${data.activeReceptionists}/${data.totalReceptionists}`;
               document.getElementById('admins-summary').textContent = `${data.activeBranchAdmins}/${data.totalBranchAdmins}`;
               document.getElementById('super-admins-total').textContent = data.totalSuperAdmins;
-
               renderAppointmentChart(data);
               renderUserChart(data);
             });
@@ -423,11 +198,8 @@
     if (appointmentChartInstance) appointmentChartInstance.destroy();
     appointmentChartInstance = new Chart(ctx, {
       type: 'bar',
-      data: {
-        labels: ['Total Appointments', 'Online Bookings', 'Cancellations'],
-        datasets: [{ data: [data.appointmentsThisMonth, data.onlineAppointmentsThisMonth, data.cancelledAppointmentsThisMonth],
-          backgroundColor: ['#0d6efd','#198754','#dc3545'] }]
-      }
+      data: { labels: ['Total Appointments', 'Online Bookings', 'Cancellations'], datasets: [{ data: [data.appointmentsThisMonth, data.onlineAppointmentsThisMonth, data.cancelledAppointmentsThisMonth], backgroundColor: ['#0d6efd','#198754','#dc3545'] }] },
+      options: { plugins: { legend: { display: false } } }
     });
   }
 
@@ -436,11 +208,7 @@
     if (userChartInstance) userChartInstance.destroy();
     userChartInstance = new Chart(ctx, {
       type: 'pie',
-      data: {
-        labels: ['Patients','Doctors','Receptionists','Branch Admins'],
-        datasets: [{ data: [data.totalPatients, data.totalDoctors, data.totalReceptionists, data.totalBranchAdmins],
-          backgroundColor: ['#0d6efd','#198754','#ffc107','#dc3545'] }]
-      }
+      data: { labels: ['Patients','Doctors','Receptionists','Branch Admins'], datasets: [{ data: [data.totalPatients, data.totalDoctors, data.totalReceptionists, data.totalBranchAdmins], backgroundColor: ['#0d6efd','#198754','#ffc107','#dc3545'] }] }
     });
   }
 
@@ -448,7 +216,6 @@
     const start = document.getElementById('startDate').value || new Date(new Date().setDate(new Date().getDate() - 6)).toISOString().split('T')[0];
     const end = document.getElementById('endDate').value || new Date().toISOString().split('T')[0];
     const url = `http://localhost:8080/api/branch-dashboard/1?startDate=${start}T00:00:00&endDate=${end}T23:59:59`;
-
     fetch(url, { headers: { 'Authorization': 'Bearer ' + token } })
             .then(res => res.json())
             .then(data => {
@@ -462,10 +229,7 @@
     if (trendChartInstance) trendChartInstance.destroy();
     trendChartInstance = new Chart(ctx, {
       type: 'line',
-      data: {
-        labels: trendData.map(d => d.date),
-        datasets: [{ label: 'Appointments per Day', data: trendData.map(d => d.count), borderColor: '#0d6efd', tension: 0.1 }]
-      }
+      data: { labels: trendData.map(d => d.date), datasets: [{ label: 'Appointments per Day', data: trendData.map(d => d.count), borderColor: '#0d6efd', tension: 0.1 }] }
     });
   }
 
@@ -474,13 +238,9 @@
     if (typeChartInstance) typeChartInstance.destroy();
     typeChartInstance = new Chart(ctx, {
       type: 'doughnut',
-      data: {
-        labels: ['Online Bookings','Walk-ins'],
-        datasets: [{ data: [data.onlineBookings, data.walkInBookings], backgroundColor: ['#198754','#6c757d'] }]
-      }
+      data: { labels: ['Online Bookings','Walk-ins'], datasets: [{ data: [data.onlineBookings, data.walkInBookings], backgroundColor: ['#198754','#6c757d'] }] }
     });
   }
-
 </script>
 </body>
 </html>
