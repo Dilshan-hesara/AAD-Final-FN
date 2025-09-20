@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,62 +7,278 @@
   <title>My Profile</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="../js/auth.js" defer></script>
+
   <style>
-    .profile-pic { width: 150px; height: 150px; object-fit: cover; border-radius: 50%; }
+    :root {
+      --primary-light: #f4f7fc;
+      --text-dark: #1a202c;
+      --text-muted-light: #6c757d;
+      --border-color: #e9ecef;
+      --primary-color: #0d6efd;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--primary-light);
+    }
+
+    .content {
+      padding: 2.5rem;
+    }
+
+    .sidebar {
+      width: 280px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      z-index: 1000;
+      background-color: #ffffff;
+      border-right: 1px solid var(--border-color);
+    }
+
+    h1 {
+      font-weight: 700;
+    }
+
+    .card {
+      border: none;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    .profile-header {
+      background-color: #ffffff;
+      border-radius: 0.75rem;
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      border: 1px solid var(--border-color);
+      margin-bottom: 2rem;
+    }
+
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 4px solid var(--primary-light);
+    }
+
+    .profile-info h3 {
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    .profile-info p {
+      margin-bottom: 1rem;
+      color: var(--text-muted-light);
+    }
+
+    .profile-tabs .nav-tabs {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .profile-tabs .nav-link {
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: var(--text-muted-light);
+      font-weight: 500;
+      padding: 0.75rem 0;
+      margin-right: 2rem;
+    }
+
+    .profile-tabs .nav-link.active {
+      border-bottom-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    .profile-tabs .tab-content {
+      padding-top: 1.5rem;
+    }
+
+    .modal-content {
+      border: none;
+      border-radius: 0.75rem;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      padding: 1.5rem 1rem;
+      background-color: #ffffff;
+      border-right: 1px solid #e9ecef;
+      display: flex;
+      flex-direction: column;
+      transition: width 0.3s ease;
+    }
+
+    #sidebar-profile-pic {
+      border: 3px solid #dee2e6;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    #sidebar-branch-name {
+      font-weight: 600;
+      color: #212529;
+      margin-top: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    #sidebar-admin-name {
+      color: #6c757d;
+      font-size: 0.85rem;
+    }
+
+    .sidebar a,
+    .sidebar .nav-link {
+      display: flex;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      margin: 0.25rem 0;
+      color: #495057;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .sidebar a i,
+    .sidebar .nav-link i {
+      font-size: 1.2rem;
+      width: 30px;
+      margin-right: 0.5rem;
+    }
+
+    .sidebar a:hover,
+    .sidebar .nav-link:hover {
+      background-color: rgba(13, 110, 253, 0.1);
+      color: #0d6efd;
+    }
+
+    .sidebar a.active {
+      background-color: #0d6efd;
+      color: #fff;
+      font-weight: 500;
+      box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+    }
+
+    .sidebar hr {
+      border-color: #e9ecef;
+    }
+
+    .sidebar .dropdown-menu {
+      border-radius: 0.5rem;
+      border: 1px solid #dee2e6;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    #notification-badge {
+      font-size: 0.65em !important;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+    }
+
+    .sidebar {
+      width: 280px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      z-index: 1000;
+    }
+
+    .content {
+      margin-left: 280px;
+      padding: 2.5rem;
+      width: calc(100% - 280px);
+    }
   </style>
 </head>
 <body>
 <div id="sidebar-placeholder"></div>
 <div class="content">
-  <h1>My Profile</h1><hr>
+  <h1 class="mb-4">My Profile</h1>
   <div id="alert-placeholder"></div>
-  <div class="row">
-    <div class="col-md-4 text-center">
-      <img id="profile-image" src="" class="profile-pic mb-3" alt="Profile Picture">
-      <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#uploadModal">Change Picture</button>
-    </div>
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title mb-4">Update Details</h4>
-          <form id="update-profile-form">
-            <div class="mb-3"><label>Full Name</label><input type="text" id="fullName" class="form-control" required></div>
-            <div class="mb-3"><label>Email</label><input type="email" id="email" class="form-control"></div>
-            <div class="mb-3"><label>Contact Number</label><input type="text" id="contactNumber" class="form-control"></div>
-            <hr>
-            <div class="mb-3"><label>Username</label><input type="text" id="username" class="form-control" required></div>
-            <div class="mb-3"><label>New Password (Optional)</label><input type="password" id="password" class="form-control" placeholder="Leave blank to keep current"></div>
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-          </form>
-        </div>
 
-        <div class="d-grid">
-          <a href="../forgot-password.html" class="btn btn-danger">
-            <i class="bi bi-google"></i> foget password
-          </a>
+  <div class="profile-header">
+    <img id="profile-image" src="../images/default-avatar.png" alt="Profile Picture" class="profile-avatar">
+    <div class="profile-info">
+      <h3 id="profile-name-display">Loading...</h3>
+      <p id="profile-email-display" class="text-muted">...</p>
+      <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploadModal">
+        <i class="bi bi-camera-fill me-1"></i> Change Picture
+      </button>
+    </div>
+  </div>
+
+  <div class="profile-tabs">
+    <ul class="nav nav-tabs" id="myProfileTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details-pane" type="button" role="tab">Personal Details</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-pane" type="button" role="tab">Change Password</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myProfileTabContent">
+      <div class="tab-pane fade show active" id="details-pane" role="tabpanel">
+        <div class="card">
+          <div class="card-body p-4">
+            <h5 class="card-title mb-4">Update Personal Details</h5>
+            <form id="update-profile-form">
+              <div class="row">
+                <div class="col-md-6 mb-3"><label class="form-label">Full Name</label><input type="text" id="fullName" class="form-control" required></div>
+                <div class="col-md-6 mb-3"><label class="form-label">Username</label><input type="text" id="username" class="form-control" required></div>
+                <div class="col-md-6 mb-3"><label class="form-label">Email</label><input type="email" id="email" class="form-control"></div>
+                <div class="col-md-6 mb-3"><label class="form-label">Contact Number</label><input type="text" id="contactNumber" class="form-control"></div>
+              </div>
+              <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i> Save Changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="password-pane" role="tabpanel">
+        <div class="card">
+          <div class="card-body p-4">
+            <h5 class="card-title mb-4">Set a New Password</h5>
+            <form id="change-password-form">
+              <div class="mb-3"><label class="form-label">Current Password</label><input type="password" id="currentPassword" class="form-control" required></div>
+              <div class="mb-3"><label class="form-label">New Password</label><input type="password" id="newPassword" class="form-control" required></div>
+              <div class="mb-3"><label class="form-label">Confirm New Password</label><input type="password" id="confirmPassword" class="form-control" required></div>
+              <button type="submit" class="btn btn-primary">Update Password</button>
+            </form>
+
+            <div class="d-grid mt-3">
+              <a href="../login/forgot-password.html" class="btn btn-danger">
+                <i class="bi bi-lock"></i> Forget Password
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-
 <div class="modal fade" id="uploadModal" tabindex="-1">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header"><h5 class="modal-title">Upload New Profile Picture</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-      <form id="upload-pic-form">
-        <input type="file" id="file-input" class="form-control" accept="image/*" required>
-      </form>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">Upload New Profile Picture</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body"><form id="upload-pic-form"><input type="file" id="file-input" class="form-control" accept="image/*" required></form></div>
+      <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button><button type="submit" form="upload-pic-form" class="btn btn-primary">Upload</button></div>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      <button type="submit" form="upload-pic-form" class="btn btn-primary">Upload</button>
-    </div>
-  </div></div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -69,122 +287,106 @@
   const token = localStorage.getItem('authToken');
   const alertPlaceholder = document.getElementById('alert-placeholder');
   const uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
-  const backendBaseUrl = 'http://localhost:8080'; // Define backend URL once
+  const backendBaseUrl = 'http://localhost:8080';
 
   function showAlert(message, type) {
-    alertPlaceholder.innerHTML = `<div class="alert alert-${type}" role="alert">${message}</div>`;
+    const icon = type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill';
+    alertPlaceholder.innerHTML = `<div class="alert alert-${type} d-flex align-items-center alert-dismissible" role="alert"><i class="bi ${icon} me-2"></i><div>${message}</div><button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
+    window.scrollTo(0, 0);
   }
 
   function loadProfile() {
-    console.log("DEBUG: --- Loading profile data ---");
-    fetch(`${backendBaseUrl}/api/super-admin/my-profile`, {
-      headers: { 'Authorization': 'Bearer ' + token }
-    })
-            .then(res => {
-              console.log("DEBUG: Profile API response status:", res.status);
-              if (!res.ok) {
-                throw new Error('Failed to fetch profile data');
-              }
-              return res.json();
-            })
+    fetch(`${backendBaseUrl}/api/super-admin/my-profile`, { headers: { 'Authorization': 'Bearer ' + token } })
+            .then(res => res.ok ? res.json() : Promise.reject('Failed to fetch profile'))
             .then(profile => {
-              console.log("DEBUG: Fetched profile object:", profile);
               document.getElementById('fullName').value = profile.fullName;
               document.getElementById('username').value = profile.username;
               document.getElementById('email').value = profile.email;
               document.getElementById('contactNumber').value = profile.contactNumber;
 
+              document.getElementById('profile-name-display').textContent = profile.fullName;
+              document.getElementById('profile-email-display').textContent = profile.email;
+
               const profileImageElement = document.getElementById('profile-image');
-
               if (profile.profilePictureUrl) {
-                const fullImageUrl = backendBaseUrl + profile.profilePictureUrl;
-                console.log("DEBUG: Profile picture URL from DB:", profile.profilePictureUrl);
-                console.log("DEBUG: Attempting to load image from:", fullImageUrl);
-                profileImageElement.src = fullImageUrl;
-
-                // Add an event listener to check if the image loaded successfully
-                profileImageElement.onload = () => {
-                  console.log("DEBUG: Profile picture loaded successfully!");
-                };
-                profileImageElement.onerror = () => {
-                  console.error("DEBUG: Failed to load profile picture from:", fullImageUrl);
-                  showAlert('Error loading profile picture. Make sure the backend is running and the image file exists.', 'danger');
-                  // Fallback to a local default image if the URL fails
-                  profileImageElement.src = '../images/default-avatar.png';
-                };
+                profileImageElement.src = backendBaseUrl + profile.profilePictureUrl;
               } else {
-                console.log("DEBUG: No profile picture URL found in DB. Using default.");
                 profileImageElement.src = '../images/default-avatar.png';
               }
             })
-            .catch(error => {
-              console.error("DEBUG: Error loading profile:", error);
-              showAlert('Error loading profile data: ' + error.message, 'danger');
-              // Ensure default image is set even on fetch error
-              document.getElementById('profile-image').src = '../images/default-avatar.png';
-            });
+            .catch(error => showAlert(String(error), 'danger'));
   }
 
   document.getElementById('update-profile-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    console.log("DEBUG: --- Submitting profile update form ---");
     const data = {
       fullName: document.getElementById('fullName').value,
       username: document.getElementById('username').value,
       email: document.getElementById('email').value,
       contactNumber: document.getElementById('contactNumber').value,
-      password: document.getElementById('password').value // This might be empty
     };
-    console.log("DEBUG: Update data being sent:", data);
     fetch(`${backendBaseUrl}/api/super-admin/my-profile/update`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
       body: JSON.stringify(data)
     }).then(res => {
-      console.log("DEBUG: Update API response status:", res.status);
       if (res.ok) {
-        showAlert('Profile updated!', 'success');
-        console.log("DEBUG: Profile update successful.");
+        showAlert('Profile details updated!', 'success');
+        loadProfile();
       } else {
-        showAlert('Error updating profile!', 'danger');
-        console.error("DEBUG: Profile update failed.");
+        res.text().then(text => showAlert(`Error: ${text}`, 'danger'));
       }
-    }).catch(error => {
-      console.error("DEBUG: Error during profile update fetch:", error);
-      showAlert('Network error during profile update.', 'danger');
+    });
+  });
+
+  document.getElementById('change-password-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (newPassword !== confirmPassword) {
+      showAlert('New passwords do not match.', 'danger');
+      return;
+    }
+
+    const data = {
+      currentPassword: document.getElementById('currentPassword').value,
+      newPassword: newPassword
+    };
+
+    fetch(`${backendBaseUrl}/api/user/my-profile/change-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(data)
+    }).then(res => {
+      if (res.ok) {
+        showAlert('Password changed successfully!', 'success');
+        this.reset();
+      } else {
+        res.text().then(text => showAlert(`Error: ${text || 'Could not change password.'}`, 'danger'));
+      }
     });
   });
 
   document.getElementById('upload-pic-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    console.log("DEBUG: --- Submitting profile picture upload form ---");
     const fileInput = document.getElementById('file-input');
-    if (fileInput.files.length === 0) {
-      console.warn("DEBUG: No file selected for upload.");
-      return;
-    }
+    if (fileInput.files.length === 0) return;
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
-    console.log("DEBUG: File selected for upload:", fileInput.files[0].name);
 
     fetch(`${backendBaseUrl}/api/super-admin/my-profile/upload-picture`, {
       method: 'POST',
       headers: { 'Authorization': 'Bearer ' + token },
       body: formData
     }).then(res => {
-      console.log("DEBUG: Upload API response status:", res.status);
       if (res.ok) {
         uploadModal.hide();
         showAlert('Profile picture uploaded!', 'success');
-        console.log("DEBUG: Profile picture upload successful. Reloading page.");
-        loadProfile(); // Re-load profile to show new picture without full page reload
+        loadProfile();
       } else {
         showAlert('Error uploading file!', 'danger');
-        console.error("DEBUG: Profile picture upload failed.");
       }
-    }).catch(error => {
-      console.error("DEBUG: Error during file upload fetch:", error);
-      showAlert('Network error during file upload.', 'danger');
     });
   });
 
@@ -192,3 +394,9 @@
 </script>
 </body>
 </html>
+
+
+
+
+
+
