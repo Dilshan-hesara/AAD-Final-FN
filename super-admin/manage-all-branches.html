@@ -2,34 +2,254 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Manage All Branches</title>
-  <!-- BOOTSTRAP CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage All Branches - HMS</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- BOOTSTRAP ICONS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <!-- YOUR CUSTOM CSS -->
-  <link rel="stylesheet" href="../css/styles.css">
-  <!-- PAGE PROTECTION SCRIPT -->
-  <script src="../js/auth.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #0d6efd;
+      --sidebar-bg: #ffffff;
+      --light-bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-primary: #212529;
+      --text-secondary: #6c757d;
+      --border-color: #e9ecef;
+      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      --card-shadow-hover: 0 8px 24px rgba(13, 110, 253, 0.08);
+      --success-color: #198754;
+      --danger-color: #dc3545;
+    }
+
+    body {
+      display: flex;
+      background-color: var(--light-bg);
+      font-family: 'Inter', sans-serif;
+    }
+
+    #sidebar-placeholder { flex-shrink: 0; }
+
+    .main-wrapper {
+      flex-grow: 1;
+      padding: 2rem;
+      overflow-y: auto;
+      height: 100vh;
+    }
+
+    .branch-card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      background-color: var(--card-bg);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .branch-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .branch-card .card-header {
+      background-color: transparent;
+      border-bottom: 1px solid var(--border-color);
+      padding: 1.25rem;
+    }
+
+    .branch-card .card-title {
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+    }
+
+    .status-badge.status-active {
+      background-color: rgba(var(--bs-success-rgb), 0.1);
+      color: var(--success-color);
+    }
+
+    .status-badge.status-inactive {
+      background-color: rgba(var(--bs-danger-rgb), 0.1);
+      color: var(--danger-color);
+    }
+
+    .branch-card .card-body {
+      padding: 1rem 1.25rem;
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+    }
+    .stat-item:not(:last-child) {
+      border-bottom: 1px solid #f1f1f1;
+    }
+
+    .stat-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .stat-value {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .branch-card .card-footer {
+      background-color: transparent;
+      border-top: 1px solid var(--border-color);
+      padding: 1rem 1.25rem;
+    }
+
+    .branch-card .card-footer .btn {
+      font-weight: 500;
+    }
+
+
+
+
+    :root {
+      --primary-color: #0d6efd;
+      --sidebar-bg: #ffffff;
+      --light-bg: #f8f9fa;
+      --text-primary: #212529;
+      --text-secondary: #6c757d;
+      --border-color: #e9ecef;
+      --primary-bg-light: rgba(13, 110, 253, 0.1);
+    }
+
+
+    body {
+      display: flex;
+      background-color: var(--light-bg);
+      font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 260px;
+      height: 100vh;
+      background-color: var(--sidebar-bg);
+      border-right: 1px solid var(--border-color);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+      transition: left 0.3s ease;
+    }
+
+
+    .sidebar-profile {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .sidebar-profile img {
+      border: 3px solid var(--border-color);
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+    }
+
+    .sidebar-profile h5 {
+      color: var(--primary-color);
+      margin-top: 0.75rem;
+      margin-bottom: 0.25rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .sidebar-profile p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+
+    .sidebar-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    .sidebar-nav .nav-item a {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      text-decoration: none;
+      transition: background-color 0.2s, color 0.2s;
+      font-size: 0.95rem;
+    }
+
+
+    .sidebar-nav .nav-item a i {
+      font-size: 1.1rem;
+    }
+
+
+    .sidebar-nav .nav-item a:hover {
+      background-color: var(--primary-bg-light);
+      color: var(--primary-color);
+    }
+
+
+    .sidebar-nav .nav-item a.active {
+      background-color: var(--primary-color);
+      color: white;
+      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+    }
+
+    .main-wrapper {
+      flex-grow: 1;
+      padding: 2rem;
+      margin-left: 260px;
+    }
+  </style>
 </head>
 <body>
+
 <div id="sidebar-placeholder"></div>
-<div class="content">
-  <div class="d-flex justify-content-between align-items-center">
-    <h1>Manage Branches</h1>
-    <a href="add-new-branch.html" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add New Branch</a>
+
+<div class="main-wrapper">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h1>Manage Branches</h1>
+      <p class="text-muted">View statistics and manage individual hospital branches.</p>
+    </div>
+    <a href="add-new-branch.html" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-2"></i> Add New Branch</a>
   </div>
-  <p class="text-muted">View statistics and manage individual hospital branches.</p>
-  <hr>
+  <hr class="mb-4">
+
   <div id="branch-summary-container" class="row">
-    <!-- Branch summary cards will be loaded here by JavaScript -->
   </div>
 </div>
 
-<!-- BOOTSTRAP JS (Optional but recommended) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- YOUR SCRIPTS -->
+
 <script src="js/layout-loader.js"></script>
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const token = localStorage.getItem('authToken');
@@ -37,149 +257,60 @@
             .then(res => res.json()).then(summaries => {
       const container = document.getElementById('branch-summary-container');
       container.innerHTML = '';
+
+      if (summaries.length === 0) {
+        container.innerHTML = `<div class="col-12"><div class="alert alert-info">No branches found. Click 'Add New Branch' to get started.</div></div>`;
+        return;
+      }
+
       summaries.forEach(s => {
         const isActive = s.status === 'ACTIVE';
-        const headerClass = isActive ? 'bg-dark text-white' : 'bg-light text-muted';
-        const statusIcon = isActive
-                ? '<i class="bi bi-check-circle-fill text-success"></i>'
-                : '<i class="bi bi-x-circle-fill text-danger"></i>';
+        const statusClass = isActive ? 'status-active' : 'status-inactive';
+        const statusText = isActive ? 'Active' : 'Inactive';
 
         container.innerHTML += `
-                        <div class="col-md-6 col-lg-4 mb-4">
-                            <div class="card h-100 shadow-sm">
-                                <div class="card-header ${headerClass}">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title mb-0">${s.name}</h5>
-                                        ${statusIcon}
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex justify-content-between">
-                                            <span><i class="bi bi-people-fill me-2"></i>Total Patients</span>
-                                            <span class="badge bg-primary rounded-pill">${s.totalPatientCount}</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between">
-                                            <span><i class="bi bi-heart-pulse-fill me-2"></i>Active Doctors</span>
-                                            <span class="badge bg-info rounded-pill">${s.activeDoctorCount}</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between">
-                                            <span><i class="bi bi-person-workspace me-2"></i>Active Receptionists</span>
-                                            <span class="badge bg-light text-dark rounded-pill">${s.activeReceptionistCount}</span>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between">
-                                            <span><i class="bi bi-calendar-event-fill me-2"></i>Appointments Today</span>
-                                            <span class="badge bg-success rounded-pill">${s.todaysAppointmentCount}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="manage-branch-details.html?id=${s.id}" class="btn btn-outline-dark w-100">Manage Details</a>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 branch-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">${s.name}</h5>
+                                <div class="status-badge ${statusClass}">
+                                    <i class="bi bi-circle-fill" style="font-size: 0.6em;"></i>
+                                    <span>${statusText}</span>
                                 </div>
                             </div>
-                        </div>`;
+                            <div class="card-body">
+                                <div class="stat-item">
+                                    <span class="stat-label"><i class="bi bi-people-fill"></i>Total Patients</span>
+                                    <span class="stat-value">${s.totalPatientCount}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label"><i class="bi bi-heart-pulse-fill"></i>Active Doctors</span>
+                                    <span class="stat-value">${s.activeDoctorCount}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label"><i class="bi bi-person-workspace"></i>Active Receptionists</span>
+                                    <span class="stat-value">${s.activeReceptionistCount}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label"><i class="bi bi-calendar-event-fill"></i>Appts. Today</span>
+                                    <span class="stat-value">${s.todaysAppointmentCount}</span>
+                                </div>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="manage-branch-details.html?id=${s.id}" class="btn btn-outline-primary w-100">
+                                    Manage Details <i class="bi bi-arrow-right-short"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>`;
       });
-    });
+    })
+            .catch(error => {
+              console.error("Error fetching branch summaries:", error);
+              const container = document.getElementById('branch-summary-container');
+              container.innerHTML = `<div class="col-12"><div class="alert alert-danger">Could not load branch data. Please try again later.</div></div>`;
+            });
   });
 </script>
 </body>
 </html>
-
-
-
-<!--meeka branch detai leek ekk taba 2k kcidhrta filert krl ena eke stuea ek anuva -->
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <title>Manage Branch Details</title>-->
-<!--  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
-<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">-->
-<!--  <link rel="stylesheet" href="../css/styles.css">-->
-<!--  <script src="../js/auth.js" defer></script>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div id="sidebar-placeholder"></div>-->
-<!--<div class="content">-->
-<!--  <h3>Manage Branch Details</h3><hr>-->
-
-<!--  &lt;!&ndash; Active Branches Table &ndash;&gt;-->
-<!--  <h4 class="mt-4"><i class="bi bi-check-circle-fill text-success"></i> Active Branches</h4>-->
-<!--  <div class="card mb-5"><div class="card-body"><div class="table-responsive">-->
-<!--    <table class="table table-striped table-hover">-->
-<!--      <thead class="table-dark"><tr><th>#</th><th>Name</th><th>Location</th><th>Contact</th><th>Actions</th></tr></thead>-->
-<!--      <tbody id="active-branches-table"></tbody>-->
-<!--    </table>-->
-<!--  </div></div></div>-->
-
-<!--  &lt;!&ndash; Inactive Branches Table &ndash;&gt;-->
-<!--  <h4 class="mt-4"><i class="bi bi-x-circle-fill text-danger"></i> Inactive Branches</h4>-->
-<!--  <div class="card"><div class="card-body"><div class="table-responsive">-->
-<!--    <table class="table table-striped table-hover">-->
-<!--      <thead class="table-dark"><tr><th>#</th><th>Name</th><th>Location</th><th>Contact</th><th>Actions</th></tr></thead>-->
-<!--      <tbody id="inactive-branches-table"></tbody>-->
-<!--    </table>-->
-<!--  </div></div></div>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; Your Edit Modal would go here &ndash;&gt;-->
-
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
-<!--<script src="../js/layout-loader.js"></script>-->
-<!--<script>-->
-<!--  const token = localStorage.getItem('authToken');-->
-
-<!--  function loadAllBranches() {-->
-<!--    loadActiveBranches();-->
-<!--    loadInactiveBranches();-->
-<!--  }-->
-
-<!--  function loadActiveBranches() {-->
-<!--    fetch('http://localhost:8080/api/branches/active', { headers: { 'Authorization': 'Bearer ' + token } })-->
-<!--            .then(res => res.json()).then(branches => {-->
-<!--      const tbody = document.getElementById('active-branches-table');-->
-<!--      tbody.innerHTML = '';-->
-<!--      branches.forEach((b, index) => {-->
-<!--        tbody.innerHTML += `-->
-<!--                        <tr>-->
-<!--                            <th>${index + 1}</th><td>${b.name}</td><td>${b.location}</td><td>${b.contactNumber}</td>-->
-<!--                            <td>-->
-<!--                                <button class="btn btn-sm btn-primary">Edit</button>-->
-<!--                                <button class="btn btn-sm btn-warning" onclick="updateStatus(${b.id}, 'INACTIVE')">Deactivate</button>-->
-<!--                            </td>-->
-<!--                        </tr>`;-->
-<!--      });-->
-<!--    });-->
-<!--  }-->
-
-<!--  function loadInactiveBranches() {-->
-<!--    fetch('http://localhost:8080/api/branches/inactive', { headers: { 'Authorization': 'Bearer ' + token } })-->
-<!--            .then(res => res.json()).then(branches => {-->
-<!--      const tbody = document.getElementById('inactive-branches-table');-->
-<!--      tbody.innerHTML = '';-->
-<!--      branches.forEach((b, index) => {-->
-<!--        tbody.innerHTML += `-->
-<!--                        <tr>-->
-<!--                            <th>${index + 1}</th><td>${b.name}</td><td>${b.location}</td><td>${b.contactNumber}</td>-->
-<!--                            <td>-->
-<!--                                <button class="btn btn-sm btn-primary">Edit</button>-->
-<!--                                <button class="btn btn-sm btn-success" onclick="updateStatus(${b.id}, 'ACTIVE')">Activate</button>-->
-<!--                            </td>-->
-<!--                        </tr>`;-->
-<!--      });-->
-<!--    });-->
-<!--  }-->
-
-<!--  function updateStatus(id, status) {-->
-<!--    if (!confirm('Are you sure?')) return;-->
-<!--    fetch(`http://localhost:8080/apiZZ/branch/${id}/status`, {-->
-<!--      method: 'PATCH',-->
-<!--      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },-->
-<!--      body: JSON.stringify({ status: status })-->
-<!--    }).then(res => { if(res.ok) loadAllBranches(); else alert('Error updating status'); });-->
-<!--  }-->
-
-<!--  document.addEventListener('DOMContentLoaded', loadAllBranches);-->
-<!--</script>-->
-<!--</body>-->
-<!--</html>-->
