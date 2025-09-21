@@ -2,36 +2,294 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>All Doctors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Doctors - HMS</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="../css/styles.css">
-  <script src="../js/auth.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .filter-section {
+      background-color: #ffffff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color, #e9ecef);
+      margin-bottom: 2rem;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+
+    .table thead th {
+      border-bottom-width: 1px;
+      background-color: #f8f9fa;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+    }
+
+    .table tbody td {
+      vertical-align: middle;
+    }
+
+    .status-badge {
+      font-weight: 600;
+      padding: 0.4em 0.9em;
+      border-radius: 50px;
+      font-size: 0.75rem;
+    }
+
+    .status-active {
+      background-color: rgba(25, 135, 84, 0.1);
+      color: #198754;
+    }
+
+    .status-inactive {
+      background-color: rgba(108, 117, 125, 0.1);
+      color: #6c757d;
+    }
+
+    .pagination .page-link {
+      border-radius: 0.5rem;
+      margin: 0 0.2rem;
+      border: none;
+      color: var(--primary-color, #0d6efd);
+    }
+
+    .pagination .page-item.active .page-link {
+      background-color: var(--primary-color, #0d6efd);
+      color: white;
+      box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+    }
+
+    :root {
+      --primary-color: #0d6efd;
+      --sidebar-bg: #ffffff;
+      --light-bg: #f8f9fa;
+      --text-primary: #212529;
+      --text-secondary: #6c757d;
+      --border-color: #e9ecef;
+      --primary-bg-light: rgba(13, 110, 253, 0.1);
+    }
+
+    body {
+      display: flex;
+      background-color: var(--light-bg);
+      font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 260px;
+      height: 100vh;
+      background-color: var(--sidebar-bg);
+      border-right: 1px solid var(--border-color);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      z-index: 1000;
+      transition: left 0.3s ease;
+    }
+
+    .sidebar-profile {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .sidebar-profile img {
+      border: 3px solid var(--border-color);
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .sidebar-profile h5 {
+      color: var(--primary-color);
+      margin-top: 0.75rem;
+      margin-bottom: 0.25rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .sidebar-profile p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    .sidebar-nav .nav-item a {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      text-decoration: none;
+      transition: background-color 0.2s, color 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .sidebar-nav .nav-item a i {
+      font-size: 1.1rem;
+    }
+
+    .sidebar-nav .nav-item a:hover {
+      background-color: var(--primary-bg-light);
+      color: var(--primary-color);
+    }
+
+    .sidebar-nav .nav-item a.active {
+      background-color: var(--primary-color);
+      color: white;
+      box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+    }
+
+    .main-wrapper {
+      flex-grow: 1;
+      padding: 2rem;
+      margin-left: 260px;
+    }
+
+    .mobile-header {
+      display: none;
+    }
+
+    .overlay {
+      display: none;
+    }
+
+    @media (max-width: 992px) {
+      .sidebar {
+        left: -280px;
+      }
+
+      .sidebar.active {
+        left: 0;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .main-wrapper {
+        margin-left: 0;
+      }
+
+      .mobile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        background-color: white;
+        z-index: 999;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .menu-toggle {
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+      }
+
+      .overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .main-wrapper .content-inner {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+
 </head>
 <body>
+
 <div id="sidebar-placeholder"></div>
-<div class="content">
-  <h1>All Doctors (All Branches)</h1><hr>
-  <div class="card bg-light mb-4">
-    <div class="card-body"><div class="row g-3">
-      <div class="col-md-5"><label>Search by Name/Specialization/Contact</label><input type="text" id="keywordFilter" class="form-control"></div>
-      <div class="col-md-5"><label>Filter by Branch</label><select id="branchFilter" class="form-select"><option value="">All Branches</option></select></div>
-      <div class="col-md-2 d-flex align-items-end"><button id="filter-btn" class="btn btn-primary w-100">Search</button></div>
-    </div></div>
+
+<div class="main-wrapper">
+  <h1 class="mb-3">All Doctors (All Branches)</h1>
+  <hr class="mb-4">
+
+  <div class="filter-section">
+    <div class="row g-3 align-items-end">
+      <div class="col-md-5">
+        <label for="keywordFilter" class="form-label fw-bold">Search by Name/Specialization</label>
+        <input type="text" id="keywordFilter" class="form-control" placeholder="Enter keyword...">
+      </div>
+      <div class="col-md-5">
+        <label for="branchFilter" class="form-label fw-bold">Filter by Branch</label>
+        <select id="branchFilter" class="form-select">
+          <option value="">All Branches</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button id="filter-btn" class="btn btn-primary w-100">
+          <i class="bi bi-search"></i> Search
+        </button>
+      </div>
+    </div>
   </div>
+
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <span id="result-summary"></span>
+    <span id="result-summary" class="text-muted fw-bold"></span>
   </div>
-  <div class="card"><div class="table-responsive">
-    <table class="table table-hover">
-      <thead class="table-light"><tr><th>Name</th><th>Specialization</th><th>Branch</th><th>Status</th><th>Actions</th></tr></thead>
-      <tbody id="doctor-table-body"></tbody>
-    </table>
-  </div></div>
-  <nav class="mt-4"><ul id="pagination" class="pagination justify-content-center"></ul></nav>
+
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="table-light">
+        <tr>
+          <th>Name</th>
+          <th>Specialization</th>
+          <th>Branch</th>
+          <th>Status</th>
+          <th class="text-end">Actions</th>
+        </tr>
+        </thead>
+        <tbody id="doctor-table-body"></tbody>
+      </table>
+    </div>
+    <div class="card-footer bg-white d-flex justify-content-center">
+      <nav><ul id="pagination" class="pagination"></ul></nav>
+    </div>
+  </div>
 </div>
 
-<!-- Doctor Details Modal -->
 <div class="modal fade" id="detailsModal" tabindex="-1">
   <div class="modal-dialog"><div class="modal-content">
     <div class="modal-header"><h5 class="modal-title">Doctor Details</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
@@ -41,7 +299,9 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script src="js/layout-loader.js"></script>
+
 <script>
   const token = localStorage.getItem('authToken');
   let currentPage = 0;
@@ -66,9 +326,24 @@
   function renderTable(doctors) {
     const tableBody = document.getElementById('doctor-table-body');
     tableBody.innerHTML = '';
+    if(doctors.length === 0){
+      tableBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted p-4">No doctors found.</td></tr>`;
+      return;
+    }
     doctors.forEach(doc => {
-      const statusBadge = `<span class="badge bg-${doc.status === 'ACTIVE' ? 'success' : 'secondary'}">${doc.status}</span>`;
-      tableBody.innerHTML += `<tr><td>${doc.fullName}</td><td>${doc.specialization}</td><td><span class="badge bg-dark">${doc.branchName || 'N/A'}</span></td><td>${statusBadge}</td><td><button class="btn btn-sm btn-info" onclick="viewDoctorDetails(${doc.id})">Details</button></td></tr>`;
+      const statusClass = `status-${doc.status.toLowerCase()}`;
+      tableBody.innerHTML += `
+            <tr>
+                <td><strong>${doc.fullName}</strong></td>
+                <td>${doc.specialization}</td>
+                <td><span class="badge bg-secondary bg-opacity-25 text-dark-emphasis">${doc.branchName || 'N/A'}</span></td>
+                <td><span class="status-badge ${statusClass}">${doc.status}</span></td>
+                <td class="text-end">
+                    <button class="btn btn-sm btn-outline-primary" onclick="viewDoctorDetails(${doc.id})">
+                        <i class="bi bi-eye-fill"></i> View
+                    </button>
+                </td>
+            </tr>`;
     });
   }
 
@@ -77,12 +352,33 @@
             .then(res => res.json())
             .then(doc => {
               const detailsBody = document.getElementById('doctor-details-body');
-              detailsBody.innerHTML = `<h4>${doc.fullName}</h4><p class="text-muted">${doc.specialization}</p><hr><p><strong>Branch:</strong> ${doc.branchName}</p><p><strong>Contact:</strong> ${doc.contactNumber || 'N/A'}</p><p><strong>Email:</strong> ${doc.email || 'N/A'}</p>`;
+              detailsBody.innerHTML = `
+                <h4>${doc.fullName}</h4>
+                <p class="text-primary fw-bold">${doc.specialization}</p><hr>
+                <p><strong>Branch:</strong> ${doc.branchName}</p>
+                <p><strong>Contact:</strong> ${doc.contactNumber || 'N/A'}</p>
+                <p><strong>Email:</strong> ${doc.email || 'N/A'}</p>`;
               detailsModal.show();
             });
   }
 
-  function renderPagination(pageData) { /* Your pagination logic here */ }
+  function renderPagination(pageData) {
+    const paginationUl = document.getElementById('pagination');
+    paginationUl.innerHTML = '';
+    if (pageData.totalPages <= 1) return;
+
+    const createPageItem = (page, text, isDisabled = false, isActive = false) => {
+      return `<li class="page-item ${isDisabled ? 'disabled' : ''} ${isActive ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="event.preventDefault(); ${isDisabled ? '' : `loadDoctors(${page})`}">${text}</a>
+                    </li>`;
+    };
+
+    paginationUl.innerHTML += createPageItem(currentPage - 1, 'Previous', pageData.first);
+    for (let i = 0; i < pageData.totalPages; i++) {
+      paginationUl.innerHTML += createPageItem(i, i + 1, false, i === currentPage);
+    }
+    paginationUl.innerHTML += createPageItem(currentPage + 1, 'Next', pageData.last);
+  }
 
   function loadBranchesForFilter() {
     const branchFilter = document.getElementById('branchFilter');
